@@ -7,8 +7,9 @@
 \usepackage[cm]{fullpage}
 \pagestyle{myheadings}
 \usepackage{etoolbox}
-\usepackage{setspace} 
+\usepackage{setspace} a
 \usepackage{lipsum} 
+\usepackage{indentfirst}
 \setlength{\headsep}{30pt}
 \usepackage[inner=2cm,outer=2.5cm,top=2.5cm,bottom=2cm]{geometry} %margin
 % \pagestyle{empty}
@@ -16,12 +17,7 @@
 \makeatletter
 \renewcommand{\@maketitle} {\begin{center} {\LARGE \textbf{ \textsc{\@title}} \par} \bigskip {\large \textbf{\textsc{\@author}} }\end{center} }
 \renewcommand{\thispagestyle}[1]{}
-\markright{\textbf{\textsc{AIF401/AIF402 \textemdash Rencana Kerja Skripsi \textemdash Sem. Genap 2016/2017}}}
-
-\newcommand{\HRule}{\rule{\linewidth}{0.4mm}}
-\renewcommand{\baselinestretch}{1}
-\setlength{\parindent}{0 pt}
-\setlength{\parskip}{6 pt}
+\markright{\textbf{\textsc{AIF401/AIF402 \textemdash Rencana Kerja Skripsi \textemdash Sem. Genap 2018/2019}}}
 
 \onehalfspacing
  
@@ -31,11 +27,11 @@
 \author{\nama \textendash \@npm} 
 
 %tulis nama dan NPM anda di sini:
-\newcommand{\nama}{Lionov}
-\newcommand{\@npm}{1997730020}
-\newcommand{\@judultopik}{Simulasi Kerumunan di Museum} % Judul/topik anda
+\newcommand{\nama}{Sandy Giovanni S.}
+\newcommand{\@npm}{2015730041}
+\newcommand{\@judultopik}{Integrasi \textit{Outlook Calendar} dan \textit{Slack}} % Judul/topik anda
 \newcommand{\jumpemb}{1} % Jumlah pembimbing, 1 atau 2
-\newcommand{\tanggal}{01/01/1900}
+\newcommand{\tanggal}{29/01/2019}
 
 % Dokumen hasil template ini harus dicetak bolak-balik !!!!
 
@@ -44,38 +40,43 @@
 \pagenumbering{arabic}
 
 \section{Deskripsi}
-Tuliskan deskripsi dari topik skripsi yang akan anda ajukan. Di sini dapat dituliskan latar belakang, seperti apa penelitian yang sudah ada sebelumnya dan apa yang akan anda kerjakan. Sertakan gambar agar penjelasan anda menjadi lebih baik.
+Pada skripsi ini, akan dibuat sebuah perangkat lunak yang berfungsi untuk mengintegrasikan aplikasi \textit{Outlook Calendar} dan \textit{Slack}.\textit{ Outlook Calendar} sendiri adalah sebuah aplikasi buatan \textit{Microsoft} yang merupakan aplikasi manajemen kalender \textit{online}. Sedangkan Slack sendiri adalah sebuah aplikasi yang berfungsi sebagai \textit{platform} untuk menjalankan \textit{real-time chatting}. Lalu apakah hubungan dari kedua aplikasi itu ? Yang akan diintegrasikan dari kedua aplikasi itu adalah saat ada event yang tercatat di \textit{Outlook Calender}, maka akan membantu untuk mengubah status di dalam aplikasi \textit{Slack}. 
 
-Pada skripsi ini, akan dibuat sebuah perangkat lunak yang dapat menampilkan visualisasi dan simulasi kerumunan orang yang berkunjung ke sebuah museum. Dengan menggunakan perangkat lunak tersebut, pengelola museum dapat mengatur tempat peletakan objek sehingga tidak terjadi kerumunan yang terlalu padat.
+Latar belakang disusunnya aplikasi ini karena untuk membantu \textit{syncronize} akun \textit{slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada dalam akun \textit{slack}-nya. 
 
-Dari berbagai macam teknik yang dapat digunakan untuk melakukan simulasi kerumunan, dipilih dua buah teknik yaitu teknik {\it flow tiles} dan {\it social force model (steering behaviour)}.
+Perangkat lunak ini akan dibuat juga dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). Masing- masing \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaan dari API tersebut terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. 
 
-Dst, dst, dst, \ldots\ldots\ldots 
-
-Perangkat lunak akan dibuat dengan bantuan {\it framework} OpenSteer. Sebagai studi kasus, museum yang digunakan untuk melakukan simulasi adalah Museum Geologi Bandung.
-
-Dst, dst, dst, \ldots\ldots\ldots 
+Cara kerja perangkat lunak ini nantinya akan menarik data- data yang terdapat di dalam \textit{Outlook Calender} menggunakan API yang sebelumnya diakses dengan meminta \textit{authentication code} dan juga \textit{access token} terlebih dahulu, lalu nanti data yang berhasil didapatkan, akan dipakai untuk menentukan status di aplikasi \textit{Slack} yang bisa diatur menggunakan API dari aplikasi \textit{Slack} itu sendiri. Nantinya aplikasi \textit{Slack} akan menunjukkan status "\textit{In a meeting}" saat terdapat jadwal di dalam \textit{Outlook Calendar} yang berhasil ditarik oleh perangkat lunak ini.  
 
 \section{Rumusan Masalah}
-Tuliskan rumusan dari masalah yang akan anda bahas pada skripsi ini. Rumusan masalah biasanya berupa kalimat pertanyaan. Gunakan itemize seperti contoh di bagian Deskripsi Perangkat Lunak.
+Pada perangkat lunak ini, terdapat rumusan masalah sebagai berikut:
+\begin{itemize}
+	\item Apa fungsi utama yang akan ditonjolkan oleh perangkat lunak ini?
+	\item Apa basis dari perangkat lunak ini?  
+	\item Bagaimana cara kerja perangkat lunak ini? 
+	\item Bagaimana alur cara mendapatkan data dari \textit{Outlook Calendar}?
+	\item Bagaimana alur cara mengubah status dari aplikasi \textit{Slack}? 
+	
+\end{itemize}
 
 \section{Tujuan}
-Tuliskan tujuan dari topik skripsi yang anda ajukan. Tujuan penelitian biasanya berkaitan erat dengan pertanyaan yang diajukan di bagian rumusan masalah. Gunakan itemize seperti contoh di bagian Deskripsi Perangkat Lunak.
+Adapun pada perangkat lunak ini memiliki tujuan sebagai berikut:
+\begin{itemize}
+	\item Mengetahui fungsi utama yang akan ditonjolkan oleh perangkat lunak ini. 
+	\item Mengetahui basis yang akan digunakan untuk membangun perangkat lunak ini.   
+	\item Mengetahui cara kerja perangkat lunak ini secara garis besar. 
+	\item Mengetahui alur cara kerja mendapatkan data dari \textit{Outlook Calendar}.  
+	\item Mengetahui alur mengubah status dari aplikasi \textit{Slack} dengan menggunakan data yang didapatkan dari \textit{Outlook Calendar}.  
+	
+\end{itemize}
 
 \section{Deskripsi Perangkat Lunak}
-Tuliskan deksripsi dari perangkat lunak yang akan anda hasilkan. Apa saja fitur yang disediakan oleh PL tersebut dan apa saja kemampuan dari PL tersebut. Perhatikan contoh di bawah ini:
-
-Perangkat lunak akhir yang akan dibuat memiliki fitur minimal sebagai berikut:
+Pada perangkat lunak ini, nantinya akan memiliki fitur- fitur sebagai berikut:
 \begin{itemize}
-	\item Pengguna dapat melihat denah Musem Geologi Bandung dalam bidang dua dimensi. Sedangkan pengunjung direpresentasikan menggunakan lingkaran-lingkaran kecil (tidak menggunakan gambar manusia yang diambil dari atas)
-	\item Pengguna dapat memunculkan atau menghilangkan gambar {\it flow tiles} pada denah museum. 
-	\item Pengguna dapat mengatur jalannya simulasi: memulai(start) simulasi, menunda(pause) simulasi, melanjutkan(continue) simulasi, maupun menghentikan(stop) simulasi
-	\item Pengguna dapat mengatur banyaknya pengunjung di dalam museum, baik melalui perubahan frekuensi kedatangan pengunjung maupun menambahkan dan menghapus pengunjung satu-persatu secara manual.
-	\item Posisi kamera dapat diubah (pergerakan di bidang tiga dimensi) sehingga pengguna dapat melihat simulasi di museum dari berbagai arah. 
-	\item Posisi kamera dapat diubah untuk emngikuti perjalanan seorang pengunjung di dalam 
-	\item Pengguna dapat memilih apakah akan menggunakan teknik {\it flow tiles} atau tidak pada saat simulasi berlangsung
-	\item Jenis {\it flow tiles} yang digunakan dapat diubah-ubah pada saat simulasi sedang berlangsung
-		
+	\item \textit{Synchronize} \textit{Outlook Calendar} setiap 60 menit sekali. 
+	\item Mengubah status menjadi "\textit{In a meeting}" saat ada \textit{event} yang sedang berlangsung yang tercatat di \textit{Outlook Calendar}. 
+	\item Menghapus status saat \textit{event} yang terjadwalkan di \textit{Outlook Calendar} telat berakhir. 
+	
 \end{itemize}
 
 \section{Detail Pengerjaan Skripsi}
