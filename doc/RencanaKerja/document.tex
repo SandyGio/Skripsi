@@ -7,7 +7,7 @@
 \usepackage[cm]{fullpage}
 \pagestyle{myheadings}
 \usepackage{etoolbox}
-\usepackage{setspace} a
+\usepackage{setspace}
 \usepackage{lipsum} 
 \usepackage{indentfirst}
 \setlength{\headsep}{30pt}
@@ -40,74 +40,77 @@
 \pagenumbering{arabic}
 
 \section{Deskripsi}
-Pada skripsi ini, akan dibuat sebuah perangkat lunak yang berfungsi untuk mengintegrasikan aplikasi \textit{Outlook Calendar} dan \textit{Slack}.\textit{ Outlook Calendar} sendiri adalah sebuah aplikasi buatan \textit{Microsoft} yang merupakan aplikasi manajemen kalender \textit{online}. Sedangkan Slack sendiri adalah sebuah aplikasi yang berfungsi sebagai \textit{platform} untuk menjalankan \textit{real-time chatting}. Lalu apakah hubungan dari kedua aplikasi itu ? Yang akan diintegrasikan dari kedua aplikasi itu adalah saat ada event yang tercatat di \textit{Outlook Calender}, maka akan membantu untuk mengubah status di dalam aplikasi \textit{Slack}. 
+Pada skripsi ini, akan dibuat sebuah perangkat lunak yang berfungsi untuk mengintegrasikan aplikasi \textit{Outlook Calendar} dan \textit{Slack}.\textit{ Outlook Calendar} sendiri adalah sebuah aplikasi buatan \textit{Microsoft} yang merupakan aplikasi manajemen kalender \textit{online}. Sedangkan \textit{Slack} sendiri adalah sebuah aplikasi yang berfungsi sebagai \textit{platform} untuk menjalankan \textit{real-time chatting}. Yang akan diintegrasikan dari kedua aplikasi itu adalah saat ada \textit{event} yang tercatat di \textit{Outlook Calendar}, maka akan perangkat lunak ini akan membantu untuk mengubah status di dalam aplikasi \textit{Slack}. 
 
-Latar belakang disusunnya aplikasi ini karena untuk membantu \textit{syncronize} akun \textit{slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada dalam akun \textit{slack}-nya. 
+Latar belakang disusunnya aplikasi ini karena untuk membantu \textit{syncronize} akun \textit{Slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada dalam akun \textit{Slack}-nya. 
 
-Perangkat lunak ini akan dibuat juga dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). Masing- masing \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaan dari API tersebut terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. 
+Cara kerja perangkat lunak yang akan dibangun ini nantinya akan menarik data- data yang terdapat di dalam \textit{Outlook Calendar} menggunakan API secara berkala, lalu nanti data yang berhasil didapatkan, akan dipakai untuk menentukan status di aplikasi \textit{Slack}. Nantinya aplikasi \textit{Slack} akan menunjukkan status sesuai dengan yang ditentukan oleh \textit{user} saat terdapat jadwal di dalam \textit{Outlook Calendar} yang berhasil ditarik dan dicatat oleh perangkat lunak ini.  
 
-Cara kerja perangkat lunak ini nantinya akan menarik data- data yang terdapat di dalam \textit{Outlook Calender} menggunakan API yang sebelumnya diakses dengan meminta \textit{authentication code} dan juga \textit{access token} terlebih dahulu, lalu nanti data yang berhasil didapatkan, akan dipakai untuk menentukan status di aplikasi \textit{Slack} yang bisa diatur menggunakan API dari aplikasi \textit{Slack} itu sendiri. Nantinya aplikasi \textit{Slack} akan menunjukkan status "\textit{In a meeting}" saat terdapat jadwal di dalam \textit{Outlook Calendar} yang berhasil ditarik oleh perangkat lunak ini.  
+Perangkat lunak ini akan dibuat juga dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaannya terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. Perangkat ini juga akan dibangun menggunakan Node.js yang bisa dipelajari melalui laman \textit{website} dokumentasi \textit{Node.js} itu sendiri. 
 
 \section{Rumusan Masalah}
 Pada perangkat lunak ini, terdapat rumusan masalah sebagai berikut:
 \begin{itemize}
-	\item Apa fungsi utama yang akan ditonjolkan oleh perangkat lunak ini?
-	\item Apa basis dari perangkat lunak ini?  
-	\item Bagaimana cara kerja perangkat lunak ini? 
-	\item Bagaimana alur cara mendapatkan data dari \textit{Outlook Calendar}?
-	\item Bagaimana alur cara mengubah status dari aplikasi \textit{Slack}? 
+	\item Bagaimana cara menggunakan \textit{Node.js}?
+	\item Bagaimana cara mendapatkan data \textit{event} dari \textit{Outlook Calendar}?
+	\item Bagaimana mengubah status pada aplikasi \textit{Slack} menggunakan \textit{Slack} API?  
+	\item Bagaimana cara membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}? 
 	
 \end{itemize}
 
 \section{Tujuan}
 Adapun pada perangkat lunak ini memiliki tujuan sebagai berikut:
 \begin{itemize}
-	\item Mengetahui fungsi utama yang akan ditonjolkan oleh perangkat lunak ini. 
-	\item Mengetahui basis yang akan digunakan untuk membangun perangkat lunak ini.   
-	\item Mengetahui cara kerja perangkat lunak ini secara garis besar. 
-	\item Mengetahui alur cara kerja mendapatkan data dari \textit{Outlook Calendar}.  
-	\item Mengetahui alur mengubah status dari aplikasi \textit{Slack} dengan menggunakan data yang didapatkan dari \textit{Outlook Calendar}.  
+	\item Mengetahui cara menggunakan \textit{Node.js}. 
+	\item Mengetahui cara mendapatkan data \textit{event} dari \textit{Outlook Calendar}.   
+	\item Mengetahui cara mengubah status pada aplikasi \textit{Slack} menggunakan \textit{Slack} API. 
+	\item Mengetahui cara membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}.  
 	
 \end{itemize}
 
 \section{Deskripsi Perangkat Lunak}
 Pada perangkat lunak ini, nantinya akan memiliki fitur- fitur sebagai berikut:
 \begin{itemize}
-	\item \textit{Synchronize} \textit{Outlook Calendar} setiap 60 menit sekali. 
-	\item Mengubah status menjadi "\textit{In a meeting}" saat ada \textit{event} yang sedang berlangsung yang tercatat di \textit{Outlook Calendar}. 
-	\item Menghapus status saat \textit{event} yang terjadwalkan di \textit{Outlook Calendar} telat berakhir. 
+	\item \textit{Synchronize} \textit{Outlook Calendar} secara berkala. 
+	\item Mengubah status sesuai dengan apa yang akan ditentukan oleh \textit{user} saat ada \textit{event} yang sedang berlangsung yang tercatat di \textit{Outlook Calendar}. 
+	\item Menghapus status/ membalikan status ke semula saat \textit{event} yang terjadwalkan di \textit{Outlook Calendar} telat berakhir. 
 	
 \end{itemize}
 
 \section{Detail Pengerjaan Skripsi}
-Tuliskan bagian-bagian pengerjaan skripsi secara detail. Bagian pekerjaan tersebut mencakup awal hingga akhir skripsi, termasuk di dalamnya pengerjaan dokumentasi skripsi, pengujian, survei, dll.
-
 Bagian-bagian pekerjaan skripsi ini adalah sebagai berikut :
 	\begin{enumerate}
-		\item Melakukan survei ke Museum Geologi Bandung untuk mendapatkan denah serta mengetahui perilaku pengunjung museum secara umum (arah perjalanan, kecepatan, lama melihat objek, dll)
-		\item Melakukan analisis pada hasil survei terhadap pergerakan pengunjung di museum dan membuat rancangan denah di komputer yang dilengkapi dengan penghalang dan objek di museum.
-		\item Melakukan studi literatur mengenai sifat kolektif suatu kerumunan, teknik {\it social force model} dan teknik {\it flow tiles}
-		\item Mempelajari bahasa pemrograman C++ dan cara menggunakan framework OpenSteer
-		\item Merancang pergerakan kerumunan di dalam museum menggunakan teknik {\it social force model} dan {\it flow tiles} serta menggunakan teknik lainnya seperti konsep pathway dan waypoints. Selain itu, dirancang pula adanya waktu tunggu (pada saat pengunjung melihat objek di museum) dan cara pembuatan jalur bagi setiap individu pengunjung
-		\item Melakukan analisa dan merancang struktur data yang cocok untuk menyimpan penghalang (obstacle)
-		\item Mengimplementasikan keseluruhan algoritma dan struktur data yang dirancang, dengan menggunakan framework OpenSteer 
-		\item Melakukan pengujian (dan eksperimen) yang melibatkan responde untuk menilai hasil simulasi secara kualitatif
-		\item Menulis dokumen skripsi
+		\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai \textit{Node.js}.
+		\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.
+		\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}. 
+		\item Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.
+		\item Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula. 
+		\item Merancang bagian dari perangkat lunak yang akan mengambil data- data \textit{event} dari \textit{Outlook Calendar}. 
+		\item Merancang bagian dari perangkat lunak yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook Calendar}.
+		\item Mengimplementasi bagian pengambilan data dari \textit{Outlook Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook Calendar} dengan \textit{Slack}.
+		\item Melakukan pengujian terhadap fitur yang telah diimplementasi.
+		\item Menulis dokumen skripsi.   
 	\end{enumerate}
 
 \section{Rencana Kerja}
 Rincian capaian yang direncanakan di Skripsi 1 adalah sebagai berikut:
+
 \begin{enumerate}
-\item
-\item
-\item
+\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai \textit{Node.js}.
+		\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.
+		\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}. 
+		\item Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.
+		\item Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula. 
 \end{enumerate}
 
 Sedangkan yang akan diselesaikan di Skripsi 2 adalah sebagai berikut:
+
 \begin{enumerate}
-\item
-\item
-\item
+\item Merancang bagian dari perangkat lunak yang akan mengambil data- data \textit{event} dari \textit{Outlook Calendar}. 
+		\item Merancang bagian dari perangkat lunak yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook Calendar}.
+		\item Mengimplementasi bagian pengambilan data dari \textit{Outlook Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook Calendar} dengan \textit{Slack}.
+		\item Melakukan pengujian terhadap fitur yang telah diimplementasi.
+		\item Menulis dokumen skripsi.
 \end{enumerate}
 
 \vspace{1cm}
