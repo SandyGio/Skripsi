@@ -31,7 +31,7 @@
 \newcommand{\@npm}{2015730041}
 \newcommand{\@judultopik}{Integrasi \textit{Outlook Calendar} dan \textit{Slack}} % Judul/topik anda
 \newcommand{\jumpemb}{1} % Jumlah pembimbing, 1 atau 2
-\newcommand{\tanggal}{29/01/2019}
+\newcommand{\tanggal}{07/02/2019}
 
 % Dokumen hasil template ini harus dicetak bolak-balik !!!!
 
@@ -40,13 +40,38 @@
 \pagenumbering{arabic}
 
 \section{Deskripsi}
-Pada skripsi ini, akan dibuat sebuah perangkat lunak yang berfungsi untuk mengintegrasikan aplikasi \textit{Outlook Calendar} dan \textit{Slack}.\textit{ Outlook Calendar} sendiri adalah sebuah aplikasi buatan \textit{Microsoft} yang merupakan aplikasi manajemen kalender \textit{online}. Sedangkan \textit{Slack} sendiri adalah sebuah aplikasi yang berfungsi sebagai \textit{platform} untuk menjalankan \textit{real-time chatting}. Yang akan diintegrasikan dari kedua aplikasi itu adalah saat ada \textit{event} yang tercatat di \textit{Outlook Calendar}, maka akan perangkat lunak ini akan membantu untuk mengubah status di dalam aplikasi \textit{Slack}. 
+Pada skripsi ini, akan dibuat sebuah perangkat lunak yang berfungsi untuk mengintegrasikan aplikasi \textit{Outlook Calendar} dan \textit{Slack}.\textit{ Outlook Calendar} sendiri adalah sebuah aplikasi buatan \textit{Microsoft} yang merupakan aplikasi manajemen kalender \textit{online}. 
 
-Latar belakang disusunnya aplikasi ini karena untuk membantu \textit{syncronize} akun \textit{Slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada dalam akun \textit{Slack}-nya. 
+\begin{figure}[h]
+  \includegraphics[width=10cm]{img/outlookcalendar.jpg}
+  \centering
+  \caption{aplikasi \textit{Outlook Calendar}}
+\end{figure}
 
-Cara kerja perangkat lunak yang akan dibangun ini nantinya akan menarik data- data yang terdapat di dalam \textit{Outlook Calendar} menggunakan API secara berkala, lalu nanti data yang berhasil didapatkan, akan dipakai untuk menentukan status di aplikasi \textit{Slack}. Nantinya aplikasi \textit{Slack} akan menunjukkan status sesuai dengan yang ditentukan oleh \textit{user} saat terdapat jadwal di dalam \textit{Outlook Calendar} yang berhasil ditarik dan dicatat oleh perangkat lunak ini.  
+Sedangkan \textit{Slack} sendiri adalah sebuah aplikasi yang berfungsi sebagai \textit{platform} untuk menjalankan \textit{real-time chatting}. 
 
-Perangkat lunak ini akan dibuat juga dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaannya terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. Perangkat ini juga akan dibangun menggunakan Node.js yang bisa dipelajari melalui laman \textit{website} dokumentasi \textit{Node.js} itu sendiri. 
+\begin{figure}[h]
+  \includegraphics[width=10cm]{img/slack_chat_2.jpg}
+  \centering
+  \caption{aplikasi \textit{Slack}}
+\end{figure}
+
+Yang akan diintegrasikan dari kedua aplikasi itu adalah saat ada \textit{event} yang tercatat di \textit{Outlook Calendar} (seperti di Gambar 1), maka perangkat lunak ini akan membantu untuk mengubah status di dalam aplikasi \textit{Slack}.
+\begin{figure}[h!]
+\begin{center}
+  \includegraphics[width=10cm]{img/slack_1.jpg}
+  \caption{window pemilihan status di aplikasi \textit{Slack}}
+  \includegraphics[width=10cm]{img/slack_2.jpg}
+  \caption{tampak status dari \textit{icon} yang di \textit{hover}}
+  \includegraphics[width=10cm]{img/slack_3.jpg}
+  \caption{tampak status dari \textit{profile section}}
+\end{center}
+\end{figure}
+\clearpage
+
+Latar belakang disusunnya aplikasi ini adalah untuk membantu \textit{syncronize} akun \textit{Slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada di dalam akun \textit{Slack}-nya saat terdapat jadwal di aplikasi \textit{Outlook Calendar}. 
+
+Perangkat lunak ini akan dibuat dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaannya terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. Perangkat ini juga akan dibangun menggunakan \textit{Node.js} yang bisa dipelajari melalui laman \textit{website} dokumentasi \textit{Node.js} itu sendiri. 
 
 \section{Rumusan Masalah}
 Pada perangkat lunak ini, terdapat rumusan masalah sebagai berikut:
@@ -73,7 +98,7 @@ Pada perangkat lunak ini, nantinya akan memiliki fitur- fitur sebagai berikut:
 \begin{itemize}
 	\item \textit{Synchronize} \textit{Outlook Calendar} secara berkala. 
 	\item Mengubah status sesuai dengan apa yang akan ditentukan oleh \textit{user} saat ada \textit{event} yang sedang berlangsung yang tercatat di \textit{Outlook Calendar}. 
-	\item Menghapus status/ membalikan status ke semula saat \textit{event} yang terjadwalkan di \textit{Outlook Calendar} telat berakhir. 
+	\item Menghapus status/ mengembalikkan status ke semula saat \textit{event} yang terjadwalkan di \textit{Outlook Calendar} telah berakhir. 
 	
 \end{itemize}
 
