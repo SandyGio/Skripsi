@@ -5,45 +5,59 @@
 \section{Latar Belakang}
 \label{sec:label}
 
-Bagian ini akan diisi dengan apa yang melatarbelakangi pembuatan template skripsi ini.
-Termasuk juga masalah-masalah yang akan dihadapi untuk membuatnya, termasuk kurangnya kemampuan penguasaan \LaTeX{} sehingga template ini dibuat dengan mengandalkan berbagai contoh yang tersebar di dunia maya, yang digabung-gabung menjadi satu jua.
-Bagian lain juga akan dilengkapi, untuk sementara diisi dengan lorem ipsum versi bahasa inggris.
+\textit{Outlook Calendar} adalah sebuah aplikasi besutan \textit{Microsoft} yang memiliki fungsi untuk manajemen kalender secara \textit{online}. Melalui \textit{Outlook Calendar} ini, pengguna memungkinkan untuk saling berbagi undangan untuk pengguna lainnya.  
 
-\dtext{5-10}
+\textit{Slack} adalah aplikasi percakapan yang dikhususkan untuk pengguna dalam sebuah kerja tim. Dengan adanya \textit{Slack}, pengguna bisa menggunakan aplikasi- aplikasi lainnya yang dipakai untuk membantu pengguna mengerjakan sebuah proyek dengan mengikut sertakan aplikasi tambahan ke dalam aplikasi percakapan. Pengguna dapat melakukan percakapan melalui \textit{Slack} dengan membuat \textit{channel} yang bisa dianggap sebagai sebuah grup \textit{chat}.
+
+Pada \textit{Slack} terdapat suatu fitur dimana pengguna dapat mengubah status dari pengguna tersebut. Sebagai \textit{default}, status bisa menggambarkan jika pengguna sedang "\textit{In a meeting}" atau sedang "\textit{Out Sick}", dan banyak status default yang disediakan oleh \textit{Slack}. Serta status pun bisa diisi oleh pengguna secara sendiri sesuai dengan apa yang ingin dituliskan oleh penggunanya. Disinilah yang menjadi latar belakang dirancangnya perangkat lunak ini yaitu terkadang pengguna lupa untuk mengganti status menjadi "\textit{In a meeting}" saat pengguna memiliki jadwal untuk melakukan meeting, sehingga status di pengguna masih terlihat tersedia oleh user lain yang membuat tidak mengetahui sang pengguna sedang dalam keadaan \textit{meeting} yang tidak dapat diganggu. Di saat seperti ini, kemungkinan untuk \textit{meeting} terganggu oleh adanya \textit{chat} yang masuk lewat \textit{Slack} pun cukup tinggi. 
+
+Lalu masalah lain yang timbul yaitu ketika pengguna lupa untuk mengganti kembali status "\textit{In a meeting}" yang sudah selesai sehingga status tetap menjadi "In a meeting" sehingga membuat pengguna lain yang melihat pengguna dengan status ini merasa enggan untuk melakukan percakapan dengan alasan takut menganggu jalannya \textit{meeting}. 
+
+Pada skripsi ini akan dibuat perangkat lunak yang akan membaca jadwal dari pengguna yang dicantumkan di aplikasi \textit{Outlook Calendar}, lalu akan di integrasikan kepada aplikasi \textit{Slack} dengan mengubah dan mengganti status sesuai dengan jadwal yang telah didapatkan dari data di \textit{Outlook Calendar} dari pengguna. 
+
+Agar perangkat lunak ini bisa berjalan dengan baik, akan disusun perangkat lunak dengan menggunakan \textit{Node.js} dan akan memiliki 2 fungsi utama yaitu yang pertama adalah membaca dan mencatat jadwal dari \textit{Outlook Calendar} yang membutuhkan adanya \textit{Outlook API}. Lalu perangkat lunak ini juga memiliki fungsi kedua yaitu mengubah status ke aplikasi \textit{Slack} dengan menggunakan \textit{Slack API}. Nantinya kedua fungsi dari perangkat lunak ini akan dijalankan secara berkala. 
 
 \section{Rumusan Masalah}
 \label{sec:rumusan}
 Pada perangkat lunak ini, terdapat rumusan masalah sebagai berikut:
-\begin{itemize}
-	\item Bagaimana cara menggunakan \textit{Node.js}?
+\begin{enumerate}
 	\item Bagaimana cara mendapatkan data \textit{event} dari \textit{Outlook Calendar}?
 	\item Bagaimana mengubah status pada aplikasi \textit{Slack} menggunakan \textit{Slack} API?  
 	\item Bagaimana cara membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}? 
 	
-\end{itemize}
+\end{enumerate}
 
 \section{Tujuan}
 \label{sec:tujuan}
 Adapun pada perangkat lunak ini memiliki tujuan sebagai berikut:
-\begin{itemize}
-	\item Mengetahui cara menggunakan \textit{Node.js}. 
+\begin{enumerate}
 	\item Mengetahui cara mendapatkan data \textit{event} dari \textit{Outlook Calendar}.   
 	\item Mengetahui cara mengubah status pada aplikasi \textit{Slack} menggunakan \textit{Slack} API. 
-	\item Mengetahui cara membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}.  
+	\item Membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}.  
 	
-\end{itemize}
+\end{enumerate}
 
 \section{Batasan Masalah}
 \label{sec:batasan}
-Untuk mempermudah pembuatan template ini, tentu ada hal-hal yang harus dibatasi, misalnya saja bahwa template ini bukan berupa style \LaTeX{} pada umumnya (dengan alasannya karena belum mampu jika diminta membuat seperti itu)
-
-\dtext{8}
+Perancangan perangkat lunak ini dibuat berdasarkan batasan- batasan sebagai berikut: 
+\begin{enumerate}
+	\item Program ini dijalankan secara berkala sehingga tidak dapat menjalankan \textit{update} status secara \textit{real-time}. 
+\end{enumerate}
 
 \section{Metodologi}
 \label{sec:metlit}
-Tentunya akan diisi dengan metodologi yang serius sehingga templatenya terkesan lebih serius.
-
-\dtext{9}
+Berikut adalah metodologi yang akan digunakan dalam penelitian ini: 
+\begin{enumerate}
+	\item Melakukan studi literatur tentang \textit{Outlook Calendar}, \textit{Slack}, dan juga \textit{Node.js}.
+	\item Melakukan pembiasaan diri menggunakan \textit{Slack} di lingkungan tempat penulis melakukan magang. 
+	\item Menganalisis aplikasi- aplikasi sejenis. 
+	\item Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.
+	\item Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula. 
+	\item Merancang bagian dari perangkat lunak yang akan mengambil data- data \textit{event} dari \textit{Outlook Calendar}. 
+	\item Merancang bagian dari perangkat lunak yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook Calendar}.
+	\item Mengimplementasi bagian pengambilan data dari \textit{Outlook Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook Calendar} dengan \textit{Slack}.
+	\item Melakukan pengujian terhadap fitur yang telah diimplementasi.
+\end{enumerate}
 
 \section{Sistematika Pembahasan}
 \label{sec:sispem}
