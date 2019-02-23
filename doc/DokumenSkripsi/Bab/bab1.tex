@@ -7,7 +7,7 @@
 
 \textit{Outlook Calendar} adalah sebuah aplikasi besutan \textit{Microsoft} yang memiliki fungsi untuk manajemen kalender secara \textit{online}. Melalui \textit{Outlook Calendar} ini, pengguna memungkinkan untuk saling berbagi undangan untuk pengguna lainnya.  
 
-\textit{Slack} adalah aplikasi percakapan yang dikhususkan untuk pengguna dalam sebuah kerja tim. Dengan adanya \textit{Slack}, pengguna bisa menggunakan aplikasi- aplikasi lainnya yang dipakai untuk membantu pengguna mengerjakan sebuah proyek dengan mengikut sertakan aplikasi tambahan ke dalam aplikasi percakapan. Pengguna dapat melakukan percakapan melalui \textit{Slack} dengan membuat \textit{channel} yang bisa dianggap sebagai sebuah grup \textit{chat}.
+\textit{Slack} adalah aplikasi percakapan yang dikhususkan untuk pengguna dalam sebuah kerja tim. Dengan adanya \textit{Slack}, pengguna bisa menggunakan aplikasi-aplikasi lainnya yang dipakai untuk membantu pengguna mengerjakan sebuah proyek dengan mengikut sertakan aplikasi tambahan ke dalam aplikasi percakapan. Pengguna dapat melakukan percakapan melalui \textit{Slack} dengan membuat \textit{channel} yang bisa dianggap sebagai sebuah grup \textit{chat}.
 
 Pada \textit{Slack} terdapat suatu fitur dimana pengguna dapat mengubah status dari pengguna tersebut. Sebagai \textit{default}, status bisa menggambarkan jika pengguna sedang "\textit{In a meeting}" atau sedang "\textit{Out Sick}", dan banyak status default yang disediakan oleh \textit{Slack}. Serta status pun bisa diisi oleh pengguna secara sendiri sesuai dengan apa yang ingin dituliskan oleh penggunanya. Disinilah yang menjadi latar belakang dirancangnya perangkat lunak ini yaitu terkadang pengguna lupa untuk mengganti status menjadi "\textit{In a meeting}" saat pengguna memiliki jadwal untuk melakukan meeting, sehingga status di pengguna masih terlihat tersedia oleh user lain yang membuat tidak mengetahui sang pengguna sedang dalam keadaan \textit{meeting} yang tidak dapat diganggu. Di saat seperti ini, kemungkinan untuk \textit{meeting} terganggu oleh adanya \textit{chat} yang masuk lewat \textit{Slack} pun cukup tinggi. 
 
@@ -39,7 +39,7 @@ Adapun pada perangkat lunak ini memiliki tujuan sebagai berikut:
 
 \section{Batasan Masalah}
 \label{sec:batasan}
-Perancangan perangkat lunak ini dibuat berdasarkan batasan- batasan sebagai berikut: 
+Perancangan perangkat lunak ini dibuat berdasarkan batasan-batasan sebagai berikut: 
 \begin{enumerate}
 	\item Program ini dijalankan secara berkala sehingga tidak dapat menjalankan \textit{update} status secara \textit{real-time}. 
 \end{enumerate}
@@ -49,11 +49,11 @@ Perancangan perangkat lunak ini dibuat berdasarkan batasan- batasan sebagai beri
 Berikut adalah metodologi yang akan digunakan dalam penelitian ini: 
 \begin{enumerate}
 	\item Melakukan studi literatur tentang \textit{Outlook Calendar}, \textit{Slack}, dan juga \textit{Node.js}.
-	\item Melakukan pembiasaan diri menggunakan \textit{Slack} di lingkungan tempat penulis melakukan magang. 
-	\item Menganalisis aplikasi- aplikasi sejenis. 
+	\item Menggunakan aplikasi \textit{Slack} di lingkungan tempat penulis melakukan magang. 
+	\item Menganalisis aplikasi-aplikasi sejenis. 
 	\item Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.
-	\item Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula. 
-	\item Merancang bagian dari perangkat lunak yang akan mengambil data- data \textit{event} dari \textit{Outlook Calendar}. 
+	\item Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti: ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula. 
+	\item Merancang bagian dari perangkat lunak yang akan mengambil data-data \textit{event} dari \textit{Outlook Calendar}. 
 	\item Merancang bagian dari perangkat lunak yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook Calendar}.
 	\item Mengimplementasi bagian pengambilan data dari \textit{Outlook Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook Calendar} dengan \textit{Slack}.
 	\item Melakukan pengujian terhadap fitur yang telah diimplementasi.
@@ -61,8 +61,12 @@ Berikut adalah metodologi yang akan digunakan dalam penelitian ini:
 
 \section{Sistematika Pembahasan}
 \label{sec:sispem}
-Rencananya Bab 2 akan berisi petunjuk penggunaan template dan dasar-dasar \LaTeX.
-Mungkin bab 3,4,5 dapt diisi oleh ketiga jurusan, misalnya peraturan dasar skripsi atau pedoman penulisan, tentu jika berkenan.
-Bab 6 akan diisi dengan kesimpulan, bahwa membuat template ini ternyata sungguh menghabiskan banyak waktu.
-
-\dtext{10}
+Setiap bab dalam penelitian ini akan memiliki sistematika pembahasan yang dijelaskan ke dalam poin-poin sebagai berikut:
+\begin{enumerate}
+	\item Bab 1: Pendahuluan, yaitu menjelaskan gambaran umum dari penelitian ini yang berisi tentang latar belakang, rumusan masalah, tujuan, batasan masalah, metodologi, dan sistematika pembahasan.
+	\item Bab 2: Dasar Teori, yaitu menjelaskan dan membahas teori-teori yang dibutuhkan dan mendukung berjalannya penelitian ini. Meliputi tentang \textit{Outlook Calendar API}, \textit{Slack API}, \textit{Node.js}, dan juga \textit{Crontab}. 
+	\item Bab 3: Analisis, yaitu membahas mengenai analisis masalah. Berisi tentang analisis aplikasi sejenis, analisis cara pengambilan data dari \textit{Outlook Calendar}, dan proses pengubahan status menggunakan program pada \textit{Slack}.
+	\item Bab 4: Perancangan, yaitu membahas mengenai perancangan aplikasi untuk melakukan sinkronisasi antara \textit{Outlook Calendar} dengan \textit{Slack}. 
+	\item Bab 5: Implementasi dan Pengujian 
+	\item Bab 6: Kesimpulan dan Saran, yaitu berisi tentang kesimpulan dari penelitian ini dan juga saran yang dapat diberikan untuk penelitian selanjutnya.  
+\end{enumerate}
