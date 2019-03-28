@@ -4,33 +4,279 @@
 
 \section{\textit{Outlook.com Calendar API}}
 \label{sec:outlookCalendar}
-Untuk mengakses dan mendapatkan data yang terdapat di \textit{Outlook.com Calendar}, kita membutuhkan \textit{Microsoft Graph API}. \textit{Microsoft Graph} adalah gerbang untuk mendapatkan data-data yang terdapat di \textit{Microsoft} 365 dan \textit{Outlook.com Calendar} termasuk di dalam layanan \textit{Office} 365. \textit{Microsoft Graph API} memiliki satu \textit{endpoint} untuk memperoleh data yang ada pada \textit{Azure Active Directory}, layanan \textit{Office} 365(\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security}(\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10(\textit{activities} dan \textit{devices}), dan \textit{Education }yaitu menuju \textit{endpoint} ke \textit{https://graph.microsoft.com}.
+Untuk mengakses dan mendapatkan data yang terdapat di \textit{Outlook.com Calendar}, dibutuhkan \textit{Microsoft Graph API}. \textit{Microsoft Graph} itu sendiri adalah gerbang untuk mendapatkan data-data yang terdapat di \textit{Microsoft} 365 dan \textit{Outlook.com Calendar} termasuk di dalam layanan \textit{Office} 365. \textit{Microsoft Graph API} adalah sebuah \textit{webservice} yang memiliki satu buah \textit{endpoint} untuk memperoleh data yang ada pada \textit{Azure Active Directory}, layanan \textit{Office} 365(\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security}(\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10(\textit{activities} dan \textit{devices}), dan \textit{Education }yaitu menuju \textit{endpoint} ke \textit{https://graph.microsoft.com}. \textit{Microsoft Graph} dapat dipergunakan untuk membangun suatu aplikasi dengan memanfaatkan konteks unik dari masing-masing penggunanya. Aplikasi yang dapat dibangun dengan bantuan dari \textit{Microsoft Graph} bisa jadi memiliki fungsi seperti:
+
+\begin{itemize}
+\item Melihat pertemuan/ \textit{meeting} pengguna yang berikutnya sudah terjadwalkan serta membantu pengguna untuk mempersiapkan dengan memberikan informasi dari profil peserta. 
+\item Melihat kepada kalender pengguna sehingga bisa merekomendasikan waktu yang tepat untuk pertemuan/ \textit{meeting} selanjutnya. 
+\item Mengubah file \textit{Excel} yang berada di \textit{OneDrive} pengguna secara \textit{real-time} dan bisa melalui ponsel pengguna.
+\item Memantau perubahan yang ada di kalender pengguna sehingga bisa memngirimkan peringatan jika pengguna menghabiskan terlalu banyak waktu untuk melakukan rapat, serta bisa juga merekomendasikan \textit{event-event} yang bisa didelegasikan atau dilewatkan berdasarkan dari seberapa relevannya \textit{event} itu kepada pengguna.
+\item Membantu pengguna untuk bisa memilah informasi yang ditujukan untuk pekerjaan dengan informasi yang bersifat pribadi. Misalkan dengan pengelompokkan gambar-gambar pribadi yang masuk ke \textit{OneDrive} pribadi serta memasukkan gambar-gambar pekerjaan ke \textit{OneDrive for Business} pengguna.     
+\end{itemize} 
 
 Permintaan yang populer diminta pada \textit{Microsoft Graph API} antara lain: 
 \begin{center}
-\begin{tabular}{|l|l|}
- \hline Operation & URL \\ \hline 
- GET my profile & https://graph.microsoft.com/v1.0/me \\ \hline
- GET my files & https://graph.microsoft.com/v1.0/me/drive/root/children \\ \hline 
- GET my photo & https://graph.microsoft.com/v1.0/me/photo/\$value \\ \hline
- GET my mail & https://graph.microsoft.com/v1.0/me/messages \\ \hline 
- GET my high importance email & https://graph.microsoft.com/v1.0/me/messages?\$filter=importance\%20eq\%20'high' \\ \hline 
- GET my calendar events & https://graph.microsoft.com/v1.0/me/events \\ \hline 
- GET my manager & https://graph.microsoft.com/v1.0/me/manager \\ \hline 
- GET last user to modify file foo.txt & https://graph.microsoft.com/v1.0/me/drive/root/children/foo.txt/lastModifiedByUser \\ \hline 
- GET Office365 groups I'm member of & https://graph.microsoft.com/v1.0/me/memberOf/\$/microsoft.graph.group?\$filter=groupTypes/any(a:a\%20eq\%20'unified') \\ \hline 
- GET users in my organization & https://graph.microsoft.com/v1.0/users \\ \hline 
- GET groups in my organization & https://graph.microsoft.com/v1.0/groups \\ \hline 
- GET people related to me & https://graph.microsoft.com/v1.0/me/people \\ \hline
- GET items trending around me & https://graph.microsoft.com/beta/me/insights/trending \\ \hline
- GET my notes & https://graph.microsoft.com/v1.0/me/onenote/notebooks \\ \hline
+\begin{tabular}{|p{2cm}|p{15cm}|}
+ \hline \textbf{Operation} & \textbf{URL} \\ \hline 
+ GET\newline my profile & https://graph.microsoft.com/v1.0/me \\ \hline
+ GET\newline my files & https://graph.microsoft.com/v1.0/me/drive/root/children \\ \hline 
+ GET\newline my photo & https://graph.microsoft.com/v1.0/me/photo/\$value \\ \hline
+ GET\newline my mail & https://graph.microsoft.com/v1.0/me/messages \\ \hline 
+ GET\newline my high importance email & https://graph.microsoft.com/v1.0/me/messages?\$filter=importance\%20eq\%20'high' \\ \hline 
+ GET\newline my calendar events & https://graph.microsoft.com/v1.0/me/events \\ \hline 
+ GET\newline my manager & https://graph.microsoft.com/v1.0/me/manager \\ \hline 
+ GET\newline last user to modify file foo.txt & https://graph.microsoft.com/v1.0/me/drive/root/children/foo.txt/lastModifiedByUser \\ \hline 
+ GET\newline Office365 groups I'm member of & https://graph.microsoft.com/v1.0/me/memberOf/\$/microsoft.graph.group?\$filter=\newline groupTypes/any(a:a\%20eq\%20'unified') \\ \hline 
+ GET\newline users in my organization & https://graph.microsoft.com/v1.0/users \\ \hline 
+ GET\newline groups in my organization & https://graph.microsoft.com/v1.0/groups \\ \hline 
+ GET\newline people related to me & https://graph.microsoft.com/v1.0/me/people \\ \hline
+ GET\newline items trending around me & https://graph.microsoft.com/beta/me/insights/trending \\ \hline
+ GET\newline my notes & https://graph.microsoft.com/v1.0/me/onenote/notebooks \\ \hline
 \end{tabular}
 \end{center}
 
+Dari \textit{Microsoft Graph} ini, barulah dapat mengakses \textit{Outlook.com Calendar API}. Cara untuk menggunakan membangun aplikasi menggunakan \textit{API} dari \textit{Microsoft} yang tersedia adalah:
+\begin{description}
+\item [Mendaftarkan aplikasi yang akan dibuat ke Azure AD.]\hfill \\ Untuk Mendaftarkan aplikasi yang akan dibuat, ada beberapa langkah yaitu:
+
+\begin{enumerate}
+	\item Masuk ke \textit{Microsoft App Registration Portal} dengan menggunakan akun \textit{Microsoft} atau akun sekolah atau akun kantor. 
+	\item Pilih dan klik tombol bertuliskan ``\textit{Add an app}''.
+	\item Masukkan nama untuk aplikasi yang akan dibuat dan klik tombol ``\textit{Create application}''.
+	\item Salin ``\textit{application ID}''. \textit{Application ID} ini nantinya dipergunakan untuk mengkonfigurasikan aplikasinya. 
+	\item Dibawah bagian ``\textit{Platforms}'', pilih tombol ``\textit{Add Platforms}'' dan pilihlah \textit{platform} yang sesuai untuk aplikasi. 
+	
+		\subitem \textbf{Untuk \textit{Native} atau \textit{Mobile apps}:}
+		\begin{enumerate}
+		\item Pilih ``\textit{Native Application}''.
+		\item Salin bagian ``\textit{Built-in redirect URI}''. Hal ini diperlukan untuk menkonfigurasi aplikasinya. \textit{Redirect URI} ini disediakan identik untuk aplikasinya yang gunanya untuk memastikan bahwa pesan yang dikirim ke \textit{URI} hanya dikirim ke aplikasi itu. 
+		\end{enumerate}	
+		
+		\subitem \textbf{Untuk \textit{web apps}}
+		\begin{enumerate}
+		\item Pilih ``\textit{Web}''.
+		\item \textit{Check} kotak dengan tulisan ``\textit{Allow Implicit Flow}'' jika ingin mengaktifkan \textit{OpenID Connect Hybrid} dan \textit{implicit flow}. \textit{Implicit Flow} memungkinkan aplikasi untuk menerima \textit{sign-in info} dan juga \textit{access token}, sedangkan nilai \textit{default} dari bagian ini adalah \textit{hybrid flow} dimana \textit{flow} ini memungkinkan aplikasi untuk menerima \textit{sign-in info} yaitu \textit{token id}, dan juga \textit{artifacts} atau dalam kasus ini adalah kode otorisasi yang digunakan aplikasi untuk mendapatkan \textit{access token}.
+		\item Tentukan \textit{redirect URI} yang adalah bagian dari aplikasi yang dihubungi oleh \textit{endpoint} dari \textit{Azure AD} 2.0 saat memproses permintaan otentikasi. 
+		\item Dibawah ``\textit{Application Secrets}'', pilihlah ``\textit{Generate New Password}'' dan salinlah \textit{app secret} yang terdapat di \textit{New Password generated dialog box}. Perlu diketahui bahwa salinlah \textit{app secret} sebelum \textit{New password generated dialog} ditutup karena setelah ditutup, \textit{app secret} tidak dapat diambil lagi. 
+		\end{enumerate}
+	\item Pilihlah ``\textit{Save}''.			 
+	\end{enumerate}
+	
+Tabel berikut menunjukkan \textit{properties} yang perlu dikonfigurasi dan disalin untuk berbagai jenis aplikasi. Nilai \textit{assigned.} berarti harus menggunakan nilai yang diberikan oleh \textit{Azure AD}. 
+
+\item [Mendapatkan otorisasi.]\hfill \\Langkah pertama untuk mendapatkan otorisasi adalah dengan cara meminta kepada \textit{Azure AD} 2.0 \textbf{/authorize} \textit{endpoint}. Azure ID akan mengecek pengguna yang masuk dan memastikan persetujuan pengguna untuk izin permintaan aplikasi tersebut. Berikut contoh \textit{request} untuk mendapatkan \textit{authorize code}:
+
+\begin{center}
+	\begin{tabular}{|p{15cm}|}
+	\hline
+	https://login.microsoftonline.com/\{tenant\}/oauth2/v2.0/authorize?\newline
+	client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\newline
+	\&response\_type=code\newline
+	\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\newline
+	\&response\_mode=query\newline
+	\&scope=offline\_access\%20user.read\%20mail.read\newline
+	\&state=12345\\
+	\hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{2.5cm}|p{2.5cm}|p{10cm}|}
+		\hline
+		\textbf{Parameter}& &\textbf{Deskripsi}\\ \hline
+		\textit{tenant} & \textit{required} & Nilai yang dipakai untuk mengontrol siapa yang bisa mengakses masuk ke aplikasi. Nilainya bisa diisi dengan akun \textit{Microsoft}. \\ \hline
+		 \textit{client\_id} & \textit{required} & Diisi dengan \textit{Application ID} yang diberikan oleh portal registrasi (\textit{apps.dev.microsoft.com}).\\ \hline
+		 \textit{response\_type} & \textit{required} & Diisi dengan nilai ``\textit{code}'' untuk menjalankan kode otorisasi.\\ \hline
+		 \textit{redirect\_uri} & \textit{recommended} & Diisi dengan redirect uri yang nantinya akan menerima respon dari otentikasi yang akan diterima oleh aplikasi. Nilai disini harus sama dengan yang sudah diisi di portal registrasi kecuali \textit{URL} yang disandikan. Untuk \textit{native} dan \textit{mobile apps}, ada nilai default untuk \textit{redirect uri} yaitu menuju ke \textit{https://login.microsoftonline.com/common/oauth2/nativeclient}.\\ \hline
+		 \textit{scope} & \textit{required} & Diisi dengan hak akses pada \textit{Microsoft Graph} yang akan diberikan pada pengguna aplikasi. \\ \hline
+		 \textit{response\_mode} & \textit{recommended} & Nilai yang akan menentukan metode kembalian \textit{token} yang akan dihasilkan kembali ke aplikasi. Terdapat 2 nilai yaitu ``\textit{query}'' dan ``\textit{form\_post}''. \\ \hline
+		 \textit{state} & \textit{recommended} & Nilai yang dipasang untuk mencegah serangan \textit{cross-site request}. Parameter ini juga bisa digunakan untuk menyandikan informasi tentang keadaan pengguna di aplikasi sebelum melakukan permintaan otentikasi.\\
+		 \hline		 
+	\end{tabular}
+\end{center}
+
+Setelah melakukan request untuk mendapatkan kode otentikasi, maka akan ditujukan ke halaman yang seperti ini. 
+
+Bentuk dari respon otentikasi seperti:
+
+\begin{center}
+	\begin{tabular}{|p{15cm}|}
+		\hline
+		GET https://localhost/myapp/?\newline
+		code=M0ab92efe-b6fd-f08-87dc-2c6500a7f84d\newline
+		\&state=12345\\ \hline
+	\end{tabular}
+\end{center}
+
+\begin{center}
+	\begin{tabular}{|p{3cm}|p{12cm}|}
+		\hline
+		\textbf{Parameter}&\textbf{Deskripsi}\\ \hline
+		\textit{code} & Kode otorisasi yang diminta aplikasi. Dengan kode otorisasi ini, aplikasi bisa meminta \textit{access token} untuk mendapatkan data. Kode otorisasi memiliki umur yang singkat yaitu akan \textit{expired} setelah 10 menit. \\ \hline
+		 \textit{state} & Nilai yang akan bernilai sama persis seperti saat melakukan \textit{request} jika saat melakukan \textit{request} memasukkan parameter ``\textit{state}'' juga.\\
+		 \hline		 
+	\end{tabular}
+\end{center}
+
+Setelah mendapat \textit{authorize code}, maka otorisasi dilanjutkan dengan meminta kepada \textit{Azure AD} 2.0 \textbf{/token} \textit{endpoint} untuk mendapatkan \textit{access token} untuk aplikasi tersebut. Aplikasi yang ingin melakukan \textit{request} untuk mendapatkan \textit{access token} akan memakai kode otorisasi dan juga mengirimkan \textit{request} dengan cara ``\textit{post}''. Berikut contoh format untuk melakukan \textit{request} kepada \textit{endpoint} \textit{/token}.
+
+\begin{center}
+	\begin{tabular}{|p{15cm}|}
+		\hline
+		POST /common/oauth2/v2.0/token HTTP/1.1\newline
+		Host: https://login.microsoftonline.com\newline
+		Content-Type: application/x-www-form-urlencoded\newline
+		\newline
+		client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\newline
+		\&scope=user.read\%20mail.read\newline
+		\&code=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE9UkP3pSx1aXxUjq3n8b2\newline
+		JRLk4OxVXr...\newline
+		\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\newline
+		\&grant\_type=authorization\_code\newline
+		\&client\_secret=JqQX2PNo9bpM0uEihUPzyrh    // NOTE: Only required for web apps\\
+		\hline
+	\end{tabular}
+\end{center} 
+
+\begin{center}
+	\begin{tabular}{|p{3cm}|p{2cm}|p{10cm}|}
+		\hline
+		\textbf{Parameter}& &\textbf{Deskripsi}\\ \hline
+		\textit{tenant} & \textit{required} & Nilai yang dipakai untuk mengontrol siapa yang bisa mengakses masuk ke aplikasi. Nilainya bisa diisi dengan akun \textit{Microsoft}. \\ \hline
+		 \textit{client\_id} & \textit{required} & Diisi dengan \textit{Application ID} yang diberikan oleh portal registrasi (\textit{apps.dev.microsoft.com}).\\ \hline
+		 \textit{grant\_type} & \textit{required} & Diisi dengan nilai ``\textit{authorization\_code}'' untuk menjalankan kode otorisasi.\\ \hline
+		 \textit{scope} & \textit{required} & Diisi dengan hak akses pada \textit{Microsoft Graph} yang akan diberikan pada pengguna aplikasi. \\ \hline
+		 \textit{code} & \textit{required} & Kode otorisasi yang didapat saat melakukan request pertama.\\ \hline 
+		 \textit{redirect\_uri} & \textit{required} & \textit{redirect\_uri} yang sama yang digunakan untuk mendapatkan kode otorisasi. \\ \hline
+		 \textit{client\_secret} & \textit{required for web apps} & \textit{App secret} yang didapat saat membuat dan mendaftarkan aplikasi di portal registrasi. \textit{Client\_secret} ini hanya berlaku untuk \textit{web apps} dan juga \textit{web APIs} karena di \textit{native app} tidak memungkinkan untuk menyimpan \textit{client\_secret} di gawai masing-masing. \\ \hline
+	\end{tabular}
+\end{center}
+
+Contoh respon jika request berhasil diproses adalah seperti berikut:
+\begin{center}
+	\begin{tabular}{|p{15cm}|}
+		\hline
+		\{\newline
+    	"token\_type": "Bearer",\newline
+    	"scope": "user.read\%20Fmail.read",\newline
+    	"expires\_in": 3600,\newline
+    	"access\_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0\newline
+    	aEV1Q...",\newline
+    	"refresh\_token": "AwABAAAAvPM1KaPlrEqdFSBzjqfTGAMxZGUTdM0t4B4..."\newline
+		\}\\ \hline
+	\end{tabular}
+\end{center} 
+
+Setelah mendapatkan \textit{access token}, barulah akses untuk mendapatkan data-data dari \textit{Outlook.com Calendar} bisa diakses dengan menggunakan \textit{Outlook.com Calendar API}. Pentingnya langkah sebelum ini dikarenakan untuk melakukan \textit{request} kepada \textit{Outlook.com Calendar API} diperlukan parameter \textit{access token} saat hendak melakukan \textit{request}. Adapun list dari \textit{request} yang akan dipakai dari \textit{Outlook.com Calendar API} adalah:
+
+\begin{center}
+	\begin{tabular}{|p{5cm}|p{10cm}|}
+	\hline
+		Request & endpoint\\ \hline 
+		List events & GET /me/events\\
+		 & GET /users/\{id | userPrincipalName\}/events \\
+		 & GET /me/calendar/events\\
+		 & GET /users/\{id | userPrincipalName\}/calendar/events\\
+		 & GET /me/calendars/\{id\}/events\\
+		 & GET /users/\{id | userPrincipalName\}/calendars/\{id\}/events\\
+		 & GET /me/calendargroup/calendars/\{id\}/events\\
+		 & GET /users/\{id | userPrincipalName\}/calendargroup/calendars/\{id\}/events\\
+		 & GET /me/calendargroups/\{id\}/calendars/\{id\}/events\\
+		 & GET /users/\{id | userPrincipalName\}/calendargroups/\{id\}/calendars/\{id\}/events\\
+	\hline
+	\end{tabular}
+\end{center} 
+
+Request di atas akan meminta event yang ada di akun pengguna. Field \{id\} di atas diisi oleh id dari pengguna. Sedangkan field \{userPrincipalName\} bisa diisi dengan nama pengguna. 
+
+\begin{lstlisting}[caption={Contoh respon dari request List events diatas},label={lst:atribute-view},language=json]
+
+HTTP/1.1 200 OK
+Content-type: application/json
+Preference-Applied: outlook.timezone="Pacific Standard Time"
+Content-length: 1932
+
+{
+    "@odata.context":"https://graph.microsoft.com/v1.0/$metadata#
+    users('cd209b0b-3f83-4c35-82d2-d88a61820480')/events(subject,body,bodyPreview,organizer,attendees,start,end,location)",
+    "value":[
+        {
+            "@odata.etag":"W/\"ZlnW4RIAV06KYYwlrfNZvQAAKGWwbw==\"",
+            "id":"AAMkAGIAAAoZDOFAAA=",
+            "subject":"Orientation ",
+            "bodyPreview":"Dana, this is the time you selected for our 
+            orientation. Please bring the notes I sent you.",
+            "body":{
+                "contentType":"html",
+                "content":"<html><head></head><body><p>Dana, this is the 
+                time you selected for our orientation. Please bring the 
+                notes I sent you.</p></body></html>"
+            },
+            "start":{
+                "dateTime":"2017-04-21T10:00:00.0000000",
+                "timeZone":"Pacific Standard Time"
+            },
+            "end":{
+                "dateTime":"2017-04-21T12:00:00.0000000",
+                "timeZone":"Pacific Standard Time"
+            },
+            "location": {
+                "displayName": "Assembly Hall",
+                "locationType": "default",
+                "uniqueId": "Assembly Hall",
+                "uniqueIdType": "private"
+            },
+            "locations": [
+                {
+                    "displayName": "Assembly Hall",
+                    "locationType": "default",
+                    "uniqueIdType": "unknown"
+                }
+            ],
+            "attendees":[
+                {
+                    "type":"required",
+                    "status":{
+                        "response":"none",
+                        "time":"0001-01-01T00:00:00Z"
+                    },
+                    "emailAddress":{
+                        "name":"Samantha Booth",
+                        "address":"samanthab@a830edad905084922E17020313.
+                        onmicrosoft.com"
+                    }
+                },
+                {
+                    "type":"required",
+                    "status":{
+                        "response":"none",
+                        "time":"0001-01-01T00:00:00Z"
+                    },
+                    "emailAddress":{
+                        "name":"Dana Swope",
+                        "address":"danas@a830edad905084922E17020313.
+                        onmicrosoft.com"
+                    }
+                }
+            ],
+            "organizer":{
+                "emailAddress":{
+                    "name":"Samantha Booth",
+                    "address":"samanthab@a830edad905084922E17020313.
+                    onmicrosoft.com"
+                }
+            }
+        }
+    ]
+}
+\end{lstlisting} 
+	
+\end{description}
 
 
 \section{\textit{Slack API}}
 \label{sec:slack}
+Slack API adalah webservice yang akan digunakan untuk menghubungkan data yang sudah di dapat dari Outlook.com Calendar ke aplikasi Slack. Disini akan dipakai API yang berfungsi untuk mengubah status dari pengguna Slack. 
 
 
 \section{\textit{Node.js}}
@@ -39,136 +285,4 @@ Permintaan yang populer diminta pada \textit{Microsoft Graph API} antara lain:
 
 \section{Cron}
 \label{sec:cron}
- 
-
-\subsection{Tabel}  
-Berikut adalah contoh pembuatan tabel. 
-Penempatan tabel dan gambar secara umum diatur secara otomatis oleh \LaTeX{}, perhatikan contoh di file bab2.tex untuk melihat bagaimana cara memaksa tabel ditempatkan sesuai keinginan kita.
-
-Perhatikan bawa berbeda dengan penempatan judul gambar gambar, keterangan tabel harus diletakkan di atas tabel!!
-Lihat Tabel~\ref{tab:contoh1} berikut ini:
-
-\begin{table}[H] %atau h saja untuk "kira kira di sini"
-	\centering 
-	\caption{Tabel contoh}
-	\label{tab:contoh1}
-	\begin{tabular}{cccc}
-		\toprule
-		& $v_{start}$ & $\mathcal{S}_{1}$ & $v_{end}$\\
-
-		\midrule
-		$\tau_{1}$ & 1 & 12& 20\\
-		$\tau_{2}$ & 1 &  & 20\\
-		$\tau_{3}$ & 1 & 9 & 20\\
-		$\tau_{4}$ & 1 &  & 20\\
-
-		\bottomrule
-		
-	\end{tabular} 
-\end{table}
-Tabel~\ref{tab:cthwarna1} dan Tabel~\ref{tab:cthwarna2} berikut ini adalah tabel dengan sel yang berwarna dan ada dua tabel yang bersebelahan. 
-\begin{table}[H]
-	\begin{minipage}[c]{0.49\linewidth}
-		\centering
-		\caption{Tabel bewarna(1)}
-		\label{tab:cthwarna1}
-		\begin{tabular}{ccccc}
-			\toprule
-			 & $v_{start}$ & $\mathcal{S}_{2}$ & $\mathcal{S}_{1}$ & $v_{end}$\\
-			
-			\midrule
-			$\tau_{1}$ & 1 & 5 \cellcolor{green}& 12& 20\\
-			$\tau_{2}$ & 1 & 8 \cellcolor{green}& & 20\\
-			$\tau_{3}$ & 1 & 2/8/17 \cellcolor{green}& 9 & 20\\
-			$\tau_{4}$ & 1 & \cellcolor{red}& & 20\\
-			
-			\bottomrule
-
-		\end{tabular}
-	\end{minipage}
-	\begin{minipage}[c]{0.49\linewidth}
-		
-		\centering 
-		\caption{Tabel bewarna(2)}
-		\label{tab:cthwarna2}
-		\begin{tabular}{ccccc}
-			\toprule
-			 & $v_{start}$ & $\mathcal{S}_{1}$ & $\mathcal{S}_{2}$ & $v_{end}$\\
-			
-			\midrule
-			$\tau_{1}$ & 1 & 12& 5 \cellcolor{red} &20\\
-			$\tau_{2}$ & 1 &  &  8 \cellcolor{green} &20\\
-			$\tau_{3}$ & 1 & 9 & 2/8/17 \cellcolor{green} &20\\
-			$\tau_{4}$ & 1 &   & \cellcolor{red} &20\\
-			
-			\bottomrule
-		
-		\end{tabular}
-	\end{minipage}
-\end{table}
-
- 
-\subsection{Kutipan}
-\label{subs:kutipan} 
-Berikut contoh kutipan dari berbagai sumber, untuk keterangan lebih lengkap, silahkan membaca file referensi.bib yang disediakan juga di template ini.
-Contoh kutipan:
-\begin{itemize}
-	\item Buku:~\cite{berg:08:compgeom} 
-	\item Bab dalam buku:~\cite{kreveld:04:GIS}
-	\item Artikel dari Jurnal:~\cite{buchin:13:median}
-	\item Artikel dari prosiding seminar/konferensi:~\cite{kreveld:11:median}
-	\item Skripsi/Thesis/Disertasi:~\cite{lionov:02:animasi}~\cite{wiratma:10:following}~\cite{wiratma:22:later}
-	\item Technical/Scientific Report:~\cite{kreveld:07:watertight}
-	\item RFC (Request For Comments):~\cite{RFC1654}
-	\item Technical Documentation/Technical Manual:~\cite{Z.500}~\cite{unicode:16:stdv9}~\cite{google:16:and7}
-	\item Paten:~\cite{webb:12:comm}
-	\item Tidak dipublikasikan:~\cite{wiratma:09:median}~\cite{lionov:11:cpoly}
-	\item Laman web:~\cite{erickson:03:cgmodel}  
-	\item Lain-lain:~\cite{agung:12:tango}
-\end{itemize}    
-  
-\subsection{Gambar}
-
-Pada hampir semua editor, penempatan gambar di dalam dokumen \LaTeX{} tidak dapat dilakukan melalui proses {\it drag and drop}.
-Perhatikan contoh pada file bab2.tex untuk melihat bagaimana cara menempatkan gambar.
-Beberapa hal yang harus diperhatikan pada saat menempatkan gambar:
-\begin{itemize}
-	\item Setiap gambar {\bf harus} diacu di dalam teks (gunakan {\it field} {\sc label})
-	\item {\it Field} {\sc caption} digunakan untuk teks pengantar pada gambar. Terdapat dua bagian yaitu yang ada di antara tanda $[$ dan $]$ dan yang ada di antara tanda $\{$ dan $\}$. Yang pertama akan muncul di Daftar Gambar, sedangkan yang kedua akan muncul di teks pengantar gambar. Untuk skripsi ini, samakan isi keduanya.
-	\item Jenis file yang dapat digunakan sebagai gambar cukup banyak, tetapi yang paling populer adalah tipe {\sc png} (lihat Gambar~\ref{fig:ularpng}), tipe {\sc jpg} (Gambar~\ref{fig:ularjpg}) dan tipe {\sc pdf} (Gambar~\ref{fig:ularpdf})
-	\item Besarnya gambar dapat diatur dengan {\it field} {\sc scale}.
-	\item Penempatan gambar diatur menggunakan {\it placement specifier} (di antara tanda  $[$ dan $]$ setelah deklarasi gambar.
-	Yang umum digunakan adalah {\bf H} untuk menempatkan gambar {\bf sesuai} penempatannya di file .tex atau  {\bf h} yang berarti "kira-kira" di sini. \\
-	Jika tidak menggunakan {\it placement specifier}, \LaTeX{} akan menempatkan gambar secara otomatis untuk menghindari bagian kosong pada dokumen anda.
-	Walaupun cara ini sangat mudah, hindarkan terjadinya penempatan dua gambar secara berurutan. 	
-	\begin{itemize}
-		\item Gambar~\ref{fig:ularpng} ditempatkan di bagian atas halaman, walaupun penempatannya dilakukan setelah penulisan 3 paragraf setelah penjelasan ini.
-		\item Gambar~\ref{fig:ularjpg} dengan skala 0.5 ditempatkan di antara dua buah paragraf. Perhatikan penulisannya di dalam file bab2.tex!
-		\item Gambar~\ref{fig:ularpdf} ditempatkan menggunakan {\it specifier} {\bf h}.
-	\end{itemize}
-\end{itemize}
- 
-\dtext{17-18}
-\begin{figure} 
-	\centering  
-	\includegraphics[scale=1]{ular-png}  
-	\caption[Gambar {\it Serpentes} dalam format png]{Gambar {\it Serpentes} dalam format png} 
-	\label{fig:ularpng} 
-\end{figure} 
-
-\dtext{19-20}
-\begin{figure}[H]
-	\centering  
-	\includegraphics[scale=0.5]{ular-jpg}  
-	\caption[Ular kecil]{Ular kecil} 
-	\label{fig:ularjpg} 
-\end{figure} 
-\dtext{21-22}
-
-\begin{figure}[ht] 
-	\centering  
-	\includegraphics[scale=1]{ular-pdf}  
-	\caption[ {\it Serpentes} betina]{ {\it Serpentes} jantan} 
-	\label{fig:ularpdf} 
-\end{figure} 
  
