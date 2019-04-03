@@ -2,8 +2,144 @@
 \chapter{Landasan Teori}
 \label{chap:teori}
 
-\section{\textit{Outlook.com Calendar API}}
-\label{sec:outlookCalendar}
+\section{\textit{Microsoft Graph API}}
+\label{sec:microsoftgraph}
+Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan Microsoft 365 yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi beta, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. Untuk menggunakan fungsi dari \textit{Microsoft Graph API}, dibutuhkan untuk mendaftarkan terlebih dahulu aplikasi yang akan dirancang dan memakai fungsi dari \textit{webservice} dari \textit{Microsoft Graph API} ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Pada saat mendaftarkan aplikasinya, pastikan untuk menyalin dan menyimpan \textit{application ID} yang adalah pengenal unik untuk aplikasi yang didaftarkan, dan juga menyalin \textit{Redirect URL} yang didaftarkan sebagai \textit{URL} yang akan menerima balikan \textit{authentication} dan juga \textit{token} yang akan dikirim oleh \textit{endpoint Azure AD v2.0}, serta menyalin \textit{application secret} yang didapat saat mengklik ``\textit{Generate New Password}'' saat mendaftarkan aplikasi (berlaku jika mendaftarkan aplikasi berjenis \textit{web apps}). \textit{Application ID} yang didapat saat mendaftar aplikasi akan dipakai untuk mengisi nilai dari parameter \textit{client\_id} yang akan diisi saat akan melakukan \textit{request} untuk mendapatkan \textit{authorization\_code}. Setelah mendapatkan \textit{authorization\_code}, maka langkah selanjutnya adalah meminta \textit{access\_token} yang membutuhkan \textit{parameter} \textit{authorization\_code} kepada \textit{field code}, dan juga \textit{application\_secret} yang didapat dari pendaftaran aplikasi sebelumnya yang akan mengisi \textit{field client\_secret}. Response dari request token akan mengembalikkan jangka waktu aktif dari token tersebut dan juga refresh\_token yang akan berguna untuk meminta refresh\_token saat token sudah \textit{expired}.
+
+Setelah mendapatkan access token, barulah layanan untuk mendapatkan data yang tersimpan di Microsoft baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari Microsoft Graph API 
+
+\subsection{User resource type}
+Kelas user ini merepresentasikan Azure AD user account. Kelas ini memiliki properti-properti dan juga method-method:
+\textbf{Properti}
+\begin{itemize}
+	\item \textbf{aboutMe}
+	Properti ini bertipe String yang merupakan field untuk mendeskripsikan diri pengguna. 
+	\item \textbf{accountEnabled}
+	Properti ini bertipe Boolean yang bernilai \textbf{true} jika akun diaktifkan dan akan bernilai \textbf{false} jika tidak. Properti ini berguna saat akan membuat akun. Nilai ini yang akan dipakai sebagai patokan sebuah akun bisa dibuat atau tidaknya. 
+	\item \textbf{ageGroup}
+	Properti ini bertipe String yang merupakan nilai kelompok umur dari pengguna. Terdapat nilai \textbf{null}, \textbf{minor}, \textbf{notAdult}, dan juga \textbf{adult}.
+	\item \textbf{assignedLicenses}
+	Properti ini bertipe koleksi assignedLicense yang merupakan nilai lisensi yang diberikan kepada pengguna.
+	\item \textbf{assignedPlans}
+	Properti ini bertipe koleksi assignedPlan yang merupakan nilai plan yang diberikan kepada pengguna.
+	\item \textbf{birthday}
+	Properti ini bertipe DateTimeOffset yang merupakan nilai ulang tahun dari pengguna. 
+	\item \textbf{businessPhones}
+	Properti ini bertipe String yang merupakan nomor telepon dari pengguna. Walaupun bersifat String, tetapi field ini hanya akan bisa diisi oleh angka.
+	\item \textbf{city}
+	Properti ini bertipe String yang merupakan kota lokasi pengguna.
+	\item \textbf{companyName}
+	Properti ini bertipe String yang merupakan nama perusahaan dimana pengguna terkait di dalamnya.
+	\item \textbf{consentProvidedForMinor}
+	Properti ini bertipe String yang merupakan status persetujuan bagi anak dibawah umur yang mengacu kepada properti ageGroup. Nilai dari properti ini bisa \textbf{null}, \textbf{granted}, \textbf{denied}, dan juga \textbf{notRequired}. 
+	\item \textbf{country}
+	Properti ini bertipe String yang merupakan negara lokasi pengguna.
+	\item \textbf{createDateTime}
+	Properti ini bertipe DateTimeOffset yang merupakan tanggal dibuatnya objek pengguna.
+	\item \textbf{department}
+	Properti ini bertipe String yang merupakan nama departemen pengguna bekerja.
+	\item \textbf{displayName}
+	Properti ini bertipe String yang merupakan nama yanng ditampilkan di buku alamat untuk pengguna. Biasanya disusun dari nama depan, nama tengah, dan juga nama belakang. Properti ini merupakan properti yang \textit{required} ketika pengguna dibuat dan tidak bisa dihapus. 
+	 \item \textbf{employeeId}
+	Properti ini bertipe String yang merupakan pengidentifikasi karyawan yang diberikan kepada pengguna oleh organisasi.
+	\item \textbf{faxNumber}
+	Properti ini bertipe String yang merupakan nomor fax pengguna.
+	\item \textbf{givenName}
+	Properti ini bertipe String yang merupakan nama depan dari pengguna.
+	\item \textbf{hireDate}
+	Properti ini bertipe DateTimeOffset yang merupakan tanggal pengguna dipekerjakan.
+	\item \textbf{id}
+	Properti ini bertipe String yang merupakan tanda pengenal unik untuk pengguna.
+	\item \textbf{imAddresses}
+	Properti ini bertipe koleksi String yang merupakan alamat protokol inisiasi sesi \textit{voice over IP} (VOIP) pesan untuk pengguna.
+	\item \textbf{interests}
+	Properti ini bertipe koleksi String yang merupakan kumpulan String yang mendeskripsikan ketertarikan dari pengguna.
+	\item \textbf{isResourceAccount}
+	Properti ini bertipe Boolean yang akan bernilai \textbf{true} jika akun merupakan \textit{resource account} dan akan bernilai \textbf{false} jika bukan. Jika kosong akan dianggap dengan nilai false.
+	\item \textbf{jobTitle}
+	Properti ini bertipe String yang merupakan jabatan dari pengguna.
+	\item \textbf{legalAgeGroupClassification}
+	Properti ini bertipe String yang merupakan tanda pengenal unik untuk pengguna.
+\end{itemize}
+
+\textbf{Method}
+\begin{itemize}
+	\item \textbf{List users}
+	Method ini berfungsi untuk mendapatkan daftar dari objek pengguna. 
+	\item \textbf{Create user}
+	Method ini berfungsi untuk membuat pengguna. 
+	\item \textbf{Get user}
+	Method ini berfungsi untuk membaca properti dan juga hubungan pengguna. 
+	\item \textbf{Update user}
+	Method ini berfungsi untuk memperbaharui pengguna.
+	\item \textbf{Delete user}
+	Method ini berfungsi untuk menghapus pengguna.
+	\item \textbf{List messages}
+	Method ini berfungsi untuk mendapatkan semua pesan di kotak surat pengguna yang masuk.
+	\item \textbf{Create message}
+	Method ini berfungsi untuk membuat pesan baru untuk dimasukkan ke dalam koleksi pesan.
+	\item \textbf{List mailFolders}
+	Method ini berfungsi untuk mendapatkan folder-folder surat dibawah folder root dari pengguna yang masuk.
+	\item \textbf{Create mailFolder}
+	Method ini berfungsi untuk membuat mailFolder ke dalam koleksi mailFolders.
+	\item \textbf{sendMail}
+	Method ini berfungsi untuk mengirim pesan.
+	\item \textbf{List events}
+	Method ini berfungsi untuk mendapatkan daftar objek event di dalam kotak pesan dari pengguna.
+	\item \textbf{Create event}
+	Method ini berfungsi untuk membuat event ke dalam koleksi dari event-event.
+	\item \textbf{List calendars}
+	Method ini berfungsi untuk mendapatkan daftar objek calendar.
+	\item \textbf{Create calendar}
+	Method ini berfungsi untuk membuat objek calendar baru yang akan dikirim ke dalam koleksi objek calendars.
+	\item \textbf{List calendarGroups}
+	Method ini berfungsi untuk mendapatkan daftar objek calendarGroup.
+	\item \textbf{Create calendarGroup}
+	Method ini berfungsi untuk membuat objek calendarGroup baru kedalam koleksi calendarGroup.
+	\item \textbf{List calendarView}
+	Method ini berfungsi untuk mendapatkan koleksi objek event.
+	\item \textbf{List contacs}
+	Method ini berfungsi untuk mendapatkan daftar kontak dari folder Contacts pengguna yang masuk.
+	\item \textbf{Create contact}
+	Method ini berfungsi untuk membuat kontak baru untuk dimasukkan ke dalam koleksi kontak.
+	\item \textbf{List contactFolders}
+	Method ini berfungsi untuk mendapatkan koleksi folder kontak dari pengguna yang masuk.
+	\item \textbf{Create contactFolder}
+	Method ini berfungsi untuk membuat folder kontak.
+	\item \textbf{List directReports}
+	Method ini berfungsi untuk mendapatkan pengguna dan kontak yang melaporkan pengguna dari properti directReports.
+	\item \textbf{List manager}
+	Method ini berfungsi untuk mendapatkan manager pengguna dari properti manager.
+	\item \textbf{List memberOf}
+	Method ini berfungsi untuk mendapatkan kelompok dan peran dari anggota langsung pengguna lewat properti memberOf.
+	\item \textbf{List transitive memberOf}
+	Method ini berfungsi untuk mendapatkan kelompok dan peran dari pengguna lewat properti memberOf, tetapi method ini bersifat transitif dan mencakup grup-grup dimana pengguna menjadi anggota.
+	\item \textbf{List ownedDevices}
+	Method ini berfungsi untuk mendapatkan perangkat yang dimiliki oleh pengguna dari properti ownedDevices.
+	\item \textbf{List ownedObjects}
+	Method ini berfungsi untuk mendapatkan objek yang dimiliki pengguna yang didapat dari properti ownedObjects.
+	\item \textbf{List registeredDevices}
+	Method ini berfungsi untuk mendapatkan perangkat yang terregistrasi oleh pengguna dari properti registeredDevices.
+	\item \textbf{List createdObjects}
+	Method ini berfungsi untuk mendapatkan objek yang dibuat oleh pengguna dari properti createdObjects.
+	\item \textbf{assignLicense}
+	Method ini berfungsi untuk menambah atau membuang ``subscriptions'' dari pengguna, serta bisa untuk mengaktifkan dan menonaktifkan paket spesifik terkait dengan langganan.
+	\item \textbf{List licenseDetails}
+	Method ini berfungsi untuk mendapatkan koleksi objek licenseDetails.
+	\item \textbf{checkMemberGroups}
+	Method ini berfungsi untuk memeriksa keanggotaan dalam daftar grup.
+	\item \textbf{getMemberGroups}
+	Method ini mengembalikkan semua grup dimana pengguna menjadi anggota didalamnya.
+	\item \textbf{getMemberObjects}
+	Method ini mengembalikkan semua grup dan peran dimana pengguna menjadi anggota didalamnya.
+	\item \textbf{reminderView}
+	Method ini mengembalikkan daftar pengingat di kalender dengan jam mulai dan berakhirnya secara spesifik.
+	\item \textbf{delta}
+	Method ini berfungsi untuk mendapatkan perubahan tambahan pengguna.
+\end{itemize}
+
+\section{\textit{Outlook Calendar API}}
+\label{sec:outlookcalendar}
 Untuk mengakses dan mendapatkan data yang terdapat di \textit{Outlook.com Calendar}, dibutuhkan \textit{Microsoft Graph API}. \textit{Microsoft Graph} itu sendiri adalah gerbang untuk mendapatkan data-data yang terdapat di \textit{Microsoft} 365 dan \textit{Outlook.com Calendar} termasuk di dalam layanan \textit{Office} 365. \textit{Microsoft Graph API} adalah sebuah \textit{webservice} yang memiliki satu buah \textit{endpoint} untuk memperoleh data yang ada pada \textit{Azure Active Directory}, layanan \textit{Office} 365(\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security}(\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10(\textit{activities} dan \textit{devices}), dan \textit{Education }yaitu menuju \textit{endpoint} ke \textit{https://graph.microsoft.com}. \textit{Microsoft Graph} dapat dipergunakan untuk membangun suatu aplikasi dengan memanfaatkan konteks unik dari masing-masing penggunanya. Aplikasi yang dapat dibangun dengan bantuan dari \textit{Microsoft Graph} bisa jadi memiliki fungsi seperti:
 
 \begin{itemize}
@@ -189,7 +325,7 @@ Setelah mendapatkan \textit{access token}, barulah akses untuk mendapatkan data-
 
 Request di atas akan meminta event yang ada di akun pengguna. Field \{id\} di atas diisi oleh id dari pengguna. Sedangkan field \{userPrincipalName\} bisa diisi dengan nama pengguna. 
 
-\begin{lstlisting}[caption={Contoh respon dari request List events diatas},label={lst:atribute-view},language=json]
+\begin{lstlisting}[caption={Contoh respon dari request List events diatas},label={lst:atribute-view},language=xml]
 
 HTTP/1.1 200 OK
 Content-type: application/json
