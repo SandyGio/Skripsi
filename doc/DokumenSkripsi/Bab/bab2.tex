@@ -6,11 +6,11 @@
 \label{sec:microsoftgraph}
 Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan Microsoft 365 yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi beta, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. Untuk menggunakan fungsi dari \textit{Microsoft Graph API}, dibutuhkan untuk mendaftarkan terlebih dahulu aplikasi yang akan dirancang dan memakai fungsi dari \textit{webservice} dari \textit{Microsoft Graph API} ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Pada saat mendaftarkan aplikasinya, pastikan untuk menyalin dan menyimpan \textit{application ID} yang adalah pengenal unik untuk aplikasi yang didaftarkan, dan juga menyalin \textit{Redirect URL} yang didaftarkan sebagai \textit{URL} yang akan menerima balikan \textit{authentication} dan juga \textit{token} yang akan dikirim oleh \textit{endpoint Azure AD v2.0}, serta menyalin \textit{application secret} yang didapat saat mengklik ``\textit{Generate New Password}'' saat mendaftarkan aplikasi (berlaku jika mendaftarkan aplikasi berjenis \textit{web apps}). \textit{Application ID} yang didapat saat mendaftar aplikasi akan dipakai untuk mengisi nilai dari parameter \textit{client\_id} yang akan diisi saat akan melakukan \textit{request} untuk mendapatkan \textit{authorization\_code}. Setelah mendapatkan \textit{authorization\_code}, maka langkah selanjutnya adalah meminta \textit{access\_token} yang membutuhkan \textit{parameter} \textit{authorization\_code} kepada \textit{field code}, dan juga \textit{application\_secret} yang didapat dari pendaftaran aplikasi sebelumnya yang akan mengisi \textit{field client\_secret}. Response dari request token akan mengembalikkan jangka waktu aktif dari token tersebut dan juga refresh\_token yang akan berguna untuk meminta refresh\_token saat token sudah \textit{expired}.
 
-Setelah mendapatkan access token, barulah layanan untuk mendapatkan data yang tersimpan di Microsoft baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari Microsoft Graph API 
+Setelah mendapatkan \textit{access token}, barulah layanan untuk mendapatkan data yang tersimpan di \textit{Microsoft} baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari \textit{Microsoft Graph API} 
 
 \subsection{User resource type}
-Kelas user ini merepresentasikan Azure AD user account. Kelas ini memiliki properti-properti dan juga method-method:
-\textbf{Properti}
+Kelas user ini merepresentasikan Azure AD user account. Kelas ini memiliki properti-properti dan juga method-method:\\
+\subsubsection{Properti}
 \begin{itemize}
 	\item \textbf{aboutMe}
 	Properti ini bertipe String yang merupakan field untuk mendeskripsikan diri pengguna. 
@@ -59,355 +59,256 @@ Kelas user ini merepresentasikan Azure AD user account. Kelas ini memiliki prope
 	\item \textbf{jobTitle}
 	Properti ini bertipe String yang merupakan jabatan dari pengguna.
 	\item \textbf{legalAgeGroupClassification}
-	Properti ini bertipe String yang merupakan tanda pengenal unik untuk pengguna.
+	Properti ini bertipe String yang merupakan penentu kelompok legalAge dengan dihitung menggunakan properti ageGroup dan juga consentProvidedForMinor. Nilai dari properti ini bisa berupa null, minorWithOutParentalConsent, minorWithParentalConsent, minorNoParentalConsentRequired, notAdult, dan juga adult. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	 \item \textbf{licenseAssignmentStates}
+	Properti ini bertipe koleksi licenseAssignmentState yang merupakan status penugasan lisensi untuk pengguna. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\item \textbf{mail}
+	Properti ini bertipe String yang merupakan alamat SMTP untuk pengguna. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\item \textbf{mailboxSettings}
+	Properti ini bertipe mailboxSettings yang merupakan pengaturan untuk mailbox utama dari pengguna yang masuk.
+	\item \textbf{mailNickname}
+	Properti ini bertipe String yang merupakan alias email dari pengguna. Properti ini harus ditentukan saat pengguna dibuat. 
+	\item \textbf{mobilePhone}
+	Properti ini bertipe String yang merupakan nomor telepon seluler utama pengguna.
+	\item \textbf{mySite}
+	Properti ini bertipe String yang merupakan url untuk situs pribadi pengguna.
+	\item \textbf{officeLocation}
+	Properti ini bertipe String yang merupakan lokasi kantor di tempat bisnis pengguna.
+	\item \textbf{onPremisesDistinguishedName}
+	Properti ini bertipe String yang merupakan nama atau DN Direktori Aktif lokal yang dibedakan. Properti ini hanya diisi untuk pelanggan yang menyinkronkan direktori lokal mereka ke Azure Active Directory melalui Azure AD Connect. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\item \textbf{onPremisesDomainName}
+	Properti ini bertipe String yang merupakan dnsDomainName yang disinkronkan dari direktori lokal. Properti ini hanya diisi untuk pelanggan yang menyinkronkan direktori lokal mereka ke Azure Active Directory melalui Azure AD Connect. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\item \textbf{onPremisesExtensionAttributes}
+	Properti ini bertipe OnPremisesExtensionAttributes yang merupakan extensionAttributes untuk pengguna. Jika properti onPremisesSyncEnabled bernilai \textbf{true}, maka properti ini bersifat \textbf{\textit{Read-Only}}, tetapi jika properti onPremisesSyncEnabled bernilai \textbf{false}, maka properti ini dapat diatur saat membuat atau memperbarui.
+	\item \textbf{onPremisesImmutableId}
+	Properti ini bertipe String yang digunakan untuk mengaitkan akun pengguna Active Directory lokal ke objek Azure AD pengguna. Properti ini ditentukan saat pembuatan akun pengguna baru di Graph.
+	\item \textbf{onPremisesLastSyncDateTime}
+	Properti ini bertipe DateTimeOffset yang memiliki fungsi untuk menunjukkan kapan terakhir kali objek disinkronkan dengan direktori lokal. Properti ini bersifat \textbf{\textit{Read-Only}}. 
+	\item \textbf{onPremisesProvisioningErrors}
+	Properti ini bertipe koleksi onPremisesProvisioningError yang merupakan kesalahan saat menggunakan produk sinkronisasi Microsoft.
+	 \item \textbf{onPremisesSamAccountName}
+	Properti ini bertipe String yang merupakan samAccountName lokal yang disinkronkan dari direktori lokal. Properti ini hanya diisi untuk pelanggan yang menyinkronkan direktori lokal mereka ke Azure Active Directory melalui Azure AD Connect. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\textbf{onPremisesSecurityIdentifier}
+	Properti ini bertipe String yang merupakan pengidentifikasi keamanan lokal (SID) untuk pengguna yang disinkronkan dari lokal ke cloud. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\textbf{onPremisesSyncEnabled}
+	Properti ini bertipe Boolean yang bernilai \textbf{true} jika objek ini disinkronisasi dari direktori lokal dan bernilai \textbf{false} jika objek ini awalnya disinkronisasi dari direktori lokal tetapi tidak lagi disinkronkan. Properti ini juga bisa bernilai \textbf{null} jika objek ini tidak pernah disinkronkan dari direktori lokal. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\item \textbf{onPremisesUserPrincipalName}
+	Properti ini bertipe String yang merupakan userPrincipalName di tempat yang disinkronkan dari direktori lokal. Properti ini hanya diisi untuk pelanggan yang menyinkronkan direktori lokal mereka ke Azure Active Directory melalui Azure AD Connect. Properti ini bersifat \textbf{\textit{Read-Only}}.
+	\item \textbf{otherMails}
+	Properti ini bertipe String yang merupakan daftar dari alamat email tambahan untuk pengguna.
+	\item \textbf{passwordPolicies}
+	Properti ini bertipe String yang menentukan kebijakan kata sandi untuk pengguna. 
+	\item \textbf{passwordProfile}
+	Properti ini bertipe passwordProfile yang menentukan profil kata sandi untuk pengguna. Profil ini berisi kata sandi dari pengguna. Properti ini diperlukan saat pengguna dibuat dan kata sandi harus memenuhi persyaratan yang ditentukan oleh properti passswordPolicies.
+	\item \textbf{pastProjects}
+	Properti ini bertipe koleksi String yang merupakan daftar proyek yang sudah lalu dari pengguna.
+	\item \textbf{postalCode}
+	Properti ini bertipe String yang merupakan kode pos dari pengguna.
+	\item \textbf{preferredDataLocation}
+	Properti ini bertipe String yang merupakan lokasi data yang dipilih oleh pengguna.
+	 \item \textbf{preferredLanguage}
+	Properti ini bertipe String yang merupakan bahasa yang dipilih oleh pengguna.
+	\item \textbf{preferredName}
+	Properti ini bertipe String yang merupakan nama yang dipilih oleh pengguna.
+	\item \textbf{provisionedPlans}
+	Properti ini bertipe koleksi provisionedPlan yang merupakan plan yang disediakan untuk pengguna. Properti ini bersifat \textbf{\textit{Read-Only}} dan tidak bisa bernilai \textbf{null}.
+	\item \textbf{proxyAddresses}
+	Properti ini bertipe koleksi String.
+	\item \textbf{responsibilities}
+	Properti ini bertipe koleksi String yang merupakan daftar dari tanggung jawab pengguna.
+	\item \textbf{schools}
+	Properti ini bertipe koleksi String yang merupakan daftar dari instansi pendidikan yang pernah dihadiri oleh pengguna.
+	\item \textbf{showInAddressList}
+	Properti ini bertipe Boolean yang bernilai \textbf{true} jika daftar alamat Outlook global harus berisi pengguna ini, dan bernilai \textbf{false} jika tidak. Jika tidak diberikan nilai, maka akan bernilai \textbf{true}. 
+	\item \textbf{skills}
+	Properti ini bertipe koleksi String yang merupakan daftar dari kemampuan pengguna. 
+	\item \textbf{state}
+	Properti ini bertipe String yang merupakan negara atau provinsi yang terdapat di alamat pengguna. 
+	\item \textbf{streetAddress}
+	Properti ini bertipe String yang merupakan alamat dari tempat bisnis pengguna.
+	\item \textbf{surname}
+	Properti ini bertipe String yang merupakan nama keluarga atau nama belakang dari pengguna.  
+	\item \textbf{usageLocation}
+	Properti ini bertipe String yang merupakan 2 huruf dari kode negara pengguna yang digunakan untuk memeriksa ketersediaan layanan di negara pengguna. 
+	\item \textbf{userPrincipalName}
+	Properti ini bertipe String yang merupakan nama utama dari pengguna yang memakai standar internet RFC 822.
+	\item \textbf{userType}
+	Properti ini bertipe String yang digunakan untuk mengklasifikasi tipe pengguna, seperti contohnya ``Member'' dan ``Guest''.	 
 \end{itemize}
 
-\textbf{Method}
+\subsubsection{Method}
+Untuk mengakses setiap \textit{method} yang akan dijabarkan, perlu diketahui bahwa untuk mengirimkan \textit{request}, diperlukan \textit{header} yang berisikan \textit{Authorization} yang diisi dengan nilai dari \textit{Access\_token} yang didapat dari proses sebelumnya. \textit{Endpoint} utama untuk mengirimkan request adalah ke \textit{https://graph.microsoft.com/v1.0} lalu dilanjutkan dengan \textit{endpoint} fungsinya masing-masing yang akan diberikan dan dijelaskan. 
+
 \begin{itemize}
 	\item \textbf{List users}
-	Method ini berfungsi untuk mendapatkan daftar dari objek pengguna. 
+	Method ini berfungsi untuk mendapatkan daftar dari objek pengguna. Method ini di\textit{request} dengan cara mengirim \textit{request} \textit{get} kepada \textit{endpoint} \textit{/users} dengan \textit{headers} berisikan otorisasi yang diisi dengan nilai dari \textit{access token} dan juga \textit{Content-Type} yang bernilai \textit{application/json}. Request untuk method ini juga bisa diisi dengan parameter \textit{\$select} untuk mengembalikan \textit{field} yang hanya diisi di dalam parameter \$select tersebut, dan dalam parameter itu, tiap field dipisah dengan tanda koma (,) contohnya \textit{https://graph.microsoft.com/v1.0/users?\$select=displayName,givenName,postalCode}.  \textit{Respons} dari method ini akan mengembalikan \textit{json} dari objek pengguna. 
 	\item \textbf{Create user}
-	Method ini berfungsi untuk membuat pengguna. 
+	Method ini berfungsi untuk membuat pengguna. Method ini di\textit{request} dengan cara mengirimkan \textit{request} \textit{post} ke \textit{endpoint} \textit{/users} yang memiliki headers otorisasi yang diisi dengan \textit{access token} dan juga \textit{Content-Type} yang diisi dengan \textit{application/json} dan juga \textit{body} yang berisi parameter untuk membuat objek pengguna. Parameter yang wajib diisi adalah accountEnabled, displayName, onPremisesImmutableId, mailNickname, passwordProfile, dam juga userPrincipalName.  
 	\item \textbf{Get user}
-	Method ini berfungsi untuk membaca properti dan juga hubungan pengguna. 
+	Method ini berfungsi untuk membaca properti dan juga hubungan pengguna. Method ini direquest dengan cara mengirim \textit{get request} dan dikirimkan ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}} atau bisa juga dengan menggunakan \textit{/me} dengan headers yang sama dengan method-method sebelumnya dan juga bisa menggunakan parameter \textit{\$select} seperti method sebelumnya.  
 	\item \textbf{Update user}
-	Method ini berfungsi untuk memperbaharui pengguna.
+	Method ini berfungsi untuk memperbaharui pengguna. Method ini direquest dengan cara mengirimkan \textit{patch request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}}. Memiliki request headers seperti method lainnya dan juga body diisi dengan \textit{field} yang akan diubah nilainya. 
 	\item \textbf{Delete user}
-	Method ini berfungsi untuk menghapus pengguna.
+	Method ini berfungsi untuk menghapus pengguna. Method ini diakses dengan mengirimkan \textit{delete request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}}. 
 	\item \textbf{List messages}
-	Method ini berfungsi untuk mendapatkan semua pesan di kotak surat pengguna yang masuk.
+	Method ini berfungsi untuk mendapatkan semua pesan di kotak surat pengguna yang masuk. Method ini diakses dengan cara mengirimkan \textit{get request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/messages}. 
 	\item \textbf{Create message}
-	Method ini berfungsi untuk membuat pesan baru untuk dimasukkan ke dalam koleksi pesan.
+	Method ini berfungsi untuk membuat pesan baru untuk dimasukkan ke dalam koleksi pesan. Method ini dapat dijalankan dengan cara mengirimkan \textit{post request} ke \textit{endpoint} \textit{/users/\{id|userPrincipalName\}/messages}. \textit{Body} dari \textit{request} ini akan berisi \textit{json} yang merepresentasikan objek \textit{message}. 
 	\item \textbf{List mailFolders}
-	Method ini berfungsi untuk mendapatkan folder-folder surat dibawah folder root dari pengguna yang masuk.
+	Method ini berfungsi untuk mendapatkan folder-folder surat dibawah folder \textit{root} dari pengguna yang masuk. Method ini dijalankan dengan cara mengirimkan \textit{get request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/mailFolders}.
 	\item \textbf{Create mailFolder}
-	Method ini berfungsi untuk membuat mailFolder ke dalam koleksi mailFolders.
+	Method ini berfungsi untuk membuat \textit{mailFolder} ke dalam koleksi \textit{mailFolders}. Method ini dijalankan dengan cara mengirimkan \textit{post request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/mailFolders}. 
 	\item \textbf{sendMail}
-	Method ini berfungsi untuk mengirim pesan.
+	Method ini berfungsi untuk mengirim pesan. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/sendMail}. Body dari request ini berisi \textit{message} dan juga sebuah \textit{Boolean} untuk attribut \textit{saveToSentItems}.
 	\item \textbf{List events}
-	Method ini berfungsi untuk mendapatkan daftar objek event di dalam kotak pesan dari pengguna.
+	Method ini berfungsi untuk mendapatkan daftar objek event di dalam kotak pesan dari pengguna. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/events}. \textit{Headers} pada method ini akan berisi otorisasi yang diisi nilai dari \textit{access token} sebagai \textit{header} wajib. Lalu ada juga \textit{header} pilihan yaitu \textit{outlook.timezone} dan juga \textit{outlook.body-content-type}. Pada \textit{header timezone}, jika tidak diisi, maka nilai awal yang dikembalikan adalah dalam \textit{UTC}. Request ini juga bisa difilter dengan menggunakan parameter \textit{\$select}. 
 	\item \textbf{Create event}
-	Method ini berfungsi untuk membuat event ke dalam koleksi dari event-event.
+	Method ini berfungsi untuk membuat event ke dalam koleksi dari event-event. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/events}. \textit{Body} dari \textit{request} ini akan berisi \textit{json} yang merepresentasikan objek \textit{event}.
 	\item \textbf{List calendars}
-	Method ini berfungsi untuk mendapatkan daftar objek calendar.
+	Method ini berfungsi untuk mendapatkan daftar objek calendar. Method ini dijalankan dengan cara mengirimkan \textit{get request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/calendars}. 
 	\item \textbf{Create calendar}
-	Method ini berfungsi untuk membuat objek calendar baru yang akan dikirim ke dalam koleksi objek calendars.
+	Method ini berfungsi untuk membuat objek calendar baru yang akan dikirim ke dalam koleksi objek calendars. Method ini akan dijalankan dengan cara mengirimkan \textit{post request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/calendars} dengan \textit{body json} yang merepresentasikan objek \textit{calendar}.
 	\item \textbf{List calendarGroups}
-	Method ini berfungsi untuk mendapatkan daftar objek calendarGroup.
+	Method ini berfungsi untuk mendapatkan daftar objek calendarGroup. Method ini dijalankan dengan cara mengirimkan post request ke endpoint \textit{/users/\{id | userPrincipalName\}/calendarGroups}.                                                                                                                                                                                      
 	\item \textbf{Create calendarGroup}
-	Method ini berfungsi untuk membuat objek calendarGroup baru kedalam koleksi calendarGroup.
+	Method ini berfungsi untuk membuat objek calendarGroup baru kedalam koleksi calendarGroup. Method ini dijalankan dengan cara mengirimkan \textit{post request} ke \textit{endopoint} \textit{/users/\{id | userPrincipalName\}/calendarGroups} dengan \textit{body} berupa \textit{json} yang merepresentasikan objek \textit{calendarGroup}.
 	\item \textbf{List calendarView}
-	Method ini berfungsi untuk mendapatkan koleksi objek event.
+	Method ini berfungsi untuk mendapatkan koleksi objek event. Method ini dijalankan dengan cara mengirimkan get request kepada endpoint \textit{/users/\{id | userPrincipalName\}/calendarView?startDateTime=\{start\_datetime\}\&endDateTime=\{end\_datetime\}}. Terdapat tambahan parameter yaitu \textit{startTime} dan \textit{endTime} yang akan menjadi acuan mulai dari kapan dan sampai kapan \textit{calendarView} yang akan diambil. 
 	\item \textbf{List contacs}
-	Method ini berfungsi untuk mendapatkan daftar kontak dari folder Contacts pengguna yang masuk.
+	Method ini berfungsi untuk mendapatkan daftar kontak dari folder Contacts pengguna yang masuk. Method ini dijalankan dengan cara mengirimkan \textit{get requerst} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/contacts}. Method ini juga bisa menerima tambahan parameter \textit{\$filter} yang berfungsi untuk memfilter balikan yang didapat. 
 	\item \textbf{Create contact}
-	Method ini berfungsi untuk membuat kontak baru untuk dimasukkan ke dalam koleksi kontak.
+	Method ini berfungsi untuk membuat kontak baru untuk dimasukkan ke dalam koleksi kontak. Method ini dijalankan dengan cara mengirimkan \textit{post request} ke \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/contacts}. dan memiliki \textit{body} berupa \textit{json} yang merepresentasikan objek \textit{contact}. 
 	\item \textbf{List contactFolders}
-	Method ini berfungsi untuk mendapatkan koleksi folder kontak dari pengguna yang masuk.
+	Method ini berfungsi untuk mendapatkan koleksi folder kontak dari pengguna yang masuk. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/contactFolders}. 
 	\item \textbf{Create contactFolder}
-	Method ini berfungsi untuk membuat folder kontak.
+	Method ini berfungsi untuk membuat folder kontak. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/contactFolders} dengan memiliki \textit{body} berupa \textit{json} yang merepresentasikan objek \textit{contactFolder}. 
 	\item \textbf{List directReports}
-	Method ini berfungsi untuk mendapatkan pengguna dan kontak yang melaporkan pengguna dari properti directReports.
+	Method ini berfungsi untuk mendapatkan pengguna dan kontak yang melaporkan pengguna dari properti directReports. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/directReports}.
 	\item \textbf{List manager}
-	Method ini berfungsi untuk mendapatkan manager pengguna dari properti manager.
+	Method ini berfungsi untuk mendapatkan manager pengguna dari properti manager. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/manager}. Method ini akan mengembalikan nilai berupa \textit{json} objek dari pengguna yang menjadi managernya. 
 	\item \textbf{List memberOf}
-	Method ini berfungsi untuk mendapatkan kelompok dan peran dari anggota langsung pengguna lewat properti memberOf.
+	Method ini berfungsi untuk mendapatkan kelompok dan peran dari anggota langsung pengguna lewat properti memberOf. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/memberOf}.
 	\item \textbf{List transitive memberOf}
-	Method ini berfungsi untuk mendapatkan kelompok dan peran dari pengguna lewat properti memberOf, tetapi method ini bersifat transitif dan mencakup grup-grup dimana pengguna menjadi anggota.
+	Method ini berfungsi untuk mendapatkan kelompok dan peran dari pengguna lewat properti memberOf, tetapi method ini bersifat transitif dan mencakup grup-grup dimana pengguna menjadi anggota. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/transitiveMemberOf}.
 	\item \textbf{List ownedDevices}
-	Method ini berfungsi untuk mendapatkan perangkat yang dimiliki oleh pengguna dari properti ownedDevices.
+	Method ini berfungsi untuk mendapatkan perangkat yang dimiliki oleh pengguna dari properti ownedDevices. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/ownedDevices}.
 	\item \textbf{List ownedObjects}
-	Method ini berfungsi untuk mendapatkan objek yang dimiliki pengguna yang didapat dari properti ownedObjects.
+	Method ini berfungsi untuk mendapatkan objek yang dimiliki pengguna yang didapat dari properti ownedObjects. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/ownedObjects}.
 	\item \textbf{List registeredDevices}
-	Method ini berfungsi untuk mendapatkan perangkat yang terregistrasi oleh pengguna dari properti registeredDevices.
+	Method ini berfungsi untuk mendapatkan perangkat yang terdaftar oleh pengguna dari properti registeredDevices. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/registeredDevices}.
 	\item \textbf{List createdObjects}
-	Method ini berfungsi untuk mendapatkan objek yang dibuat oleh pengguna dari properti createdObjects.
+	Method ini berfungsi untuk mendapatkan objek yang dibuat oleh pengguna dari properti createdObjects. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/createdObjects}.
 	\item \textbf{assignLicense}
-	Method ini berfungsi untuk menambah atau membuang ``subscriptions'' dari pengguna, serta bisa untuk mengaktifkan dan menonaktifkan paket spesifik terkait dengan langganan.
+	Method ini berfungsi untuk menambah atau membuang ``subscriptions'' dari pengguna, serta bisa untuk mengaktifkan dan menonaktifkan paket spesifik terkait dengan langganan. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/assignLicense} dan \textit{body} dari \textit{request} ini bisa diisi dengan parameter addLicenses yang bertipe AssignedLicense dan juga parameter removeLicenses yang diisi dengan guid dari lisensi yang sudah aktif sekarang.
 	\item \textbf{List licenseDetails}
-	Method ini berfungsi untuk mendapatkan koleksi objek licenseDetails.
+	Method ini berfungsi untuk mendapatkan koleksi objek licenseDetails. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id\}/licenseDetails}.
 	\item \textbf{checkMemberGroups}
-	Method ini berfungsi untuk memeriksa keanggotaan dalam daftar grup.
+	Method ini berfungsi untuk memeriksa keanggotaan dalam daftar grup. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/checkMemberGroups} dan \textit{body} yang dibutuhkan \textit{request} ini adalah groupIds yang merupakan \textit{id} dari grup yang akan dicari.
 	\item \textbf{getMemberGroups}
-	Method ini mengembalikkan semua grup dimana pengguna menjadi anggota didalamnya.
+	Method ini mengembalikkan semua grup dimana pengguna menjadi anggota didalamnya. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/getMemberGroups} dan memerlukan \textit{body} \textit{request} yaitu securityEnabledOnly yang bertipe \textit{Boolean} yang bernilai \textit{\textbf{true}} jika hanya \textit{security groups} dari pengguna yang terdaftar sebagai anggota yang dikembalikan, dan bernilai \textit{\textbf{false}} jika harus mengembalikan semua grup yang memiliki pengguna sebagai anggotanya.
 	\item \textbf{getMemberObjects}
-	Method ini mengembalikkan semua grup dan peran dimana pengguna menjadi anggota didalamnya.
+	Method ini mengembalikkan semua grup dan peran dimana pengguna menjadi anggota didalamnya. Method ini dijalankan dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/getMemberObjects} dan memerlukan \textit{body} \textit{request} yaitu securityEnabledOnly seperti yang sudah dijelaskan di method sebelumnya.
 	\item \textbf{reminderView}
-	Method ini mengembalikkan daftar pengingat di kalender dengan jam mulai dan berakhirnya secara spesifik.
+	Method ini mengembalikkan daftar pengingat di kalender dengan jam mulai dan berakhirnya secara spesifik. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/reminderView} yang memerlukan parameter tambahan yaitu \textit{startDateTime} dan juga \textit{endDateTime} yang keduanya bertipe \textit{String}.
 	\item \textbf{delta}
-	Method ini berfungsi untuk mendapatkan perubahan tambahan pengguna.
+	Method ini berfungsi untuk mendapatkan perubahan tambahan pengguna. Method ini dijalankan dengan cara mengirimkan \textit{get request} kepada \textit{endpoint} \textit{/users/delta}.
 \end{itemize}
 
-\section{\textit{Outlook Calendar API}}
-\label{sec:outlookcalendar}
-Untuk mengakses dan mendapatkan data yang terdapat di \textit{Outlook.com Calendar}, dibutuhkan \textit{Microsoft Graph API}. \textit{Microsoft Graph} itu sendiri adalah gerbang untuk mendapatkan data-data yang terdapat di \textit{Microsoft} 365 dan \textit{Outlook.com Calendar} termasuk di dalam layanan \textit{Office} 365. \textit{Microsoft Graph API} adalah sebuah \textit{webservice} yang memiliki satu buah \textit{endpoint} untuk memperoleh data yang ada pada \textit{Azure Active Directory}, layanan \textit{Office} 365(\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security}(\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10(\textit{activities} dan \textit{devices}), dan \textit{Education }yaitu menuju \textit{endpoint} ke \textit{https://graph.microsoft.com}. \textit{Microsoft Graph} dapat dipergunakan untuk membangun suatu aplikasi dengan memanfaatkan konteks unik dari masing-masing penggunanya. Aplikasi yang dapat dibangun dengan bantuan dari \textit{Microsoft Graph} bisa jadi memiliki fungsi seperti:
+Seluruh \textit{endpoint} \textit{/users/\{id | userPrincipalName\}} bisa diganti dengan \textit{/me}. 
 
+\subsection{Event resource type}
+Kelas \textit{event} ini untuk merepresentasikan objek \textit{event} dalam kalender pengguna atau dalam kalender \textit{default} dari grup \textit{Office 365}. Dalam kelas ini juga memiliki properti-properti dan juga method-method:
+\subsubsection{Properti}
 \begin{itemize}
-\item Melihat pertemuan/ \textit{meeting} pengguna yang berikutnya sudah terjadwalkan serta membantu pengguna untuk mempersiapkan dengan memberikan informasi dari profil peserta. 
-\item Melihat kepada kalender pengguna sehingga bisa merekomendasikan waktu yang tepat untuk pertemuan/ \textit{meeting} selanjutnya. 
-\item Mengubah file \textit{Excel} yang berada di \textit{OneDrive} pengguna secara \textit{real-time} dan bisa melalui ponsel pengguna.
-\item Memantau perubahan yang ada di kalender pengguna sehingga bisa memngirimkan peringatan jika pengguna menghabiskan terlalu banyak waktu untuk melakukan rapat, serta bisa juga merekomendasikan \textit{event-event} yang bisa didelegasikan atau dilewatkan berdasarkan dari seberapa relevannya \textit{event} itu kepada pengguna.
-\item Membantu pengguna untuk bisa memilah informasi yang ditujukan untuk pekerjaan dengan informasi yang bersifat pribadi. Misalkan dengan pengelompokkan gambar-gambar pribadi yang masuk ke \textit{OneDrive} pribadi serta memasukkan gambar-gambar pekerjaan ke \textit{OneDrive for Business} pengguna.     
-\end{itemize} 
+	\item \textbf{attendees}
+	Properti ini menunjukkan daftar dari hadirin dari suatu event. Properti ini bertipe koleksi attendee. 
+	\item \textbf{body}
+	Properti ini merupakan isi pesan terkait dengan acara. Bisa berbentuk HTML atau berupa teks. Properti ini bertipe itemBody. 
+	\item \textbf{bodyPreview}
+	Properti ini bertipe \textit{String} yang merupakan pratinjau pesan terkait acara. 
+	\item \textbf{categories}
+	Properti ini merupakan daftar kategori yang terkait dengan acara. Properti ini bertipe koleksi \textit{String}.
+	\item \textbf{changeKey}
+	Properti ini bertipe \textit{String} yang merupakan pengidentifikasi versi dari objek acara. Setiap kali acara diubah, properti ini juga berubah. 
+	\item \textbf{createdDateTime}
+	Properti ini menunjukkan tanggal dari acara dibuat. Properti ini bertipe \textit{DateTimeOffset}. 
+	\item \textbf{end}
+	Properti ini bertipe \textit{dateTimeTimeZone} yang berfungsi untuk menunjukkan tanggal, waktu, dan zona waktu acara akan berakhir. 
+	\item \textbf{hasAttachments}
+	Properti ini bertipe \textit{Boolean} yang akan menunjukkan ada atau tidaknya lampiran. Nilai \textit{true} artinya ada lampiran dan \textit{false} untuk tidak adanya lampiran. 
+	\item \textbf{iCalUId}
+	Properti ini merupakan identifikasi unik yang dibagikan oleh semua instansi yang tergabung dalam acara di berbagai kalender. Properti ini bertipe \textit{String} dan juga bersifat \textit{Read-Only}. 
+	\item \textbf{id}
+	Properti ini bertipe \textit{String} dan juga bersifat \textit{Read-Only}.
+	\item \textbf{importance}
+	Properti ini bertipe \textit{importance} yang menunjukkan pentingnya acara. Nilai dari properti ini bisa berupa \textit{low}, \textit{normal}, dan juga \textit{high}. 
+	\item \textbf{isAllDay}
+	Properti ini untuk menunjukkan apakah acara ini berjalan seharian atau tidak. Bertipe \textit{Boolean} yang akan bernilai \textit{true} jika acaranya berlangsung seharian, dan bernilai \textit{false} jika tidak. 
+	\item \textbf{isCancelled}
+	Properti ini untuk menunjukkan apakah acara ini dibatalkan atau tidak. Bertipe \textit{Boolean} yang bernilai \textit{true} jika dibatalkan dan \textit{false} jika tidak dibatalkan. 
+	\item \textbf{isOrganizer}
+	Properti ini bertipe \textit{Boolean} yang menunjukkan nilai jika pengirim pesan adalah penyelenggara dari acara atau bukan. Bernilai \textit{true} jika pengirim pesan adalah penyelenggara acara dan \textit{false} untuk bukan penyelenggara. 
+	\item \textbf{isReminderOn}
+	Properti ini untuk mengetahui status dari pengingat bagi pengguna dari acara. Bertipe \textit{Boolean} yang akan bernilai \textit{true} jika ada peringatan yang diatur untuk mengingatkan kepada pengguna, dan bernilai \textit{false} jika tidak ada. 
+	\item \textbf{lastModifiedDateTime}
+	Properti ini untuk menunjukkan kapan terakhir data acara dimodifikasi. Properti ini bertipe \textit{DateTimeOffset}. 
+	\item \textbf{location}
+	Properti ini menunjukkan lokasi dari acara yang bertipe \textit{location}. 
+	\item \textbf{locations}
+	Properti ini berisi kumpulan dari lokasi acara. Properti ini bertipe koleksi \textit{location}.
+	\item \textbf{onlineMeetingUrl}
+	Properti ini berisi \textit{URL} untuk melakukan rapat secara \textit{online} dan bertipe \textit{String}. 
+	\item \textbf{organizer}
+	Properti ini untuk menunjukkan penyelenggara dari acara. Properti ini bertipe \textit{recipient}. 
+	\item \textbf{originalEndTimeZone}
+	Properti ini menunjukkan zona waktu acara berakhir pada awal acara ini dibuat. Properti ini bertipe \textit{String}. 
+	\item \textbf{originalStart}
+	Properti ini merupakan informasi mulainya acara sejak awal acara ini dibuat. Properti ini bertipe \textit{DateTimeOffset}.  
+	\item \textbf{originalStartTimeZone}
+	Properti ini menunjukkan zona waktu acara dimulai sejak acara ini dibentuk. Properti ini bertipe \textit{String}. 
+	\item \textbf{recurrence}
+	Properti ini menunjukkan pola pengulangan untuk acara. Properti ini bertipe \textit{patternedRecurrence}. 
+	\item \textbf{reminderMinutesBeforeStart}
+	Properti ini menunjukkan berapa menit peringatan pengingat sebelum acara dimulai. Properti ini bertipe \textit{Int32}. 
+	\item \textbf{responseRequested}
+	Properti ini menunjukkan status jika pengirim menginginkan adanya tanggapan dari acara. Bernilai \textit{true} jika pengirim menginginkan adanya tanggapan, dan bernilai \textit{false} jika tidak. Properti ini bertipe \textit{Boolean}.  
+	\item \textbf{responseStatus}
+	Properti ini menunjukkan jenis tanggapan yang dikirim sebagai \textit{respon} terhadap pesan acara. Properti ini bertipe \textit{responseStatus}. 
+	\item \textbf{sensitivity}
+	Properti ini memiliki kemungkinan nilai yaitu \textit{normal}, \textit{personal}, \textit{private}, atau \textit{confidential}. Properti ini bertipe \textit{sensitivity}. 
+	\item \textbf{seriesMasterId}
+	Properti ini adalah \textit{ID} untuk \textit{item master seri} berulang jika acara ini merupakan dari seri berulang. Properti ini bertipe \textit{String}.  
+	\item \textbf{showAs}
+	Properti ini bertipe \textit{freeBusyStatus} yang memiliki kemungkinan nilai yaitu \textit{free}, \textit{tentative}, \textit{busy}, \textit{oof}, \textit{workingElsewhere}, dan \textit{unknown}. 
+	\item \textbf{start}
+	Properti ini menunjukkan tanggal, waktu, dan zona waktu acara dimulai. Bertipe \textit{dateTimeTimeZone}. 
+	\item \textbf{subject}
+	Properti ini menyimpan subyek dari acara. Properti ini bertipe \textit{String}. 
+	\item \textbf{type}
+	Properti ini bertipe \textit{eventType} yang memiliki kemungkinan nilai yaitu \textit{singleInstance}, \textit{occurrence}, \textit{exception}, dan \textit{seriesMaster}. Properti ini bersifat \textit{Read-Only}. 
+	\item \textbf{webLink}
+	Properti ini berisi \textit{URL} yang berfungsi untuk membuka acara ini di \textit{Outlook Web App}. Properti ini bertipe \textit{String}. 
+\end{itemize}
 
-Permintaan yang populer diminta pada \textit{Microsoft Graph API} antara lain: 
-\begin{center}
-\begin{tabular}{|p{2cm}|p{15cm}|}
- \hline \textbf{Operation} & \textbf{URL} \\ \hline 
- GET\newline my profile & https://graph.microsoft.com/v1.0/me \\ \hline
- GET\newline my files & https://graph.microsoft.com/v1.0/me/drive/root/children \\ \hline 
- GET\newline my photo & https://graph.microsoft.com/v1.0/me/photo/\$value \\ \hline
- GET\newline my mail & https://graph.microsoft.com/v1.0/me/messages \\ \hline 
- GET\newline my high importance email & https://graph.microsoft.com/v1.0/me/messages?\$filter=importance\%20eq\%20'high' \\ \hline 
- GET\newline my calendar events & https://graph.microsoft.com/v1.0/me/events \\ \hline 
- GET\newline my manager & https://graph.microsoft.com/v1.0/me/manager \\ \hline 
- GET\newline last user to modify file foo.txt & https://graph.microsoft.com/v1.0/me/drive/root/children/foo.txt/lastModifiedByUser \\ \hline 
- GET\newline Office365 groups I'm member of & https://graph.microsoft.com/v1.0/me/memberOf/\$/microsoft.graph.group?\$filter=\newline groupTypes/any(a:a\%20eq\%20'unified') \\ \hline 
- GET\newline users in my organization & https://graph.microsoft.com/v1.0/users \\ \hline 
- GET\newline groups in my organization & https://graph.microsoft.com/v1.0/groups \\ \hline 
- GET\newline people related to me & https://graph.microsoft.com/v1.0/me/people \\ \hline
- GET\newline items trending around me & https://graph.microsoft.com/beta/me/insights/trending \\ \hline
- GET\newline my notes & https://graph.microsoft.com/v1.0/me/onenote/notebooks \\ \hline
-\end{tabular}
-\end{center}
-
-Dari \textit{Microsoft Graph} ini, barulah dapat mengakses \textit{Outlook.com Calendar API}. Cara untuk menggunakan membangun aplikasi menggunakan \textit{API} dari \textit{Microsoft} yang tersedia adalah:
-\begin{description}
-\item [Mendaftarkan aplikasi yang akan dibuat ke Azure AD.]\hfill \\ Untuk Mendaftarkan aplikasi yang akan dibuat, ada beberapa langkah yaitu:
-
-\begin{enumerate}
-	\item Masuk ke \textit{Microsoft App Registration Portal} dengan menggunakan akun \textit{Microsoft} atau akun sekolah atau akun kantor. 
-	\item Pilih dan klik tombol bertuliskan ``\textit{Add an app}''.
-	\item Masukkan nama untuk aplikasi yang akan dibuat dan klik tombol ``\textit{Create application}''.
-	\item Salin ``\textit{application ID}''. \textit{Application ID} ini nantinya dipergunakan untuk mengkonfigurasikan aplikasinya. 
-	\item Dibawah bagian ``\textit{Platforms}'', pilih tombol ``\textit{Add Platforms}'' dan pilihlah \textit{platform} yang sesuai untuk aplikasi. 
-	
-		\subitem \textbf{Untuk \textit{Native} atau \textit{Mobile apps}:}
-		\begin{enumerate}
-		\item Pilih ``\textit{Native Application}''.
-		\item Salin bagian ``\textit{Built-in redirect URI}''. Hal ini diperlukan untuk menkonfigurasi aplikasinya. \textit{Redirect URI} ini disediakan identik untuk aplikasinya yang gunanya untuk memastikan bahwa pesan yang dikirim ke \textit{URI} hanya dikirim ke aplikasi itu. 
-		\end{enumerate}	
-		
-		\subitem \textbf{Untuk \textit{web apps}}
-		\begin{enumerate}
-		\item Pilih ``\textit{Web}''.
-		\item \textit{Check} kotak dengan tulisan ``\textit{Allow Implicit Flow}'' jika ingin mengaktifkan \textit{OpenID Connect Hybrid} dan \textit{implicit flow}. \textit{Implicit Flow} memungkinkan aplikasi untuk menerima \textit{sign-in info} dan juga \textit{access token}, sedangkan nilai \textit{default} dari bagian ini adalah \textit{hybrid flow} dimana \textit{flow} ini memungkinkan aplikasi untuk menerima \textit{sign-in info} yaitu \textit{token id}, dan juga \textit{artifacts} atau dalam kasus ini adalah kode otorisasi yang digunakan aplikasi untuk mendapatkan \textit{access token}.
-		\item Tentukan \textit{redirect URI} yang adalah bagian dari aplikasi yang dihubungi oleh \textit{endpoint} dari \textit{Azure AD} 2.0 saat memproses permintaan otentikasi. 
-		\item Dibawah ``\textit{Application Secrets}'', pilihlah ``\textit{Generate New Password}'' dan salinlah \textit{app secret} yang terdapat di \textit{New Password generated dialog box}. Perlu diketahui bahwa salinlah \textit{app secret} sebelum \textit{New password generated dialog} ditutup karena setelah ditutup, \textit{app secret} tidak dapat diambil lagi. 
-		\end{enumerate}
-	\item Pilihlah ``\textit{Save}''.			 
-	\end{enumerate}
-	
-Tabel berikut menunjukkan \textit{properties} yang perlu dikonfigurasi dan disalin untuk berbagai jenis aplikasi. Nilai \textit{assigned.} berarti harus menggunakan nilai yang diberikan oleh \textit{Azure AD}. 
-
-\item [Mendapatkan otorisasi.]\hfill \\Langkah pertama untuk mendapatkan otorisasi adalah dengan cara meminta kepada \textit{Azure AD} 2.0 \textbf{/authorize} \textit{endpoint}. Azure ID akan mengecek pengguna yang masuk dan memastikan persetujuan pengguna untuk izin permintaan aplikasi tersebut. Berikut contoh \textit{request} untuk mendapatkan \textit{authorize code}:
-
-\begin{center}
-	\begin{tabular}{|p{15cm}|}
-	\hline
-	https://login.microsoftonline.com/\{tenant\}/oauth2/v2.0/authorize?\newline
-	client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\newline
-	\&response\_type=code\newline
-	\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\newline
-	\&response\_mode=query\newline
-	\&scope=offline\_access\%20user.read\%20mail.read\newline
-	\&state=12345\\
-	\hline
-	\end{tabular}
-\end{center}
-
-\begin{center}
-	\begin{tabular}{|p{2.5cm}|p{2.5cm}|p{10cm}|}
-		\hline
-		\textbf{Parameter}& &\textbf{Deskripsi}\\ \hline
-		\textit{tenant} & \textit{required} & Nilai yang dipakai untuk mengontrol siapa yang bisa mengakses masuk ke aplikasi. Nilainya bisa diisi dengan akun \textit{Microsoft}. \\ \hline
-		 \textit{client\_id} & \textit{required} & Diisi dengan \textit{Application ID} yang diberikan oleh portal registrasi (\textit{apps.dev.microsoft.com}).\\ \hline
-		 \textit{response\_type} & \textit{required} & Diisi dengan nilai ``\textit{code}'' untuk menjalankan kode otorisasi.\\ \hline
-		 \textit{redirect\_uri} & \textit{recommended} & Diisi dengan redirect uri yang nantinya akan menerima respon dari otentikasi yang akan diterima oleh aplikasi. Nilai disini harus sama dengan yang sudah diisi di portal registrasi kecuali \textit{URL} yang disandikan. Untuk \textit{native} dan \textit{mobile apps}, ada nilai default untuk \textit{redirect uri} yaitu menuju ke \textit{https://login.microsoftonline.com/common/oauth2/nativeclient}.\\ \hline
-		 \textit{scope} & \textit{required} & Diisi dengan hak akses pada \textit{Microsoft Graph} yang akan diberikan pada pengguna aplikasi. \\ \hline
-		 \textit{response\_mode} & \textit{recommended} & Nilai yang akan menentukan metode kembalian \textit{token} yang akan dihasilkan kembali ke aplikasi. Terdapat 2 nilai yaitu ``\textit{query}'' dan ``\textit{form\_post}''. \\ \hline
-		 \textit{state} & \textit{recommended} & Nilai yang dipasang untuk mencegah serangan \textit{cross-site request}. Parameter ini juga bisa digunakan untuk menyandikan informasi tentang keadaan pengguna di aplikasi sebelum melakukan permintaan otentikasi.\\
-		 \hline		 
-	\end{tabular}
-\end{center}
-
-Setelah melakukan request untuk mendapatkan kode otentikasi, maka akan ditujukan ke halaman yang seperti ini. 
-
-Bentuk dari respon otentikasi seperti:
-
-\begin{center}
-	\begin{tabular}{|p{15cm}|}
-		\hline
-		GET https://localhost/myapp/?\newline
-		code=M0ab92efe-b6fd-f08-87dc-2c6500a7f84d\newline
-		\&state=12345\\ \hline
-	\end{tabular}
-\end{center}
-
-\begin{center}
-	\begin{tabular}{|p{3cm}|p{12cm}|}
-		\hline
-		\textbf{Parameter}&\textbf{Deskripsi}\\ \hline
-		\textit{code} & Kode otorisasi yang diminta aplikasi. Dengan kode otorisasi ini, aplikasi bisa meminta \textit{access token} untuk mendapatkan data. Kode otorisasi memiliki umur yang singkat yaitu akan \textit{expired} setelah 10 menit. \\ \hline
-		 \textit{state} & Nilai yang akan bernilai sama persis seperti saat melakukan \textit{request} jika saat melakukan \textit{request} memasukkan parameter ``\textit{state}'' juga.\\
-		 \hline		 
-	\end{tabular}
-\end{center}
-
-Setelah mendapat \textit{authorize code}, maka otorisasi dilanjutkan dengan meminta kepada \textit{Azure AD} 2.0 \textbf{/token} \textit{endpoint} untuk mendapatkan \textit{access token} untuk aplikasi tersebut. Aplikasi yang ingin melakukan \textit{request} untuk mendapatkan \textit{access token} akan memakai kode otorisasi dan juga mengirimkan \textit{request} dengan cara ``\textit{post}''. Berikut contoh format untuk melakukan \textit{request} kepada \textit{endpoint} \textit{/token}.
-
-\begin{center}
-	\begin{tabular}{|p{15cm}|}
-		\hline
-		POST /common/oauth2/v2.0/token HTTP/1.1\newline
-		Host: https://login.microsoftonline.com\newline
-		Content-Type: application/x-www-form-urlencoded\newline
-		\newline
-		client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\newline
-		\&scope=user.read\%20mail.read\newline
-		\&code=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE9UkP3pSx1aXxUjq3n8b2\newline
-		JRLk4OxVXr...\newline
-		\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\newline
-		\&grant\_type=authorization\_code\newline
-		\&client\_secret=JqQX2PNo9bpM0uEihUPzyrh    // NOTE: Only required for web apps\\
-		\hline
-	\end{tabular}
-\end{center} 
-
-\begin{center}
-	\begin{tabular}{|p{3cm}|p{2cm}|p{10cm}|}
-		\hline
-		\textbf{Parameter}& &\textbf{Deskripsi}\\ \hline
-		\textit{tenant} & \textit{required} & Nilai yang dipakai untuk mengontrol siapa yang bisa mengakses masuk ke aplikasi. Nilainya bisa diisi dengan akun \textit{Microsoft}. \\ \hline
-		 \textit{client\_id} & \textit{required} & Diisi dengan \textit{Application ID} yang diberikan oleh portal registrasi (\textit{apps.dev.microsoft.com}).\\ \hline
-		 \textit{grant\_type} & \textit{required} & Diisi dengan nilai ``\textit{authorization\_code}'' untuk menjalankan kode otorisasi.\\ \hline
-		 \textit{scope} & \textit{required} & Diisi dengan hak akses pada \textit{Microsoft Graph} yang akan diberikan pada pengguna aplikasi. \\ \hline
-		 \textit{code} & \textit{required} & Kode otorisasi yang didapat saat melakukan request pertama.\\ \hline 
-		 \textit{redirect\_uri} & \textit{required} & \textit{redirect\_uri} yang sama yang digunakan untuk mendapatkan kode otorisasi. \\ \hline
-		 \textit{client\_secret} & \textit{required for web apps} & \textit{App secret} yang didapat saat membuat dan mendaftarkan aplikasi di portal registrasi. \textit{Client\_secret} ini hanya berlaku untuk \textit{web apps} dan juga \textit{web APIs} karena di \textit{native app} tidak memungkinkan untuk menyimpan \textit{client\_secret} di gawai masing-masing. \\ \hline
-	\end{tabular}
-\end{center}
-
-Contoh respon jika request berhasil diproses adalah seperti berikut:
-\begin{center}
-	\begin{tabular}{|p{15cm}|}
-		\hline
-		\{\newline
-    	"token\_type": "Bearer",\newline
-    	"scope": "user.read\%20Fmail.read",\newline
-    	"expires\_in": 3600,\newline
-    	"access\_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0\newline
-    	aEV1Q...",\newline
-    	"refresh\_token": "AwABAAAAvPM1KaPlrEqdFSBzjqfTGAMxZGUTdM0t4B4..."\newline
-		\}\\ \hline
-	\end{tabular}
-\end{center} 
-
-Setelah mendapatkan \textit{access token}, barulah akses untuk mendapatkan data-data dari \textit{Outlook.com Calendar} bisa diakses dengan menggunakan \textit{Outlook.com Calendar API}. Pentingnya langkah sebelum ini dikarenakan untuk melakukan \textit{request} kepada \textit{Outlook.com Calendar API} diperlukan parameter \textit{access token} saat hendak melakukan \textit{request}. Adapun list dari \textit{request} yang akan dipakai dari \textit{Outlook.com Calendar API} adalah:
-
-\begin{center}
-	\begin{tabular}{|p{5cm}|p{10cm}|}
-	\hline
-		Request & endpoint\\ \hline 
-		List events & GET /me/events\\
-		 & GET /users/\{id | userPrincipalName\}/events \\
-		 & GET /me/calendar/events\\
-		 & GET /users/\{id | userPrincipalName\}/calendar/events\\
-		 & GET /me/calendars/\{id\}/events\\
-		 & GET /users/\{id | userPrincipalName\}/calendars/\{id\}/events\\
-		 & GET /me/calendargroup/calendars/\{id\}/events\\
-		 & GET /users/\{id | userPrincipalName\}/calendargroup/calendars/\{id\}/events\\
-		 & GET /me/calendargroups/\{id\}/calendars/\{id\}/events\\
-		 & GET /users/\{id | userPrincipalName\}/calendargroups/\{id\}/calendars/\{id\}/events\\
-	\hline
-	\end{tabular}
-\end{center} 
-
-Request di atas akan meminta event yang ada di akun pengguna. Field \{id\} di atas diisi oleh id dari pengguna. Sedangkan field \{userPrincipalName\} bisa diisi dengan nama pengguna. 
-
-\begin{lstlisting}[caption={Contoh respon dari request List events diatas},label={lst:atribute-view},language=xml]
-
-HTTP/1.1 200 OK
-Content-type: application/json
-Preference-Applied: outlook.timezone="Pacific Standard Time"
-Content-length: 1932
-
-{
-    "@odata.context":"https://graph.microsoft.com/v1.0/$metadata#
-    users('cd209b0b-3f83-4c35-82d2-d88a61820480')/events(subject,body,bodyPreview,organizer,attendees,start,end,location)",
-    "value":[
-        {
-            "@odata.etag":"W/\"ZlnW4RIAV06KYYwlrfNZvQAAKGWwbw==\"",
-            "id":"AAMkAGIAAAoZDOFAAA=",
-            "subject":"Orientation ",
-            "bodyPreview":"Dana, this is the time you selected for our 
-            orientation. Please bring the notes I sent you.",
-            "body":{
-                "contentType":"html",
-                "content":"<html><head></head><body><p>Dana, this is the 
-                time you selected for our orientation. Please bring the 
-                notes I sent you.</p></body></html>"
-            },
-            "start":{
-                "dateTime":"2017-04-21T10:00:00.0000000",
-                "timeZone":"Pacific Standard Time"
-            },
-            "end":{
-                "dateTime":"2017-04-21T12:00:00.0000000",
-                "timeZone":"Pacific Standard Time"
-            },
-            "location": {
-                "displayName": "Assembly Hall",
-                "locationType": "default",
-                "uniqueId": "Assembly Hall",
-                "uniqueIdType": "private"
-            },
-            "locations": [
-                {
-                    "displayName": "Assembly Hall",
-                    "locationType": "default",
-                    "uniqueIdType": "unknown"
-                }
-            ],
-            "attendees":[
-                {
-                    "type":"required",
-                    "status":{
-                        "response":"none",
-                        "time":"0001-01-01T00:00:00Z"
-                    },
-                    "emailAddress":{
-                        "name":"Samantha Booth",
-                        "address":"samanthab@a830edad905084922E17020313.
-                        onmicrosoft.com"
-                    }
-                },
-                {
-                    "type":"required",
-                    "status":{
-                        "response":"none",
-                        "time":"0001-01-01T00:00:00Z"
-                    },
-                    "emailAddress":{
-                        "name":"Dana Swope",
-                        "address":"danas@a830edad905084922E17020313.
-                        onmicrosoft.com"
-                    }
-                }
-            ],
-            "organizer":{
-                "emailAddress":{
-                    "name":"Samantha Booth",
-                    "address":"samanthab@a830edad905084922E17020313.
-                    onmicrosoft.com"
-                }
-            }
-        }
-    ]
-}
-\end{lstlisting} 
-	
-\end{description}
+\subsubsection{Method}
+\begin{itemize}
+	\item \textbf{List events}
+	Method ini sama seperti yang sudah dijelaskan di bagian method dari \textit{user resource type}. 
+	\item \textbf{Create events}
+	Method ini sama seperti yang sudah dijelaskan di bagian method dari \textit{user resource type}. 
+	\item \textbf{Get events}
+	\item \textbf{Update}
+	\item \textbf{Delete}
+	\item \textbf{accept}
+	\item \textbf{tentativelyAccept}
+	\item \textbf{decline}
+	\item \textbf{delta}
+	\item \textbf{dismissReminder}
+	\item \textbf{snoozeReminder}
+	\item \textbf{List instances}
+	\item \textbf{List attachments}
+	\item \textbf{Add attachment}
+\end{itemize}
 
 
 \section{\textit{Slack API}}
