@@ -9,7 +9,7 @@ Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data y
 Setelah mendapatkan \textit{access token}, barulah layanan untuk mendapatkan data yang tersimpan di \textit{Microsoft} baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari \textit{Microsoft Graph API} 
 
 \subsection{User resource type}
-Kelas user ini merepresentasikan Azure AD user account. Kelas ini memiliki properti-properti dan juga method-method:\\
+Kelas \textit{user} ini merepresentasikan \textit{Azure AD user account}. Kelas ini memiliki properti-properti dan juga method-method:\\
 \subsubsection{Properti}
 \begin{itemize}
 	\item \textbf{aboutMe}
@@ -291,29 +291,372 @@ Kelas \textit{event} ini untuk merepresentasikan objek \textit{event} dalam kale
 \end{itemize}
 
 \subsubsection{Method}
+Untuk mengakses setiap \textit{method} yang akan dijabarkan, perlu diketahui bahwa untuk mengirimkan \textit{request}, diperlukan \textit{header} yang berisikan \textit{Authorization} yang diisi dengan nilai dari \textit{Access\_token} yang didapat dari proses sebelumnya. \textit{Endpoint} utama untuk mengirimkan request adalah ke \textit{https://graph.microsoft.com/v1.0} lalu dilanjutkan dengan \textit{endpoint} fungsinya masing-masing yang akan diberikan dan dijelaskan. 
+
 \begin{itemize}
 	\item \textbf{List events}
 	Method ini sama seperti yang sudah dijelaskan di bagian method dari \textit{user resource type}. 
 	\item \textbf{Create events}
 	Method ini sama seperti yang sudah dijelaskan di bagian method dari \textit{user resource type}. 
 	\item \textbf{Get events}
+	Method ini untuk mendapatkan properti dan hubungan untuk objek \textit{event} yang spesifik. \textit{Endpoint} dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}} dengan mengirimkan \textit{get request}. Jika \textit{request} berhasil, akan mengembalikan objek event yang diminta.
 	\item \textbf{Update}
+	Method ini untuk membaharui properti-properti yang terdapat dalam objek \textit{event}. \textit{Endpoint} dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}} dengan mengirimkan \textit{patch request}. \textit{Request} ini diisi dengan \textit{body} yang berisikan properti dari objek \textit{event} yang akan diubah. 
 	\item \textbf{Delete}
+	Method ini berfungsi untuk menghapus objek \textit{event}. Dikirimkan kepada \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/events/\{id\}} dengan mengirimkan \textit{delete request}.  
 	\item \textbf{accept}
+	Method ini untuk menerima \textit{event} spesifik di kalender pengguna. \textit{Endpoint} dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}/accept} dengan mengirimkan \textit{post request}. \textit{Request body} dari method ini bisa diisi dengan \textit{comment} yang bertipe \textit{String} yang fungsinya untuk menunjukkan catatan dari \textit{respon}, dan juga \textit{sendResponse} yang bertipe \textit{Boolean} yang bernilai \textit{true} jika \textit{respon} akan dikirim ke penyelenggara, dan bernilai \textit{false} jika tidak. Nilai \textit{default} dari sendResponse yaitu \textit{true}. 
 	\item \textbf{tentativelyAccept}
+	Method ini untuk menerima \textit{event} spesifik di kalender pengguna untuk sementara. \textit{Endpoint} dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}/ tentativelyAccept} dengan mengirimkan \textit{post request}. Request body dari method ini sama seperti method accept.
 	\item \textbf{decline}
+	Method ini untuk menolak undangan dari spesifik acara di kalender pengguna. Endpoint dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}/decline} dengan cara mengirimkan \textit{post request}. Request body dari method ini sama seperti method accept.   
 	\item \textbf{delta}
+	Method ini berfungsi untuk mendapatkan serangkaian acara yang ditambahkan, dihapus, dan diperbarui dalam calendarView dari kalender utama pengguna. Endpoint dari method ini adalah \textit{/users/\{id\}/calendarView/delta} yang memerlukan parameter wajib yaitu \textit{startDateTime} dan \textit{endDateTime} serta ada parameter \textit{\$deltatoken} dan juga \textit{\$skiptoken}. Method ini dikirimkan dengan mengirim \textit{get request}.  
 	\item \textbf{dismissReminder}
+	Method ini berfungsi untuk memberhentikan peringatan untuk acara yang sudah dipasang di kalender pengguna. Endpoint dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}/dismissReminder} dengan mengirimkan \textit{post request}. 
 	\item \textbf{snoozeReminder}
+	Method ini berfungsi untuk menunda peringatan yang sudah dipasang di kalender pengguna. Endpoint dari method ini menuju ke \textit{/users/\{id | userPrincipalName\}/events/\{id\}/snoozeReminder} dengan mengirimkan \textit{post request}. Memiliki \textit{request body} yang berisi \textit{newReminderTime} yang bertipe \textit{DateTimeTimeZone} yang merupakan waktu baru untuk menjalankan peringatan untuk acara.  
 	\item \textbf{List instances}
+	Method ini untuk mendapatkan contoh acara dari waktu yang spesifik. Memiliki \textit{endpoint} \textit{/users/\{id | userPrincipalName\}/events/\{id\}/instances} yang memiliki parameter wajib \textit{startDateTime} dan juga \textit{endDateTime} dengan mengirimkan \textit{get request}. 
 	\item \textbf{List attachments}
+	Method ini berfungsi untuk mendapatkan kumpulan lampiran dari suatu acara. Endpoint dari method ini adalah \textit{/users\textit{/\{}id | userPrincipalName\}/events/\{id\}/ attachments} dengan cara mengirimkan \textit{get request}. 
 	\item \textbf{Add attachment}
+	Method ini berfungsi untuk menambahkan lampiran ke suatu acara dengan maksimum ukuran file sebesar 4MB. Endpoint dari method ini adalah \textit{/users/\{id | userPrincipalName\}/events/\{id\}/attachments} dengan mengirimkan \textit{post request} yang memiliki \textit{request body} berupa \textit{json} representasi dari objek \textit{attachment}. 
 \end{itemize}
 
+Seluruh \textit{endpoint} \textit{/users/\{id | userPrincipalName\}} bisa diganti dengan \textit{/me}. 
+
+\subsection{Lain-lain}
+Terdapat masih banyak kelas yang disediakan dan digunakan pada \textit{Microsoft Graph API} dan dapat dilihat lebih jelas pada laman \textit{website} referensi yang disediakan oleh \textit{Microsoft Graph} yaitu bisa melalui \textit{https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0}. 
 
 \section{\textit{Slack API}}
 \label{sec:slack}
-Slack API adalah webservice yang akan digunakan untuk menghubungkan data yang sudah di dapat dari Outlook.com Calendar ke aplikasi Slack. Disini akan dipakai API yang berfungsi untuk mengubah status dari pengguna Slack. 
+\textit{Slack API} adalah \textit{webservice} yang akan digunakan untuk menghubungkan data yang sudah di dapat dari \textit{Outlook.com Calendar} ke aplikasi \textit{Slack}. Untuk mengakses \textit{Slack API}, kita diharuskan untuk mendaftarkan aplikasi yang akan dibuat dan juga mendaftarkannya ke \textit{workspace} yang akan dipakai untuk menjalankan aplikasi yang akan dibuat. Untuk mendaftarkan aplikasi yang akan dibuat bisa menuju ke laman \textit{https://api.slack.com/apps}. Aplikasi yang sudah terdaftar akan diberikan \textit{Client ID} yang unik dan juga \textit{Client Secret} yang akan digunakan pada proses \textit{OAuth}. 
+
+Proses pertama yang akan dijalani dalam rangkaian proses \textit{OAuth} adalah dengan meminta \textit{authorization code} yang akan berjalan jika aplikasi yang akan dibuat untuk mengarahkan pengguna dan mengirimkan \textit{get request} ke \textit{URL} \textit{https://slack.com/oauth/authorize} dengan \textit{get parameter} yang wajib yaitu \textit{client\_id} yang diberikan pada saat mendaftarkan aplikasi yang akan dibuat dan juga \textit{get parameter scope}, serta memiliki parameter yang bersifat opsional yaitu \textit{redirect\_uri} yang berfungsi untuk alamat tujuan dari kembalian yang dikirim oleh API, \textit{state} yaitu yang berupa \textit{String} unik untuk diteruskan kembali setelah selesai, dan juga \textit{team} berupa \textit{Slack team ID} dari \textit{workspace} yang berfungsi untuk membatasi. Parameter \textit{scope} disini berguna untuk menentukan dengan tepat bagaimana aplikasi perlu mengakses akun pengguna \textit{Slack}. Penulisan format \textit{parameter scope} yaitu merujuk ke objek yang akan diberi akses, dan dilanjutkan dengan kelas tindakan pada objek yang diberikan izin, contohnya \textit{file:read}. Selain itu ada juga perspektif opsional yang berisi \textit{user}, \textit{bot}, dan \textit{admin} yang akan memengaruhi tindakan yang muncul nantinya di dalam aplikasi \textit{Slack}, contohnya \textit{chat:write:user} yang berarti akan mengirimkan pesan dari pengguna yang memiliki wewenang. Kelas tindakan yang ada disini ada 3 yaitu:
+\begin{itemize}
+	\item \textbf{read:} Membaca informasi lengkap dari satu sumber. 
+	\item \textbf{write:} Memodifikasi sumber. Bisa melakukan \textit{create}, \textit{edit}, dan \textit{delete} dengan kelas tindakan ini. 
+	\item \textbf{history:} Mengakses arsip pesan. 
+\end{itemize} 
+
+Untuk mengakses API method yang diinginkan, harus memberikan \textit{OAuth scope} yang tepat. Berikut daftar kelompok \textit{OAuth scope} dengan API method yang bisa diaksesnya. 
+\begin{multicols}{2}
+\begin{itemize}
+	\item channels:history
+	\begin{itemize}
+		\item channels.history
+		\item channels.replies
+	\end{itemize}
+	
+	\item channels:read
+	\begin{itemize}
+		\item channels.info
+		\item channels.list
+	\end{itemize}
+	
+	\item channels:write
+	\begin{itemize}
+		\item channels.archive
+		\item channels.create
+		\item channels.invite
+		\item channels.join
+		\item channels.kick
+		\item channels.leave
+		\item channels.mark
+		\item channels.rename
+		\item channels.setPuprose
+		\item channels.setTopic
+		\item channels.unarchive
+		\item conversations.join
+	\end{itemize}
+	
+	\item chat:write:bot
+	\begin{itemize}
+		\item chat.delete
+		\item chat.deleteScheduledMessage
+		\item chat.postEphemeral
+		\item chat.postMessage
+		\item chat.scheduleMessage
+		\item chat.update
+	\end{itemize}
+	
+	\item chat:write:user
+	\begin{itemize}
+		\item chat.delete
+		\item chat.deleteScheduledMessage
+		\item chat.postEphemeral
+		\item chat.postMessage
+		\item chat.scheduleMessage
+		\item chat.update
+	\end{itemize}
+	
+	\item dnd:read
+	\begin{itemize}
+		\item dnd.info
+		\item dnd.teamInfo
+	\end{itemize}
+	
+	\item dnd:write
+	\begin{itemize}
+		\item dnd.endDnd
+		\item dnd.endSnooze
+		\item dnd.setSnooze
+	\end{itemize}
+	
+	\item dnd:write:user
+	\begin{itemize}
+		\item dnd.endDnd
+		\item dnd.endSnooze
+		\item dnd.setSnooze
+	\end{itemize}
+	
+	\item emoji:read
+	\begin{itemize}
+		\item emoji.list
+	\end{itemize}
+	
+	\item files:read
+	\begin{itemize}
+		\item files.info
+		\item files.list
+	\end{itemize}
+	
+	\item files:write:user
+	\begin{itemize}
+		\item files.comments.delete
+		\item files.delete
+		\item files.revokePublicURL
+		\item files.sharedPublicURL
+		\item files.upload
+	\end{itemize}
+	
+	\item groups:history
+	\begin{itemize}
+		\item groups.history
+		\item groups.replies
+	\end{itemize}
+	
+	\item groups:read
+	\begin{itemize}
+		\item groups.info
+		\item groups.list
+	\end{itemize}
+	
+	\item groups:write
+	\begin{itemize}
+		\item groups.archive
+		\item groups.create
+		\item groups.createChild
+		\item groups.invite
+		\item groups.kick
+		\item groups.leave
+		\item groups.mark
+		\item groups.open
+		\item groups.rename
+		\item groups.setPurpose
+		\item groups.setTopic
+		\item groups.unarchive
+	\end{itemize}
+	
+	\item identity.basic
+	\begin{itemize}
+		\item users.identity
+	\end{itemize}
+	
+	\item identity.basic:user
+	\begin{itemize}
+		\item users.identity
+	\end{itemize}
+	
+	\item im:history
+	\begin{itemize}
+		\item im.history
+		\item im.replies
+	\end{itemize}
+	
+	\item im:read
+	\begin{itemize}
+		\item im.list
+	\end{itemize}
+	
+	\item im:write
+	\begin{itemize}
+		\item im.close
+		\item im.mark
+		\item im.open
+	\end{itemize}
+	
+	\item links:write
+	\begin{itemize}
+		\item chat.unfurl
+	\end{itemize}
+	
+	\item mpim:history
+	\begin{itemize}
+		\item mpim.history
+		\item mpim.replies
+	\end{itemize}
+	
+	\item mpim:read
+	\begin{itemize}
+		\item mpim.list
+	\end{itemize}
+	
+	\item mpim:write
+	\begin{itemize}
+		\item mpim.close
+		\item mpim.mark
+		\item mpim.open
+	\end{itemize}
+	
+	\item pins:read
+	\begin{itemize}
+		\item pins.list
+	\end{itemize}
+	
+	\item pins:write
+	\begin{itemize}
+		\item pins.add
+		\item pins.remove
+	\end{itemize}
+	
+	\item reactions:read
+	\begin{itemize}
+		\item reactions.get
+		\item reactions.list
+	\end{itemize}
+	
+	\item reactions:write
+	\begin{itemize}
+		\item reactions.add
+		\item reactions.remove
+	\end{itemize}
+	
+	\item reminders:read
+	\begin{itemize}
+		\item reminders.info
+		\item reminders.list
+	\end{itemize}
+	
+	\item reminders:read:user
+	\begin{itemize}
+		\item reminders.info
+		\item reminders.list
+	\end{itemize}
+	
+	\item reminders:write
+	\begin{itemize}
+		\item reminders.add
+		\item reminders.complete
+		\item reminders.delete
+	\end{itemize}
+	
+	\item reminders:write:user
+	\begin{itemize}
+		\item reminders.add
+		\item reminders.complete
+		\item reminders.delete
+	\end{itemize}
+	
+	\item search:read
+	\begin{itemize}
+		\item search.all
+		\item search.files
+		\item search.messages
+	\end{itemize}
+	
+	\item stars:read
+	\begin{itemize}
+		\item stars.list
+	\end{itemize}
+	
+	\item stars:write
+	\begin{itemize}
+		\item stars.add
+		\item stars.remove
+	\end{itemize}
+	
+	\item team:read
+	\begin{itemize}
+		\item team.info
+	\end{itemize}
+	
+	\item tokens.basic
+	\begin{itemize}
+		\item migration.exchange
+	\end{itemize}
+	
+	\item usergroups:read
+	\begin{itemize}
+		\item usergroups.list
+		\item usergroups.users.list
+	\end{itemize}
+	
+	\item usergroups:write
+	\begin{itemize}
+		\item usergroups.create
+		\item usergroups.disable
+		\item usergroups.enable
+		\item usergroups.update
+		\item usergroups.users.update
+	\end{itemize}
+	
+	\item users.profile:read
+	\begin{itemize}
+		\item team.profile.get
+		\item users.profile.get
+	\end{itemize}
+	
+	\item users.profile:write
+	\begin{itemize}
+		\item users.deletePhoto
+		\item users.profile.set
+		\item users.setPhoto
+	\end{itemize}
+	
+	\item users.profile:write:user
+	\begin{itemize}
+		\item users.profile.set
+	\end{itemize}
+	
+	\item users:read
+	\begin{itemize}
+		\item bot.info
+		\item users.getPresence
+		\item users.info
+		\item users.list
+	\end{itemize}
+	
+	\item users:read.email
+	\begin{itemize}
+		\item users.lookupByEmail
+	\end{itemize}
+	
+	\item users:write
+	\begin{itemize}
+		\item users.setActive
+		\item users.setPresence
+	\end{itemize}
+\end{itemize}
+\end{multicols}
+
+\textit{Authorization code} yang telah didapat memiliki waktu kadaluwarsa selama 10 menit. Setelah mendapatkan \textit{authorization code}, langkah selanjutnya yang harus dilakukan adalah menukarkan \textit{authorization code} dengan \textit{access token} dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{https://slack.com/api/oauth.access} yang memiliki \textit{request body} yang wajib yaitu \textit{client\_id}, \textit{client\_secret}, dan \textit{code}. \textit{Client\_id} dan juga \textit{client\_secret} didapat dari awal mendaftarkan aplikasi. Parameter \textit{code} didapat dari \textit{authorization code} yang didapatkan dari langkah sebelumnya.
+
+Setelah mendapatkan \textit{access token}, barulah method API yang disediakan bisa dijalankan. Method-method API yang disediakan oleh \textit{Slack} bisa dikelompokkan berdasarkan objek yang bisa diaksesnya.  
+
+\subsubsection{users.profile}
+Pada bagian ini, objek yang bisa diakses adalah profil dari pengguna. Terdapat method-method seperti:
+\begin{itemize}
+	\item \textbf{users.profile.get}
+	Method ini bisa dijalankan dengan mengirimkan get request ke endpoint \textit{https://slack.com/api/users.profile.get} dan memerlukan token bertipe pengguna serta scope yaitu users.profile.read. Fungsi dari method ini adalah untuk mendapatkan informasi tentang profil pengguna. 
+	\item \textbf{users.profile.set}
+	Method ini bisa dijalankan dengan mengirimkan post request ke endpoint \textit{	https://slack.com/api/users.profile.set}.Method ini juga memerlukan token dari pengguna serta bisa menerima request body yang berisi profil pengguna yang berbentuk json. Method ini berfungsi untuk mengubah isi dari profil pengguna. 
+\end{itemize}
+
+
+\subsubsection{Lain-lain}
+Objek yang bisa diakses dan daftar dari method-method API yang disediakan \textit{Slack} sangatlah beragam. Untuk mendapatkan informasi yang lengkap mengenai objek dan method yang disediakan, bisa melihat referensi yang terdapat di alamat URL yaitu \textit{https://api.slack.com/methods}. 
 
 
 \section{\textit{Node.js}}
