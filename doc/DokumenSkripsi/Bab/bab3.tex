@@ -1,0 +1,18 @@
+\chapter{Analisis}
+\label{chap:analisis}
+
+Pada bab ini akan dijelaskan mengenai analisis dari penggunaan \textit{Microsoft Graph API} dan juga penggunaan dari \textit{Slack API} serta analisis dari penggunaan \textit{cron}. 
+
+\section{Analisis API Terkait}
+\label{sec:analisis_api_terkait}
+
+\textit{API} yang akan digunakan di skripsi ini adalah \textit{API} yang dimiliki dan disediakan oleh \textit{Microsoft Graph} dan juga \textit{API} yang dimiliki dan disediakan oleh \textit{Slack}. Maka dari itu dilakukan analisis untuk memakai \textit{API} dari kedua aplikasi terkait tersebut. 
+
+\subsection{Analisis Microsoft Graph API}
+Untuk menggunakan \textit{method-method} yang disediakan oleh \textit{Microsoft Graph API}, seperti yang sudah dijelaskan di bab sebelumnya, dibutuhkan \textit{authorization code} dan juga \textit{access token} serta aplikasi yang sudah didaftarkan terlebih dahulu yang nantinya akan diperlukan \textit{application ID} dan juga \textit{client secret} yang didapat saat mendaftarkan aplikasi. 
+
+Setelah bisa mendapatkan \textit{authorization code} dan juga \textit{access token}, barulah setiap \textit{method} yang akan diakses bisa diminta dengan menyertakan \textit{access token} sebagai \textit{header} dari \textit{request} yang akan dijalankan. Dengan mengirimkan \textit{request} yang benar dan menyertakan \textit{access token} di \textit{header} sebagai pengidentifikasi otorisasi, maka \textit{Microsoft Graph} akan mengembalikan nilai yang seharusnya dikembalikan oleh \textit{method} yang di\textit{request} juga dengan benar. 
+
+Analisis yang sudah dicoba dilakukan adalah dengan cara meregistrasi aplikasi dan juga melakukan sedikit perubahan terhadap \textit{template} dari contoh aplikasi \textit{web} yang sudah disediakan oleh \textit{Microsoft} yang terdapat di profil \textit{github} dari \textit{Azure AD Quick Starts}\footnote{https://github.com/AzureADQuickStarts}. 
+
+\subsection{Analisis Slack API}
