@@ -657,28 +657,25 @@ Pada bagian ini, objek yang bisa diakses adalah profil dari pengguna. Terdapat m
 	Method ini bisa dijalankan dengan mengirimkan post request ke endpoint \textit{	https://slack.com/api/users.profile.set}.Method ini juga memerlukan token dari pengguna serta bisa menerima request body yang berisi profil pengguna yang berbentuk json. Method ini berfungsi untuk mengubah isi dari profil pengguna. 
 \end{itemize}
 
-
 \section{\textit{Node.js}}
 \label{sec:nodejs}
-Node.js adalah platform perangkat lunak pada sisi server. Node.js ini ditulis dengan menggunakan bahasa Javascript. Untuk menggunakan node.js, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu node.js yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall, barulah bisa digunakan. 
+\textit{Node.js} adalah \textit{platform} perangkat lunak pada sisi \textit{server}. \textit{Node.js} ini ditulis dengan menggunakan bahasa \textit{Javascript}. Untuk menggunakan \textit{node.js}, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu \textit{node.js} yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall, barulah bisa digunakan. 
 
-Format file yang digunakan untuk platform ini menggunakan format .js. Untuk bisa menjalankan file yang sudah dibuat, node.js memiliki perintah yang harus dijalankan di terminal yaitu perintah ``node (nama file)''. Dengan perintah seperti itu, semua code akan dieksekusi. Dengan menggunakan node.js, sebuah kode program yang berbahasa JavaScript akan menjadi server-base, yang biasanya program JavaScript adalah sebuah client-base. 
-
- 
-
+Format \textit{file} yang digunakan untuk \textit{platform} ini menggunakan format \textit{.js}. Untuk bisa menjalankan \textit{file} yang sudah dibuat, \textit{node.js} memiliki perintah yang harus dijalankan di \textit{terminal} yaitu perintah ``\textit{node} (nama file)''. Dengan perintah seperti itu, semua \textit{code} akan dieksekusi. Dengan menggunakan \textit{node.js}, sebuah kode program yang berbahasa \textit{JavaScript} akan menjadi \textit{server-base}, yang biasanya program \textit{JavaScript} adalah sebuah \textit{client-base}. 
 
 \section{Cron}
-Cron adalah sebuah daemon untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. Daemon sendiri adalah proses layanan yang berjalan secara background dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. Cron dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. File unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. Cron mencari ke direktori \textit{/var/spool/cron} untuk file-file crontab. File-file crontab sendiri adalah file yang digunakan untuk menjadwalkan eksekusi dari sebuah program. Crontab bisa diakses oleh pengguna dengan menjalankan crontab di terminal dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh crontab adalah:
+\label{sec:cron}
+\textit{Cron} adalah sebuah \textit{daemon} untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. \textit{Daemon} sendiri adalah proses layanan yang berjalan secara \textit{background} dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. \textit{Cron} dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. \textit{File} unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. \textit{Cron} mencari ke direktori \textit{/var/spool/cron} untuk \textit{file-file crontab}. \textit{File-file crontab} sendiri adalah \textit{file} yang digunakan untuk menjadwalkan eksekusi dari sebuah program. \textit{Crontab} bisa diakses oleh pengguna dengan menjalankan \textit{crontab} di \textit{terminal} dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh \textit{crontab} adalah:
 \begin{itemize}
-	\item crontab -e\\
+	\item \textit{crontab -e}\\
 	Command ini digunakan untuk membuat atau mengubah file crontab jika sudah ada. 
-	\item crontab -l\\
+	\item \textit{crontab -l}\\
 	Command ini digunakan untuk menampilkan isi file crontab.
-	\item crontab -r\\
+	\item \textit{crontab -r}\\
 	Command ini digunakan untuk menghapus file crontab.
 \end{itemize}
 
-Crontab memiliki parameter yang berformat ``m h dom mon dow command'' yang memiliki arti:
+\textit{Crontab} memiliki \textit{parameter} yang berformat ``\textit{m h dom mon dow command}'' yang memiliki arti:
 \begin{itemize}
 	\item m\\
 	m sebagai menit yang bisa diisi dengan nilai dari 0-59. 
@@ -694,6 +691,5 @@ Crontab memiliki parameter yang berformat ``m h dom mon dow command'' yang memil
 	\textit{command} disini berisi program yang akan dijalankan dengan jadwal yang sudah diatur dengan parameter sebelumnya. 
 \end{itemize}
 
-Semua nilai dari parameter m, h, dom, mon, dan dow bisa diisi dengan simbol asteriks (\*) yang memiliki arti dijalankan setiap menit, setiap jam, setiap hari, setiap bulan tergantung dari posisi dimana simbol itu ditempatkan. 
-\label{sec:cron}
+Semua nilai dari \textit{parameter} m, h, dom, mon, dan dow bisa diisi dengan simbol asteriks (\textbf{\*}) yang memiliki arti dijalankan setiap menit, setiap jam, setiap hari, setiap bulan tergantung dari posisi dimana simbol itu ditempatkan. 
  
