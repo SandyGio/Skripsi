@@ -665,7 +665,9 @@ Format \textit{file} yang digunakan untuk \textit{platform} ini menggunakan form
 
 \section{Cron}
 \label{sec:cron}
-\textit{Cron} adalah sebuah \textit{daemon} untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. \textit{Daemon} sendiri adalah proses layanan yang berjalan secara \textit{background} dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. \textit{Cron} dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. \textit{File} unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. \textit{Cron} mencari ke direktori \textit{/var/spool/cron} untuk \textit{file-file crontab}. \textit{File-file crontab} sendiri adalah \textit{file} yang digunakan untuk menjadwalkan eksekusi dari sebuah program. \textit{Crontab} bisa diakses oleh pengguna dengan menjalankan \textit{crontab} di \textit{terminal} dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh \textit{crontab} adalah:
+\textit{Cron} adalah sebuah \textit{daemon} untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. \textit{Daemon} sendiri adalah proses layanan yang berjalan secara \textit{background} dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. \textit{Cron} dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. \textit{File} unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. \textit{Cron} mencari ke direktori \textit{/var/spool/cron} untuk \textit{file-file crontab}. 
+
+\textit{Crontab} adalah \textit{file} yang digunakan untuk menjadwalkan eksekusi dari sebuah program. \textit{Crontab} bisa diakses oleh pengguna dengan menjalankan perintah ``\textit{crontab}'' di \textit{terminal} dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh \textit{crontab} adalah:
 \begin{itemize}
 	\item \textit{crontab -e}\\
 	Command ini digunakan untuk membuat atau mengubah file crontab jika sudah ada. 
@@ -675,7 +677,7 @@ Format \textit{file} yang digunakan untuk \textit{platform} ini menggunakan form
 	Command ini digunakan untuk menghapus file crontab.
 \end{itemize}
 
-\textit{Crontab} memiliki \textit{parameter} yang berformat ``\textit{m h dom mon dow command}'' yang memiliki arti:
+\textit{Crontab} memiliki baris kode yang berformat ``\textit{m h dom mon dow command}'' yang memiliki arti:
 \begin{itemize}
 	\item m\\
 	m sebagai menit yang bisa diisi dengan nilai dari 0-59. 
@@ -691,5 +693,5 @@ Format \textit{file} yang digunakan untuk \textit{platform} ini menggunakan form
 	\textit{command} disini berisi program yang akan dijalankan dengan jadwal yang sudah diatur dengan parameter sebelumnya. 
 \end{itemize}
 
-Semua nilai dari \textit{parameter} m, h, dom, mon, dan dow bisa diisi dengan simbol asteriks (\textbf{\*}) yang memiliki arti dijalankan setiap menit, setiap jam, setiap hari, setiap bulan tergantung dari posisi dimana simbol itu ditempatkan. 
+Semua nilai dari \textit{parameter} m, h, dom, mon, dan dow bisa diisi dengan simbol bintang (*) yang memiliki arti dijalankan setiap menit, setiap jam, setiap hari, setiap bulan tergantung dari posisi dimana simbol itu ditempatkan. 
  

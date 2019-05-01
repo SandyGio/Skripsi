@@ -3,17 +3,125 @@
 
 Pada bab ini akan dijelaskan mengenai analisis dari penggunaan \textit{Microsoft Graph API} dan juga penggunaan dari \textit{Slack API} serta analisis dari penggunaan \textit{cron}. 
 
-\section{Analisis API Terkait}
-\label{sec:analisis_api_terkait}
+\section{Analisis Microsoft Graph API}
+\label{sec:analisis_microsoft_graph_api}
 
-\textit{API} yang akan digunakan di skripsi ini adalah \textit{API} yang dimiliki dan disediakan oleh \textit{Microsoft Graph} dan juga \textit{API} yang dimiliki dan disediakan oleh \textit{Slack}. Maka dari itu dilakukan analisis untuk memakai \textit{API} dari kedua aplikasi terkait tersebut. 
+Pada analisis bagian ini, dilakukan analisis mengenai API yang telah disediakan oleh Microsoft Graph API yang akan digunakan untuk mengambil data acara / event yang dibutuhkan oleh perangkat lunak yang akan dibangun. Akan ada beberapa langkah yang harus dijalankan untuk berhasil mencapai tujuan dari perangkat lunak ini. Analisis dari setiap langkah akan dijelaskan pada subbab \ref{analisis_authorization_code} sampai subbab .... .
 
-\subsection{Analisis Microsoft Graph API}
-Untuk menggunakan \textit{method-method} yang disediakan oleh \textit{Microsoft Graph API}, seperti yang sudah dijelaskan di bab sebelumnya, dibutuhkan \textit{authorization code} dan juga \textit{access token} serta aplikasi yang sudah didaftarkan terlebih dahulu yang nantinya akan diperlukan \textit{application ID} dan juga \textit{client secret} yang didapat saat mendaftarkan aplikasi. 
+\subsection{Analisis Mendapatkan Authorization Code}
+\label{analisis_authorization_code}
+Untuk mendapatkan authorization code, diperlukan untuk mendaftarkan aplikasi yang akan dibuat ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Dari mendaftarkan aplikasi yang akan dibuat di portal registrasi tersebut akan menghasilkan Application ID, Application Secret, dan juga redirect URL yang akan digunakan. Jika platform yang dipilih adalah web, maka redirect URL harus ditentukan sendiri. Dalam meminta authorization code, aplikasi yang dibuat harus mengirimkan \textit{get request} terlebih dahulu ke \textit{endpoint /authorize} yang membutuhkan parameter seperti yang dijelaskan di tabel \ref{tab:parameter_authorization_code}. 
 
-Setelah bisa mendapatkan \textit{authorization code} dan juga \textit{access token}, barulah setiap \textit{method} yang akan diakses bisa diminta dengan menyertakan \textit{access token} sebagai \textit{header} dari \textit{request} yang akan dijalankan. Dengan mengirimkan \textit{request} yang benar dan menyertakan \textit{access token} di \textit{header} sebagai pengidentifikasi otorisasi, maka \textit{Microsoft Graph} akan mengembalikan nilai yang seharusnya dikembalikan oleh \textit{method} yang di\textit{request} juga dengan benar. 
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{Authorization Code}}
+	\label{tab:parameter_authorization_code}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\toprule
+	\textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
+	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama domain dari akun \textit{Microsoft}.\\ \hline 
+	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
+	\textit{response\_type} & wajib & Tipe balikan yang diterima dari \textit{request}. Bernilai 				\textit{code} yang berarti akan mengembalikan \textit{code}. \\ \hline 
+	\textit{redirect\_uri} & direkomendasikan & \textit{Redirect uri} dari aplikasi yang didaftarkan dimana hasil dari \textit{request} yang didapat akan dikembalikan ke url yang sudah didaftarkan. \\ \hline 
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. \\ \hline 
+\textit{response\_mode} & direkomendasikan & Menentukan metode yang harus digunakan untuk mengirimkan token yang dihasilkan kembali ke aplikasi. Dapat bernilai \textit{query} atau \textit{form\_post}. \\ \hline 
+	\textit{state} & direkomendasikan & Nilai yang diisi saat mengirimkan \textit{request} dan akan dikembalikan juga saat menerima \textit{response}. Tujuan dari nilai ini adalah untuk mencegah pemalsuan permintaan lintas situs. Digunakan untuk menyandikan informasi sebelum \textit{request} untuk otentikasi. Biasanya nilai ini berisi nilai unik secara acak. \\ \bottomrule
+\end{tabular}  
+\end{table}
 
-Analisis yang sudah dicoba dilakukan adalah dengan cara meregistrasi aplikasi dan juga melakukan sedikit perubahan terhadap \textit{template} dari contoh aplikasi \textit{web} yang sudah disediakan oleh \textit{Microsoft} yang terdapat di profil \textit{github} dari \textit{Azure AD Quick Starts}\footnote{https://github.com/AzureADQuickStarts}. \textit{Method} yang dipakai untuk meminta \textit{request} kepada aplikasi \textit{Outlook.com Calendar} untuk mendapatkan data \textit{event} yang terdapat di dalam kalender pengguna adalah \textit{method} ``\textit{List events}''. Hal ini didapatkan dari hasil pembelajaran dari dokumentasi \textit{online} yang dimiliki oleh \textit{Microsoft Graph API}, sehingga pada tahap mencoba, dilakukan uji coba mengirimkan \textit{request} dengan \textit{method} tersebut dan didapatkan hasil berupa \textit{json} yang merepresentasikan kumpulan \textit{event} yang terdapat di dalam kalender dari pengguna.
+Pada parameter scope, dapat diisi dengan nilai offline\_access yang akan menjadikan aplikasi mendapatkan response berupa refresh token yang berguna untuk mendapatkan access token yang baru saat yang lama sudah kadaluarsa. Contoh request yang dikirimkan akan seperti yang terdapat pada contoh table \ref{tab:contoh_request_authorization_code}.
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} \textit{Authorization Code}}
+	\label{tab:contoh_request_authorization_code}
+	\begin{tabular}{|p{12cm}|}
+	\toprule
+	https://login.microsoftonline.com/\{tenant\}/oauth2/v2.0/authorize?\\
+client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
+\&response\_type=code\\
+\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\\
+\&response\_mode=query\\
+\&scope=offline\_access\%20user.read\%20mail.read\\
+\&state=12345\\
+	\bottomrule
+\end{tabular}  
+\end{table}
+
+Dari \textit{request} seperti contoh table \ref{tab:contoh_request_authorization_code}, akan menghasilkan contoh \textit{response} seperti yang terdapat pada table \ref{tab:contoh_response_authorization_code} dengan keterangan parameter seperti yang terdapat pada table \ref{tab:parameter_response_authorization_code}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} \textit{Authorization Code}}
+	\label{tab:contoh_response_authorization_code}
+	\begin{tabular}{|p{9cm}|}
+	\toprule
+	GET https://localhost/myapp/?\\
+code=M0ab92efe-b6fd-df08-87dc-2c6500a7f84d\\
+\&state=12345 \\
+	\bottomrule
+\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{response} \textit{Authorization Code}}
+	\label{tab:parameter_response_authorization_code}
+	\begin{tabular}{|p{3cm}|p{9cm}|}
+	\toprule
+	\textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
+	\textit{code} & Nilai ini merupakan \textit{authorization\_code} yang telah di\textit{request} oleh aplikasi. \textit{Authorization\_code} ini digunakan untuk meminta \textit{access token}. \textit{Authorization code} memiliki waktu kadaluarsa yang singkat yaitu biasanya akan kadaluarsa setelah 10 menit. \\ \hline 
+	\textit{state} & Jika saat melakukan \textit{request}, parameter \textit{state} diisi, maka pada saat mengeluarkan \textit{response}, akan mengeluarkan nilai \textit{state} yang sama seperti yang sudah diisi saat melakukan \textit{request}. Aplikasi harus mengidentifikasi apakah nilai \textit{state} saat melakukan \textit{request} dengan nilai \textit{state} di \textit{response} sama atau tidak. \\ \bottomrule
+\end{tabular}  
+\end{table}
+
+Hasil \textit{response} yang ditampilkan oleh table \ref{tab:contoh_response_authorization_code} muncul karena pada saat \textit{request} di table \ref{tab:contoh_request_authorization_code} terdapat parameter \textit{response\_mode} yang diisi dengan nilai \textit{query} sehingga \textit{response} yang dikembalikan dalam bentuk \textit{query string} dari \textit{redirect url}. 
+
+\subsection{Analisis Mendapatkan Access Token}
+\label{analisis_access_token}
+
+Setelah mendapatkan authorization code, langkah selanjutnya yang harus dijalankan sebelum bisa memanggil method API yang dibutuhkan adalah dengan mendapatkan access token. Yang diperlukan untuk bisa mendapatkan access token, maka aplikasi yang dibuat membutuhkan authorization code yang diterima di langkah sebelumnya dan mengirimkan post request kepada endpoint /token. 
+
+Untuk mengirimkan post request, diperlukan request body yang memiliki elemen-elemen seperti yang terdapat di contoh table \ref{tab:contoh_request_access_token}. Adapun penjelasan dari setiap parameter yang terdapat di dalam request body dijelaskan pada table \ref{tab:parameter_request_access_token}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} \textit{Access Token}}
+	\label{tab:contoh_request_access_token}
+	\begin{tabular}{|p{12cm}|}
+	\toprule
+	POST /common/oauth2/v2.0/token HTTP/1.1\\
+Host: https://login.microsoftonline.com\\
+Content-Type: application/x-www-form-urlencoded\\
+\\
+client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
+\&scope=user.read\%20mail.read\\
+\&code=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQ\\
+JVzCTE9UkP3pSx1aXxUjq3n8b2JRLk4OxVXr...\\
+\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\\
+\&grant\_type=authorization\_code\\
+\&client\_secret=JqQX2PNo9bpM0uEihUPzyrh \\ 
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{request} \textit{Access Token}}
+	\label{tab:parameter_request_access_token}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\toprule
+	 \textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
+	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama domain dari akun \textit{Microsoft}.\\ \hline 
+	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
+	\textit{grant\_type} & wajib & Harus diisi dengan nilai authorization\_code untuk alur authorization code. \\ \hline
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah sebelumnya harus sama dengan langkah ini.  \\ \hline 
+	\textit{code} & wajib & Authorization code yang didapat dari langkah sebelumnya. \\ \hline  
+	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
+	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di prtal registrasi untuk aplikasi yang didaftarkan.
+	\bottomrule
+	\end{tabular}  
+\end{table}
 
 \subsection{Analisis Slack API}
 Untuk dapat memakai dan mengakses \textit{method-method} yang disediakan oleh \textit{Slack}, dibutuhkan mendaftarkan aplikasi yang akan dibuat untuk bisa memperoleh \textit{Client ID} yang nantinya dibutuhkan untuk bisa mendapatkan \textit{authorization code} serta \textit{access token}. Sama seperti di \textit{Microsoft Graph API}, di dalam \textit{Slack API access token} dibutuhkan sebagai otorisasi untuk bisa mengakses \textit{method-method} yang disediakan oleh \textit{Slack}. Jika tidak memiliki \textit{access token}, maka seluruh \textit{method} yang dicoba di\textit{request} tidak akan mengembalikkan hasil dan dianggap sebagai \textit{request} yang \textit{invalid}. 
