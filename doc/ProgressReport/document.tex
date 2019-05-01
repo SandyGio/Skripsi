@@ -26,15 +26,15 @@
 \author{\nama \textendash \@npm} 
 
 %ISILAH DATA BERIKUT INI:
-\newcommand{\nama}{Lionov}
-\newcommand{\@npm}{1997730020}
-\newcommand{\tanggal}{01/01/1900} %Tanggal pembuatan dokumen
-\newcommand{\@judultopik}{Simulasi Kerumunan di Museum} % Judul/topik anda
-\newcommand{\kodetopik}{TAB0901}
-\newcommand{\jumpemb}{2} % Jumlah pembimbing, 1 atau 2
-\newcommand{\pembA}{Thomas Anung Basuki}
+\newcommand{\nama}{Sandy Giovanni S.}
+\newcommand{\@npm}{2015730041}
+\newcommand{\tanggal}{01/05/2019} %Tanggal pembuatan dokumen
+\newcommand{\@judultopik}{Integrasi \textit{Outlook Calender} dan \textit{Slack}} % Judul/topik anda
+\newcommand{\kodetopik}{PAN4505}
+\newcommand{\jumpemb}{1} % Jumlah pembimbing, 1 atau 2
+\newcommand{\pembA}{Pascal Alfadian}
 \newcommand{\pembB}{-}
-\newcommand{\semesterPertama}{40 - Genap 15/16} % semester pertama kali topik diambil, angka 1 dimulai dari sem Ganjil 96/97
+\newcommand{\semesterPertama}{46 - Genap 18/19} % semester pertama kali topik diambil, angka 1 dimulai dari sem Ganjil 96/97
 \newcommand{\lamaSkripsi}{1} % Jumlah semester untuk mengerjakan skripsi s.d. dokumen ini dibuat
 \newcommand{\kulPertama}{Skripsi 1} % Kuliah dimana topik ini diambil pertama kali
 \newcommand{\tipePR}{B} % tipe progress report :
@@ -65,63 +65,85 @@ Tipe Laporan : {\bf \tipePR} -
 		}
 		
 \section{Latar Belakang}
+Latar belakang disusunnya aplikasi ini adalah untuk membantu \textit{syncronize} akun \textit{Slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada di dalam akun \textit{Slack}-nya saat terdapat jadwal di aplikasi \textit{Outlook Calendar}. 
+
+Perangkat lunak ini akan dibuat dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaannya terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. Perangkat ini juga akan dibangun menggunakan \textit{Node.js} yang bisa dipelajari melalui laman \textit{website} dokumentasi \textit{Node.js} itu sendiri. 
 
 \section{Tujuan}
+Tujuan dari penyusunan skripsi ini antara lain:
+\begin{itemize}
+	\item Mengetahui cara menggunakan \textit{Node.js}. 
+	\item Mengetahui cara mendapatkan data \textit{event} dari \textit{Outlook Calendar}.   
+	\item Mengetahui cara mengubah status pada aplikasi \textit{Slack} menggunakan \textit{Slack} API. 
+	\item Mengetahui cara membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}.  
+	
+\end{itemize}
 
 \section{Rumusan Masalah}
+Rumusan masalah pada topik ini adalah:
+\begin{itemize}
+	\item Bagaimana cara menggunakan \textit{Node.js}?
+	\item Bagaimana cara mendapatkan data \textit{event} dari \textit{Outlook Calendar}?
+	\item Bagaimana mengubah status pada aplikasi \textit{Slack} menggunakan \textit{Slack} API?  
+	\item Bagaimana cara membuat program agar dapat mengubah status pada aplikasi \textit{Slack} di jadwal yang telah didapat dari aplikasi \textit{Outlook Calendar}? 
+	
+\end{itemize}
 
 \section{Detail Perkembangan Pengerjaan Skripsi}
 Detail bagian pekerjaan skripsi sesuai dengan rencan kerja/laporan perkembangan terkahir :
 	\begin{enumerate}
-		\item \textbf{Melakukan survei ke Museum Geologi Bandung untuk mendapatkan denah serta mengetahui perilaku pengunjung museum secara umum (arah perjalanan, kecepatan, lama melihat objek, dll).}\\
+		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai \textit{Node.js}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Survei sudah dilakukan sebanyak 3x pada tanggal X, Y dan Z. Pada kunjungan pertama, diperhaitkan denah museum dan dibuat sketsa berdasarkan pengamatan. Pada kunjunga kedua, bertemu dengan bagian humas museum dan berhasil mendapatkan denah serta melakukan wawancara. Hasil wawancara sudah dibuat dan ada softcopy-nya. Pada kunjungan ketiga, secara khusus dilihat perilaku pengunjung. Masih direncakanan 2x kunjungan lagi. Bukti-bukti kunjungan dapat dilihat di lampiran
+		{\bf Hasil :} Karena banyaknya library yang disediakan oleh Node.js, maka akan dilakukan studi literatur secara terus menerus seiring dengan membuat kode program untuk skripsi ini. 
 		
-		\item \textbf{Melakukan analisis pada hasil survei terhadap pergerakan pengunjung di museum dan membuat rancangan denah di komputer yang dilengkapi dengan penghalang dan objek di museum.}\\
+		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
+		{\bf Hasil :} Sudah mendapatkan bayangan dari alur garis besarnya untuk bisa memperoleh data yang dibutuhkan dari Outlook.com Calendar yaitu data tentang event. Masih akan dipelajari lebih lanjut lagi untuk kasus-kasus unik. 
+
+		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}.}\\
+		{\bf Status :} Ada sejak rencana kerja skripsi.\\
+		{\bf Hasil :} Secara garis besar, alur yang akan dijalankan di sisi ini sudah terbayang.
+
+		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai cron dan crontab.}\\
+		{\bf Status :} Baru ditambahkan pada semester ini.\\
+		{\bf Hasil :} Mengetahui secara garis besar fungsi dari cron dan crontab yang nantinya akan dipakai untuk menjalankan aplikasi secara berkala.
+
+		\item \textbf{Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.}\\
+		{\bf Status :} Ada sejak rencana kerja skripsi.\\
+		{\bf Hasil :} Mendapatkan alur yang terurut untuk bisa meminta request dari method API yang disediakan. 
+
+		\item \textbf{Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula.}\\
+		{\bf Status :} tidak dikerjakan.\\
 		{\bf Hasil :}
 
-		\item \textbf{Melakukan studi literatur mengenai sifat kolektif suatu kerumunan, teknik {\it social force model} dan teknik {\it flow tiles}}\\
-		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :}
-
-		\item \textbf{Mempelajari bahasa pemrograman C++ dan cara menggunakan framework OpenSteer}\\
-		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :}
-
-		\item \textbf{Merancang pergerakan kerumunan di dalam museum menggunakan teknik {\it social force model} dan {\it flow tiles} serta menggunakan teknik lainnya seperti konsep pathway dan waypoints. Selain itu, dirancang pula adanya waktu tunggu (pada saat pengunjung melihat objek di museum) dan cara pembuatan jalur bagi setiap individu pengunjung}\\
-		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :}
-
-		\item \textbf{Melakukan analisa dan merancang struktur data yang cocok untuk menyimpan penghalang (obstacle)}\\
-		{\bf Status :} dihapuskan/tidak dikerjakan \\
+		\item \textbf{Merancang bagian dari perangkat lunak yang akan mengambil data-data \textit{event} dari \textit{Outlook Calendar}. }\\
+		{\bf Status :} Ada sejak rencana kerja skripsi. \\
 		{\bf Hasil :} berdasarkan analisis singkat, tidak dilakukan analisis lebih jauh karena tidak diperlukan struktur data baru, karena sudah disediakan oleh OpenSteer versi terbaru
 
-		\item \textbf{Mengimplementasikan keseluruhan algoritma dan struktur data yang dirancang, dengan menggunakan framework OpenSteer} \\
+		\item \textbf{Merancang bagian dari perangkat lunak yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook Calendar}.} \\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
 		{\bf Hasil :}
 
-		\item \textbf{Melakukan pengujian (dan eksperimen) yang melibatkan responde untuk menilai hasil simulasi secara kualitatif}\\
+		\item \textbf{Mengimplementasi bagian pengambilan data dari \textit{Outlook Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook Calendar} dengan \textit{Slack}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
 		{\bf Hasil :}
 
+		\item \textbf{Melakukan pengujian terhadap fitur yang telah diimplementasi.}\\
+		{\bf Status :} Ada sejak rencana kerja skripsi.\\
+		{\bf Hasil :} 
+		
 		\item \textbf{Menulis dokumen skripsi}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
 		{\bf Hasil :} \lipsum[1]
 		
-		\item \textbf{Mempelajari cara menggunakan fitur manipulasi obstacle yang disediakan oleh framework Opensteer versi terbaru}\\
-		{\bf Status :} baru ditambahkan pada semester ini\\
-		{\bf Hasil :} baru direncanakan karena framework Opensteer versi paling akhir baru selesai diinstall dan dilihat-lihat bagian contoh-contoh simulasinya
-		
-
 	\end{enumerate}
 
 \section{Pencapaian Rencana Kerja}
 Langkah-langkah kerja yang berhasil diselesaikan dalam Skripsi 1 ini adalah sebagai berikut:
 \begin{enumerate}
-\item
-\item
-\item
+\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.
+\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}.
+\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai cron dan crontab. 
 \end{enumerate}
 
 
@@ -130,10 +152,9 @@ Langkah-langkah kerja yang berhasil diselesaikan dalam Skripsi 1 ini adalah seba
 %TULISKAN BAGIAN INI JIKA DOKUMEN ANDA TIPE A ATAU C
 Kendala - kendala yang dihadapi selama mengerjakan skripsi :
 \begin{itemize}
-	\item Terlalu banyak melakukan prokratinasi
-	\item Terlalu banyak godaan berupa hiburan (game, film, dll)
-	\item Skripsi diambil bersamaan dengan kuliah ASD karena selama 5 semester pertama kuliah tersebut sangat dihindari dan tidak diambil, dan selama 4 semester terakhir kuliah tersebut selalu mendapat nilai E
-	\item Mengalami kesulitan pada saat sudah mulai membuat program komputer karena selama ini selalu dibantu teman
+	\item Sulitnya fokus untuk mengerjakan. 
+	\item Terlalu banyak godaan berupa hiburan (game, film, dll). 
+	\item Dokumentasi dari Outlook Calendar kurang jelas dan ada beberapa versi dokumentasi mengacu kepada versi API yang disediakan.
 \end{itemize}
 
 \vspace{1cm}
