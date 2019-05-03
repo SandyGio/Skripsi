@@ -65,9 +65,13 @@ Tipe Laporan : {\bf \tipePR} -
 		}
 		
 \section{Latar Belakang}
-Latar belakang disusunnya aplikasi ini adalah untuk membantu \textit{syncronize} akun \textit{Slack} agar bisa terlihat dalam status tertentu oleh \textit{partner}/ rekan satu tim jika \textit{user} lupa untuk mengubah status yang ada di dalam akun \textit{Slack}-nya saat terdapat jadwal di aplikasi \textit{Outlook Calendar}. 
+\textit{Outlook.com} adalah sebuah kumpulan aplikasi berbasis \textit{web} seperti \textit{webmail}, \textit{contacts}, \textit{tasks}, dan \textit{calendar} dari \textit{Microsoft}. Fitur calendar sendiri pertama dirilis pada 14 Januari 2008 dengan nama Windows Live Calendar. Fitur calendar yang dimiliki oleh \textit{Outlook.com Calendar} sendiri memiliki tampilan yang mirip dengan aplikasi kalender \textit{desktop} pada umumnya. Seperti layaknya kalender digital pada umumnya, aplikasi \textit{Outlook.com Calendar} juga bisa menambahkan, menyimpan, dan memodifikasi \textit{event-event} yang dimasukkan oleh pengguna dan bisa dibuka dimana saja karena bersifat \textit{online}. 
 
-Perangkat lunak ini akan dibuat dengan bantuan dari masing- masing API (\textit{Application Programming Interface}). \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaannya terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. Perangkat ini juga akan dibangun menggunakan \textit{Node.js} yang bisa dipelajari melalui laman \textit{website} dokumentasi \textit{Node.js} itu sendiri. 
+\textit{Slack} adalah alat dan layanan kolaborasi tim berbasis \textit{cloud}. \textit{Slack} merupakan singkatan dari ``\textit{Searchable Log of All Conversation and Knowledge}''. Cara melakukan kolaborasi di aplikasi \textit{Slack} sendiri adalah dengan komunitas, grup, atau tim bergabunga ke dalam URL yang spesifik. \textit{Room chat} yang terdapat di dalam aplikasi \textit{Slack} biasa disebut dengan \textit{Channel}. Ada 2 jenis \textit{channel} di dalam aplikasi \textit{Slack} yaitu \textit{Public Channel} dan \textit{Private Channel}. Pada \textit{Public Channel}, seluruh anggota dari tim atau komunitas bisa masuk dan bergabung untuk berkomunikasi di \textit{channel} tersebut. Tetapi pada \textit{Private Channel}, hanya anggota yang diizinkan, ditambahkan, dan diundang oleh admin atau pembuat \textit{channel} sajalah yang bisa ikut serta dalam berkomunikasi di dalam \textit{channel} tersebut. \textit{Slack} juga terintegrasi dengan banyak layanan pihak ketiga seperti contohnya adalah \textit{Google Drive}, \textit{Github}, \textit{Trello}, \textit{Dropbox}, dan masih banyak lagi layanan pihak ketiga yang bisa diintegrasikan dengan \textit{Slack} itu sendiri. 
+
+Pada \textit{Slack} terdapat status pengguna yang bisa diganti oleh pengguna tersebut untuk menggambarkan keadaan pengguna saat ini. Sebagai \textit{default}, status bisa menggambarkan jika pengguna sedang ``\textit{In a meeting}'' atau sedang ``\textit{Out Sick}'', dan banyak status default yang disediakan oleh \textit{Slack}. Serta status pun bisa diisi oleh pengguna secara sendiri sesuai dengan apa yang ingin dituliskan oleh penggunanya. Disinilah yang menjadi latar belakang dirancangnya perangkat lunak ini yaitu terkadang pengguna lupa untuk mengganti status menjadi ``\textit{In a meeting}'' saat pengguna memiliki jadwal untuk melakukan meeting, sehingga status di pengguna masih terlihat tersedia oleh user lain yang membuat tidak mengetahui sang pengguna sedang dalam keadaan \textit{meeting} yang tidak dapat diganggu. Di saat seperti ini, kemungkinan untuk \textit{meeting} terganggu oleh adanya \textit{chat} yang masuk lewat \textit{Slack} pun cukup tinggi. 
+
+Perangkat lunak ini akan dibuat dengan bantuan dari masing-masing API(\textit{Application Programming Interface}). \textit{Outlook Calendar} dan juga \textit{Slack} memiliki API masing- masing yang cara penggunaannya terdapat dalam dokumentasi dari aplikasi tersebut yang bisa ditemui di dalam laman \textit{website} dari masing- masing aplikasi tersebut. Perangkat ini juga akan dibangun menggunakan \textit{Node.js} yang bisa dipelajari melalui laman \textit{website} dokumentasi \textit{Node.js} itu sendiri. 
 
 \section{Tujuan}
 Tujuan dari penyusunan skripsi ini antara lain:
@@ -98,22 +102,66 @@ Detail bagian pekerjaan skripsi sesuai dengan rencan kerja/laporan perkembangan 
 		
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Sudah mendapatkan bayangan dari alur garis besarnya untuk bisa memperoleh data yang dibutuhkan dari Outlook.com Calendar yaitu data tentang event. Masih akan dipelajari lebih lanjut lagi untuk kasus-kasus unik. 
+		{\bf Hasil :} Terdapat perubahan di poin ini dikarenakan adanya aplikasi yang berbeda yaitu aplikasi Outlook Calendar dan Outlook.com Calendar. Aplikasi yang akan digunakan di skripsi ini adalah Outlook.com Calendar yang memiliki API yang berpusat pada Microsoft Graph API. Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan Microsoft 365 yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi beta, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. 
+		
+		Untuk menggunakan fungsi dari \textit{Microsoft Graph API}, dibutuhkan untuk mendaftarkan terlebih dahulu aplikasi yang akan dirancang dan memakai fungsi dari \textit{webservice} dari \textit{Microsoft Graph API} ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Pada saat mendaftarkan aplikasinya, pastikan untuk menyalin dan menyimpan \textit{application ID} yang adalah pengenal unik untuk aplikasi yang didaftarkan, dan juga menyalin \textit{Redirect URL} yang didaftarkan sebagai \textit{URL} yang akan menerima balikan \textit{authentication} dan juga \textit{token} yang akan dikirim oleh \textit{endpoint Azure AD v2.0}, serta menyalin \textit{application secret} yang didapat saat mengklik ``\textit{Generate New Password}'' saat mendaftarkan aplikasi (berlaku jika mendaftarkan aplikasi berjenis \textit{web apps}). \textit{Application ID} yang didapat saat mendaftar aplikasi akan dipakai untuk mengisi nilai dari parameter \textit{client\_id} yang akan diisi saat akan melakukan \textit{request} untuk mendapatkan \textit{authorization\_code}. Setelah mendapatkan \textit{authorization\_code}, maka langkah selanjutnya adalah meminta \textit{access\_token} yang membutuhkan \textit{parameter} \textit{authorization\_code} kepada \textit{field code}, dan juga \textit{application\_secret} yang didapat dari pendaftaran aplikasi sebelumnya yang akan mengisi \textit{field client\_secret}. Response dari request token akan mengembalikkan jangka waktu aktif dari token tersebut dan juga refresh\_token yang akan berguna untuk meminta refresh\_token saat token sudah \textit{expired}. 
+		
+		Setelah mendapatkan \textit{access token}, barulah layanan untuk mendapatkan data yang tersimpan di \textit{Microsoft} baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari \textit{Microsoft Graph API} yang dikelompokkan menjadi kelas-kelas yang masing-masing memiliki properti dan juga method-method yang cara mengaksesnya memiliki endpoint masing-masing. 
 
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Secara garis besar, alur yang akan dijalankan di sisi ini sudah terbayang.
+		{\bf Hasil :} Pada poin ini lebih diutamakan mempelajari aplikasi terutama pada API yang telah disediakan oleh aplikasi Slack. \textit{Slack API} adalah \textit{webservice} yang akan digunakan untuk menghubungkan data yang sudah di dapat dari \textit{Outlook.com Calendar} ke aplikasi \textit{Slack}. Untuk mengakses \textit{Slack API}, kita diharuskan untuk mendaftarkan aplikasi yang akan dibuat dan juga mendaftarkannya ke \textit{workspace} yang akan dipakai untuk menjalankan aplikasi yang akan dibuat. Untuk mendaftarkan aplikasi yang akan dibuat bisa menuju ke laman \textit{https://api.slack.com/apps}. Aplikasi yang sudah terdaftar akan diberikan \textit{Client ID} yang unik dan juga \textit{Client Secret} yang akan digunakan pada proses \textit{OAuth}. 
+		
+		Proses pertama yang akan dijalani dalam rangkaian proses \textit{OAuth} adalah dengan meminta \textit{authorization code} yang akan berjalan jika aplikasi yang akan dibuat untuk mengarahkan pengguna dan mengirimkan \textit{get request} ke \textit{URL} \textit{https://slack.com/oauth/authorize} dengan \textit{get parameter} yang wajib yaitu \textit{client\_id} yang diberikan pada saat mendaftarkan aplikasi yang akan dibuat dan juga \textit{get parameter scope}, serta memiliki parameter yang bersifat opsional yaitu \textit{redirect\_uri} yang berfungsi untuk alamat tujuan dari kembalian yang dikirim oleh API, \textit{state} yaitu yang berupa \textit{String} unik untuk diteruskan kembali setelah selesai, dan juga \textit{team} berupa \textit{Slack team ID} dari \textit{workspace} yang berfungsi untuk membatasi. Parameter \textit{scope} disini berguna untuk menentukan dengan tepat bagaimana aplikasi perlu mengakses akun pengguna \textit{Slack}. Penulisan format \textit{parameter scope} yaitu merujuk ke objek yang akan diberi akses, dan dilanjutkan dengan kelas tindakan pada objek yang diberikan izin, contohnya \textit{file:read}. Selain itu ada juga perspektif opsional yang berisi \textit{user}, \textit{bot}, dan \textit{admin} yang akan memengaruhi tindakan yang muncul nantinya di dalam aplikasi \textit{Slack}, contohnya \textit{chat:write:user} yang berarti akan mengirimkan pesan dari pengguna yang memiliki wewenang. Kelas tindakan yang ada disini ada 3 yaitu:
+\begin{itemize}
+	\item \textbf{read:} Membaca informasi lengkap dari satu sumber. 
+	\item \textbf{write:} Memodifikasi sumber. Bisa melakukan \textit{create}, \textit{edit}, dan \textit{delete} dengan kelas tindakan ini. 
+	\item \textbf{history:} Mengakses arsip pesan. 
+\end{itemize} 
+
+\textit{Authorization code} yang telah didapat memiliki waktu kadaluarsa selama 10 menit. Setelah mendapatkan \textit{authorization code}, langkah selanjutnya yang harus dilakukan adalah menukarkan \textit{authorization code} dengan \textit{access token} dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{https://slack.com/api/oauth.access} yang memiliki \textit{request body} yang wajib yaitu \textit{client\_id}, \textit{client\_secret}, dan \textit{code}. \textit{Client\_id} dan juga \textit{client\_secret} didapat dari awal mendaftarkan aplikasi. Parameter \textit{code} didapat dari \textit{authorization code} yang didapatkan dari langkah sebelumnya.
+
+Setelah mendapatkan \textit{access token}, barulah method API yang disediakan bisa dijalankan.
+Objek yang bisa diakses dan daftar dari method-method API yang disediakan \textit{Slack}.
 
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai cron dan crontab.}\\
 		{\bf Status :} Baru ditambahkan pada semester ini.\\
-		{\bf Hasil :} Mengetahui secara garis besar fungsi dari cron dan crontab yang nantinya akan dipakai untuk menjalankan aplikasi secara berkala.
+		{\bf Hasil :} \textit{Cron} adalah sebuah \textit{daemon} untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. \textit{Daemon} sendiri adalah proses layanan yang berjalan secara \textit{background} dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. \textit{Cron} dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. \textit{File} unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. \textit{Cron} mencari ke direktori \textit{/var/spool/cron} untuk \textit{file-file crontab}. 
+
+\textit{Crontab} adalah \textit{file} yang digunakan untuk menjadwalkan eksekusi dari sebuah program. \textit{Crontab} bisa diakses oleh pengguna dengan menjalankan perintah ``\textit{crontab}'' di \textit{terminal} dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh \textit{crontab} adalah:
+\begin{itemize}
+	\item \textit{crontab -e}\\
+	Command ini digunakan untuk membuat atau mengubah file crontab jika sudah ada. 
+	\item \textit{crontab -l}\\
+	Command ini digunakan untuk menampilkan isi file crontab.
+	\item \textit{crontab -r}\\
+	Command ini digunakan untuk menghapus file crontab.
+\end{itemize}
+
+\textit{Crontab} memiliki baris kode yang berformat ``\textit{m h dom mon dow command}'' yang memiliki arti:
+\begin{itemize}
+	\item m\\
+	m sebagai menit yang bisa diisi dengan nilai dari 0-59. 
+	\item h\\
+	h sebagai jam yang bisa diisi dengan nilai dari 0-23.
+	\item dom\\
+	dom sebagai \textit{Day Of Month} (tanggal) yang bisa diisi dengan nilai dari 0-31.
+	\item mon\\
+	mon sebagai bulan yang bisa diisi dengan nilai dari 0-12.
+	\item dow\\
+	dow sebagai \textit{Day Of Week} yang bisa diisi dengan nilai dari 0-7 yang menggambarkan hari dalam angka. Nilai 0 dan nilai 7 adalah hari Minggu. 
+	\item command\\
+	\textit{command} disini berisi program yang akan dijalankan dengan jadwal yang sudah diatur dengan parameter sebelumnya. 
+\end{itemize}
+
+Semua nilai dari \textit{parameter} m, h, dom, mon, dan dow bisa diisi dengan simbol bintang (*) yang memiliki arti dijalankan setiap menit, setiap jam, setiap hari, setiap bulan tergantung dari posisi dimana simbol itu ditempatkan. 
 
 		\item \textbf{Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Mendapatkan alur yang terurut untuk bisa meminta request dari method API yang disediakan. 
+		{\bf Hasil :} Analisis ini dilakukan harus dengan cara membaginya menjadi analisis atas pemakaian Microsoft Graph API, dan juga analisis mengenai Cron dan Crontab.  
 
 		\item \textbf{Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula.}\\
-		{\bf Status :} tidak dikerjakan.\\
+		{\bf Status :} belum dikerjakan.\\
 		{\bf Hasil :}
 
 		\item \textbf{Merancang bagian dari perangkat lunak yang akan mengambil data-data \textit{event} dari \textit{Outlook Calendar}. }\\

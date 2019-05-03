@@ -6,7 +6,7 @@ Pada bab ini akan dijelaskan mengenai analisis dari penggunaan \textit{Microsoft
 \section{Analisis Microsoft Graph API}
 \label{sec:analisis_microsoft_graph_api}
 
-Pada analisis bagian ini, dilakukan analisis mengenai API yang telah disediakan oleh Microsoft Graph API yang akan digunakan untuk mengambil data acara / event yang dibutuhkan oleh perangkat lunak yang akan dibangun. Akan ada beberapa langkah yang harus dijalankan untuk berhasil mencapai tujuan dari perangkat lunak ini. Analisis dari setiap langkah akan dijelaskan pada subbab \ref{analisis_authorization_code} sampai subbab .... .
+Pada analisis bagian ini, dilakukan analisis mengenai API yang telah disediakan oleh Microsoft Graph API yang akan digunakan untuk mengambil data acara / event yang dibutuhkan oleh perangkat lunak yang akan dibangun. Akan ada beberapa langkah yang harus dijalankan untuk berhasil mencapai tujuan dari perangkat lunak ini. Analisis dari setiap langkah akan dijelaskan pada subbab \ref{analisis_authorization_code} sampai subbab \ref{analisis_menggunakan_refresh_token}.
 
 \subsection{Analisis Mendapatkan Authorization Code}
 \label{analisis_authorization_code}
@@ -118,12 +118,193 @@ JVzCTE9UkP3pSx1aXxUjq3n8b2JRLk4OxVXr...\\
 	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah sebelumnya harus sama dengan langkah ini.  \\ \hline 
 	\textit{code} & wajib & Authorization code yang didapat dari langkah sebelumnya. \\ \hline  
 	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
-	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di prtal registrasi untuk aplikasi yang didaftarkan.
+	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
 	\bottomrule
 	\end{tabular}  
 \end{table}
 
-\subsection{Analisis Slack API}
+Dari contoh request yang dilakukan pada table\ref{tab:contoh_request_access_token}, maka akan dihasilkan contoh token seperti pada table \ref{tab:contoh_response_access_token} yang memiliki keterangan dari hasil yang dikembalikan pada table\ref{tab:parameter_response_access_token}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} \textit{Access Token}}
+	\label{tab:contoh_response_access_token}
+	\begin{tabular}{|p{9cm}|}
+	\toprule
+	\{\\
+    "token\_type": "Bearer",\\
+    "scope": "user.read\%20Fmail.read",\\
+    "expires\_in": 3600,\\
+    "access\_token": "eyJ0eXAiOiJKV1QiLCJhbG\\
+    ciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",\\
+    "refresh\_token": "AwABAAAAvPM1KaPlrEqdF\\
+    SBzjqfTGAMxZGUTdM0t4B4..."\\
+	\}\\ 
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{response} \textit{Access Token}}
+	\label{tab:parameter_response_access_token}
+	\begin{tabular}{|p{3cm}|p{9cm}|}
+	\toprule
+	 \textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
+	\textit{token\_type} & Menunjukkan nilai dari token. Satu-satunya jenis token yang didukung oleh Azure AD adalah Bearer.\\ \hline 
+	\textit{scope} & Nilai scope yang valid untuk access\_token yang diberikan.  \\ \hline 
+	\textit{expires\_in} & Lamanya access token akan berlaku(dalam detik). \\ \hline  
+	\textit{access\_token} & Access token yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil Microsoft Graph. \\ \hline 
+	\textit{refresh\_token} & Refresh token ini berguna untuk meminta kembali access token setelah access token itu berakhir. Refresh token memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke source. \\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\subsection{Analisis Menggunakan Access Token untuk memanggil Microsoft Graph}
+\label{analisis_menggunakan_access_token}
+Setelah mendapatkan access token, panggilan ke Microsoft Graph pun bisa dilakukan dengan syarat menyertakan access token di authorization header di setiap request yang dikirim. Pada table\ref{tab:contoh_request_call_microsoft_graph} menunjukkan contoh request untuk mendapatkan profile dari pengguna yang masuk. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} \textit{call Microsoft Graph}}
+	\label{tab:contoh_request_call_microsoft_graph}
+	\begin{tabular}{|p{9cm}|}
+	\toprule
+	GET https://graph.microsoft.com/v1.0/me \\
+Authorization: Bearer eyJ0eXAiO ... 0X2tnSQLEANnSPHY0gKcgw\\
+Host: graph.microsoft.com \\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+Jika request yang dikirimkan berhasil, maka akan mendapatkan response yang akan terlihat mirip dengan contoh seperti pada table \ref{tab:contoh_response_call_microsoft_graph}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} \textit{call Microsoft Graph}}
+	\label{tab:contoh_response_call_microsoft_graph}
+	\begin{tabular}{|p{12cm}|}
+	\toprule
+	HTTP/1.1 200 OK\\
+Content-Type: application/json;\\
+odata.metadata=minimal;\\
+odata.streaming=true;\\
+IEEE754Compatible=false;\\
+charset=utf-8\\
+\\
+request-id: f45d08c0-6901-473a-90f5-7867287de97f\\
+client-request-id: f45d08c0-6901-473a-90f5-7867287de97f\\
+OData-Version: 4.0\\
+Duration: 727.0022\\
+Date: Thu, 20 Apr 2017 05:21:18 GMT\\
+Content-Length: 407\\
+\\
+\{\\
+    "@odata.context":"https://graph.microsoft.com/v1.0/\\
+    $metadata\#users/$entity",\\
+    "id":"12345678-73a6-4952-a53a-e9916737ff7f",\\
+    "businessPhones":[\\
+        "+1 555555555"\\
+    ],\\
+    "displayName":"Chris Green",\\
+    "givenName":"Chris",\\
+    "jobTitle":"Software Engineer",\\
+    "mail":null,\\
+    "mobilePhone":"+1 5555555555",\\
+    "officeLocation":"Seattle Office",\\
+    "preferredLanguage":null,\\
+    "surname":"Green",\\
+    "userPrincipalName":"ChrisG@contoso.onmicrosoft.com"\\
+\}\\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\subsection{Analisis Menggunakan Refresh Token untuk Mendapatkan Access Token Baru}
+\label{analisis_menggunakan_refresh_token}
+Access token memiliki waktu yang singkat dan ketika sudah kadaluarsa, maka aplikasi yang akan dibuat harus meminta kembali access token yang supaya bisa terus mengakses data yang ada di dalam Microsoft Graph. Cara mendapatkan access token yang baru dengan menggunakan refresh token adalah dengan cara mengirimkan post request sekali lagi kepada endpoint /token dan untuk kali ini, gunakan refresh token sebagai parameter yang dikirimkan dan juga grant type yang berisikan refresh token dalam body dari request yang dilakukan seperti contoh pada table \ref{tab:contoh_request_refresh_token} dengan keterangan parameter seperti yang dijelaskan pada table \ref{tab:parameter_request_refresh_token}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} menggunakan \textit{Refresh Token}}
+	\label{tab:contoh_request_refresh_token}
+	\begin{tabular}{|p{12cm}|}
+	\toprule
+	POST /common/oauth2/v2.0/token HTTP/1.1\\
+Host: https://login.microsoftonline.com\\
+Content-Type: application/x-www-form-urlencoded\\
+\\
+client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
+\&scope=user.read\%20mail.read\\
+\&refresh\_token=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE\\
+9UkP3pSx1aXxUjq...\\
+\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\\
+\&grant\_type=refresh\_token\\
+\&client\_secret=JqQX2PNo9bpM0uEihUPzyrh\\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{request} \textit{Refresh Token}}
+	\label{tab:parameter_request_refresh_token}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\toprule
+	 \textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
+	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
+	\textit{grant\_type} & wajib & Harus diisi dengan nilai refresh\_token. \\ \hline
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah meminta authorization\_code harus sama dengan langkah ini.  \\ \hline 
+	\textit{refresh\_token} & wajib & Refresh token yang didapat saat merequest token yang pertama kali. \\ \hline  
+	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
+	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+Jika request ini berhasil, maka akan mengembalikan response seperti pada table \ref{tab:contoh_response_refresh_token} yang memiliki keterangan parameter yang dikembalikannya seperti pada table \ref{tab:parameter_response_refresh_token}. 
+\\
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} menggunakan \textit{Refresh Token}}
+	\label{tab:contoh_response_refresh_token}
+	\begin{tabular}{|p{12cm}|}
+	\toprule
+	\{\\
+    "access\_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiI\\
+    sIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",\\
+    "token\_type": "Bearer",\\
+    "expires\_in": 3599,\\
+    "scope": "user.read\%20mail.read",\\
+    "refresh\_token": "AwABAAAAvPM1KaPlrEqdFSBzjq\\
+    fTGAMxZGUTdM0t4B4...",\\
+\}\\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{response} \textit{Refresh Token}}
+	\label{tab:parameter_response_refresh_token}
+	\begin{tabular}{|p{3cm}|p{9cm}|}
+	\toprule
+	 \textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
+	 \textit{access\_token} & Access token yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil Microsoft Graph. \\ \hline 
+	\textit{token\_type} & Menunjukkan nilai dari token. Satu-satunya jenis token yang didukung oleh Azure AD adalah Bearer.\\ \hline 
+	\textit{expires\_in} & Lamanya access token akan berlaku(dalam detik). \\ \hline 
+	\textit{scope} & Nilai scope yang valid untuk access\_token yang diberikan.  \\ \hline  
+	\textit{refresh\_token} & Refresh token ini berguna untuk meminta kembali access token setelah access token itu berakhir. Refresh token memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke source. \\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\section{Analisis Slack API}
+\label{sec:analisis_slack_api}
 Untuk dapat memakai dan mengakses \textit{method-method} yang disediakan oleh \textit{Slack}, dibutuhkan mendaftarkan aplikasi yang akan dibuat untuk bisa memperoleh \textit{Client ID} yang nantinya dibutuhkan untuk bisa mendapatkan \textit{authorization code} serta \textit{access token}. Sama seperti di \textit{Microsoft Graph API}, di dalam \textit{Slack API access token} dibutuhkan sebagai otorisasi untuk bisa mengakses \textit{method-method} yang disediakan oleh \textit{Slack}. Jika tidak memiliki \textit{access token}, maka seluruh \textit{method} yang dicoba di\textit{request} tidak akan mengembalikkan hasil dan dianggap sebagai \textit{request} yang \textit{invalid}. 
 
 Pada sesi ini akan dibutuhkan \textit{method} dari \textit{Slack API} yang bisa mengubah status yang jika dipelajari lebih lanjut tergabung di dalam \textit{user.profile}. Dari informasi yang didapat dari membaca-baca dokumentasi \textit{online} yang disediakan oleh \textit{Slack API}, bahwa status tergabung dalam \textit{user.profile}, maka untuk memenuhi dari kebutuhan di sisi ini dicoba menggunakan \textit{method-method} yang bisa untuk mengakses kepada objek \textit{user.profile}. Karena di sisi ini akan mengubah nilai dari status, asumsi sementara dari \textit{method} yang bisa dipakai dari sisi ini adalah \textit{method users.profile.set} yang akan berguna untuk mengubah isi dari profil pengguna yang di dalamnya terdapat status. 
+
+\section{Analisis Cron}
+\label{sec:analisis_cron}
+Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan pengambilan data secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Crontab memiliki kemampuan untuk menjalankan program secara berkala sesuai dengan format pengaturan yang sudah di set dari awal pembuatan perintah crontab. 
