@@ -659,9 +659,67 @@ Pada bagian ini, objek yang bisa diakses adalah profil dari pengguna. Terdapat m
 
 \section{\textit{Node.js}}
 \label{sec:nodejs}
-\textit{Node.js} adalah \textit{platform} perangkat lunak pada sisi \textit{server}. \textit{Node.js} ini ditulis dengan menggunakan bahasa \textit{Javascript}. Untuk menggunakan \textit{node.js}, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu \textit{node.js} yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall, barulah bisa digunakan. 
+\textit{Node.js} adalah \textit{platform} perangkat lunak pada sisi \textit{server}. \textit{Node.js} ini ditulis dengan menggunakan bahasa \textit{Javascript} dengan menggunakan npm sebagai default package manager. Untuk menggunakan \textit{node.js}, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu \textit{node.js} yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall node.js, barulah node.js bisa digunakan. 
 
-Format \textit{file} yang digunakan untuk \textit{platform} ini menggunakan format \textit{.js}. Untuk bisa menjalankan \textit{file} yang sudah dibuat, \textit{node.js} memiliki perintah yang harus dijalankan di \textit{terminal} yaitu perintah ``\textit{node} (nama file)''. Dengan perintah seperti itu, semua \textit{code} akan dieksekusi. Dengan menggunakan \textit{node.js}, sebuah kode program yang berbahasa \textit{JavaScript} akan menjadi \textit{server-base}, yang biasanya program \textit{JavaScript} adalah sebuah \textit{client-base}. 
+Format \textit{file} yang digunakan oleh node.js ini menggunakan format \textit{.js}. Untuk bisa menjalankan \textit{file} yang sudah dibuat, \textit{node.js} memiliki perintah yang harus dijalankan di \textit{terminal} yaitu perintah ``\textit{node} (nama file)''. Dengan perintah seperti itu, semua \textit{code} akan dieksekusi. Dengan menggunakan \textit{node.js}, sebuah kode program yang berbahasa \textit{JavaScript} akan menjadi \textit{server-base}, yang biasanya program \textit{JavaScript} adalah sebuah \textit{client-base}. Selain itu, node.js juga merupakan sebuah runtime JavaScript yang berjalan secara asynchronous yang diperuntukkan untuk membangun aplikasi jaringan yang bersifat skalabilitas. 
+
+Node.js disusun pertama kali di tahun 2009 oleh Ryan Dahl dan dibangun serta dikelola juga oleh Ryan dengan mendapatkan bantuan dari Joyent. Alasan dari Ryan Dahl mencetuskan ide node.js ini karena ia tidak suka dengan cara kerja server Apache yang digunakan untuk menanganin banyak koneksi secara bersamaan dan kode yang dibuat memblokir seluruh proses atau mengimplikasi banyak eksekusi pada koneksi serentak. Hal ini yang membawanya untuk berniat untuk membuat proyek Node.js yang kemudian dia tunjukkan di JSConf Eropa pada 8 November 2009. 
+
+Node.js menyediakan berbagai macam kelas-kelas yang bisa membantu untuk membuat kode program berjalan sesuai dengan kebutuhan. Setiap kelas dari library Node.js yang akan digunakan dan akan dipanggil di kode program yang akan dibuat perlu dipanggil dengan menggunakan perintah \textit{``require()''} dengan membutuhkan parameter yaitu nama kelas yang akan digunakannya. Contoh dari kelas yang ada di library node.js akan dijabarkan pada subbab
+
+\subsection{HTTP}
+\label{http}
+Untuk bisa mengakses dan menggunakan kelas HTTP server dan client, maka harus menggunakan kode \textit{``require(`http')''}. Kelas interface HTTP di dalam node.js ini didesign untuk mendukung banyak fitur protokol yang sulit digunakan. Dengan adanya interface HTTP, node.js menjadi bisa mengirim data melalui Hyper Text Transfer Protocol(HTTP). Header pada pesan HTTP merepresentasikan sebuah objek seperti pada contoh table \ref{tab:contoh_header_pesan_http}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{header} pesan \textit{HTTP}}
+	\label{tab:contoh_header_pesan_http}
+	\begin{tabular}{|p{6cm}|}
+	\toprule
+	\{\\
+	'content-length': '123',\\
+  	'content-type': 'text/plain',\\
+  	'connection': 'keep-alive',\\
+  	'host': 'mysite.com',\\
+  	'accept': '*/*' \\
+  	\}\\
+	\bottomrule
+\end{tabular}  
+\end{table}
+
+Untuk bisa melakukan pengiriman request ke suatu endpoint, maka dibutuhkan method dari kelas HTTP yaitu method http.request(). Method ini menerima parameter berupa url, options yang berupa objek, dan juga array dari callback. Pada bagian ini akan dijelaskan secara lebih detail mengenai parameter yang dibutuhkan oleh method http.request() ini
+\begin{itemize}
+	\item \textbf{url}\\
+	Bertipe String atau bisa bertipe class dari URL. 
+	\item \textbf{options}
+	\begin{itemize}
+		\item \textbf{Protocol} bertipe String yang menggambarkan protokol yang digunakan dengan nilai default adalah `http:'. 
+		\item \textbf{host} bertipe String yang merupakan nama domain atau IP address dari server untuk mengeluarkan request dengan nilai default adalah `localhost'. 
+		\item \textbf{hostname} bertipe String yang merupakan alias untuk host.
+		\item \textbf{family} bertipe number yang merupakan nilai dari versi IP address untuk melambangkan host atau hostname. Nilai yang bisa dipakai adalah 4 atau 6. 
+		\item \textbf{port} bertipe number yang merupakan nilai dari port dari server. Nilai default yang dipakai adalah 80. 
+		\item \textbf{localAddress} bertipe String yang menggambarkan interface lokal yang berfungsi untuk mengikat koneksi jaringan. 
+		\item \textbf{socketPath} bertipe String yang merupakan soket domain dari Unix. Nilai ini tidak dapat ditentukan jika salah satu dari host maupun port ditentukan. Nilai ini menentukan soket TCP. 
+		\item \textbf{method} bertipe String yang menentukan nilai dari tipe request HTTP. Nilai default yang dipakai adalah `GET'. 
+		\item \textbf{path} direktori endpoint pada request yang bertipe String. Nilai ini harus disertakan dengan query String jika dibutuhkan. Nilai default dari ini adalah `/'. 
+		\item \textbf{headers} bertipe Object yang merupakan objek yang mengandung request header. 
+		\item \textbf{auth} bertipe String yang merupakan nilai dari otentikasi dasar contohnya adalah `user:password'. 
+		\item \textbf{agent} bertipe http.Agent atau boolean yang berfungsi untuk mengontrol tingkah laku dari agent. Nilai yang mungkin ada dalam option ini adalah:
+		\begin{itemize}
+			\item undefined: sebagai nilai default. Menggunakan http.globalAgent untuk host dan port. 
+			\item Agent Object: secara eksplisit menggunakan agent yang diteruskan. 
+			\item false: dikarenakan agent baru dengan nilai-nilai default yang akan dipakai. 
+		\end{itemize}		 
+		\item \textbf{createConnection} sebuah fungsi yang membuat sebuah socket/stream untuk digunakan sebagai request ketika pilihan agent tidak digunakan. 
+		\item \textbf{timeout} bertipe number yang memiliki nilai yang menggambarkan batas waktu dari socket di dalam satuan milliseconds. 
+		\item \textbf{setHost} yang bertipe boolean yang berguna untuk menentukan akan menambah header Host secara otomatis atau tidak. Nilai default dari options ini adalah true. 
+	\end{itemize}
+	\item \textbf{callback} yang berupa function. 
+	\item \textbf{Returns} bertipe http.ClientRequest. 
+\end{itemize}
+
+Node.js memelihara beberapa koneksi per servernya untuk melakukan HTTP request. Fungsi ini memungkinkan untuk pengguna mengeluarkan request secara transparan. Untuk parameter url, jika url dituliskan dengan bertipe String, maka url tersebut akan langsung secara otomatis menggunakan url.parser() untuk menjadi url. Http.request() mengembalikan instance dari kelas http.ClientRequest. 
 
 \section{Cron}
 \label{sec:cron}
