@@ -299,6 +299,105 @@ Jika request ini berhasil, maka akan mengembalikan response seperti pada table \
 	\end{tabular}  
 \end{table}
 
+\subsection{Analisis Mendapatkan Data Events}
+\label{sec:analisis_mendapatkan_data_events}
+Data event di dalam Microsoft Graph tersimpan di dalam objek event yang memiliki relasi dengan objek user dari pengguna. Untuk dapat mengakses event yang memiliki relasi dengan user, aplikasi yang akan dibuat harus menjalankan method yang dimiliki objek user yaitu method list events mengirimkan get request kepada endpoint /me/events. List events sendiri adalah method yang berfungsi untuk mengembalikan objek-objek event yang berkaitan dengan objek user pengguna. Untuk setiap operasi get yang mengembalikan objek event di Microsoft Graph, ada sebuah parameter header ``Prefer:outlook.timezone'' yang berfungsi untuk menentukan time zone untuk mulainya dan berakhirnya event. Sebagai contoh, dapat dilihat pada table \ref{tab:contoh_header_time_zone}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{header time zone}}
+	\label{tab:contoh_header_time_zone}
+	\begin{tabular}{|p{9cm}|}
+	\toprule
+	 Prefer: outlook.timezone="Eastern Standard Time" \\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+Pada table \ref{tab:contoh_header_time_zone}, outlook timezone diatur menjadi Eastern Standard Time yang nantinya semua event yang dipanggil dengan header seperti itu akan mengembalikan starttime dan endtime dari event akan disesuaikan dengan zona waktu Eastern Standard Time. 
+
+Untuk bisa mengakses method ini, maka diperlukan format header dari request seperti yang akan dijelaskan pada table \ref{tab:parameter_header_time_zone}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{header time zone}}
+	\label{tab:parameter_header_time_zone}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\toprule
+	 \textbf{Nama} & \textbf{\textit{Type}} & \textbf{Deskripsi}\\ \hline
+	 \textit{Authorization} & \textit{String} & Bearer {token}. Bersifat wajib diisi. \\ \hline
+	 \textit{Prefer:}& & \\
+	 \textit{outlook.timezone} & \textit{String} & Digunakan untuk menentukan zona waktu yang akan dipakai untuk data yang akan dikembalikan. Bersifat optional. \\ \hline
+	 \textit{Prefer:}& & \\
+	 \textit{outlook.body-content-type} & \textit{String} & Merupakan nilai yang mengatur properti dari response body yang akan dikembalikan. Nilai bisa berupa ``text'' atau ``html''. Nilai default dari parameter ini adalah html. Bersifat optional. \\ \hline
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+Request ini juga bisa menerima parameter \$select yang berbentuk string query sebagai filter mengenai field apa saja yang mau diambil dari objek event. Dapat dilihat fungsi dari parameter string query \$select seperti pada contoh table \ref{tab:contoh_request_event} dan contoh responsenya pada table \ref{tab:contoh_response_event}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request event}}
+	\label{tab:contoh_request_event}
+	\begin{tabular}{|p{12cm}|}
+	\toprule
+	GET https://graph.microsoft.com/v1.0/me/events?\\
+	\$select=subject,bodyPreview,organizer,start,end,location\\
+	Prefer: outlook.timezone="Pacific Standard Time"\\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response event}}
+	\label{tab:contoh_response_event}
+	\begin{tabular}{|p{15cm}|}
+	\toprule
+	\begin{lstlisting}
+{
+    "@odata.context":"https://graph.microsoft.com/v1.0/$metadata
+    #users('cd209b0b-3f83-4c35-82d2-d88a61820480')/events(subject
+    ,bodyPreview,organizer,start,end,location)",
+    "value":[
+        {
+            "@odata.etag":"W/\"ZlnW4RIAV06KYYwlrfNZvQAAKGWwbw==\"",
+            "id":"AAMkAGIAAAoZDOFAAA=",
+            "subject":"Orientation ",
+            "bodyPreview":"Dana, this is the time you selected for 
+            our orientation. Please bring the notes I sent you.",
+            "start":{
+                "dateTime":"2017-04-21T10:00:00.0000000",
+                "timeZone":"Pacific Standard Time"
+            },"end":{
+                "dateTime":"2017-04-21T12:00:00.0000000",
+                "timeZone":"Pacific Standard Time"
+            },"location": {
+                "displayName": "Assembly Hall",
+                "locationType": "default",
+                "uniqueId": "Assembly Hall",
+                "uniqueIdType": "private"
+            },"locations": [{
+                    "displayName": "Assembly Hall",
+                    "locationType": "default",
+                    "uniqueIdType": "unknown"
+            }],                
+            "organizer":{
+                "emailAddress":{
+                    "name":"Samantha Booth",
+                    "address":"samanthab@a830edad905084922E170
+                    20313.onmicrosoft.com"
+                }
+            }
+        }
+    ]
+}
+\end{lstlisting}\\
+	\bottomrule
+	\end{tabular}  
+\end{table}
+
 \section{Analisis Slack API}
 \label{sec:analisis_slack_api}
 Untuk dapat memakai dan mengakses \textit{method-method} yang disediakan oleh \textit{Slack}, dibutuhkan mendaftarkan aplikasi yang akan dibuat untuk bisa memperoleh \textit{Client ID} yang nantinya dibutuhkan untuk bisa mendapatkan \textit{authorization code} serta \textit{access token}. Sama seperti di \textit{Microsoft Graph API}, di dalam \textit{Slack API access token} dibutuhkan sebagai otorisasi untuk bisa mengakses \textit{method-method} yang disediakan oleh \textit{Slack}. Jika tidak memiliki \textit{access token}, maka seluruh \textit{method} yang dicoba di\textit{request} tidak akan mengembalikkan hasil dan dianggap sebagai \textit{request} yang \textit{invalid}. 
@@ -307,4 +406,22 @@ Pada sesi ini akan dibutuhkan \textit{method} dari \textit{Slack API} yang bisa 
 
 \section{Analisis Cron}
 \label{sec:analisis_cron}
-Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan pengambilan data secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Crontab memiliki kemampuan untuk menjalankan program secara berkala sesuai dengan format pengaturan yang sudah di set dari awal pembuatan perintah crontab. 
+Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan request kepada Microsoft Graph, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Crontab memiliki kemampuan untuk menjalankan program secara berkala sesuai dengan format pengaturan yang sudah di set dari awal pembuatan perintah crontab. Crontab tinggal harus memanggil dan menjalankan aplikasi untuk mengambil data dan secara otomatis sesuai dengan waktu yang sudah diatur di crontab, maka program akan dijalankan. Untuk contoh format file crontab akan ditunjukkan pada \ref{lst:contoh_cronfile}.
+
+\begin{lstlisting}[caption=contoh cronfile]
+\label{lst:contoh_cronfile}
+# use /bin/sh to run commands, no matter what /etc/passwd says
+SHELL=/bin/sh
+# mail any output to 'paul', no matter whose crontab this is
+MAILTO=paul
+#
+CRON_TZ=Japan
+# run five minutes after midnight, every day
+5 0 * * *       $HOME/bin/daily.job >> $HOME/tmp/out 2>&1
+# run at 2:15pm on the first of every month -- output mailed to paul
+15 14 1 * *     $HOME/bin/monthly
+# run at 10 pm on weekdays, annoy Joe
+0 22 * * 1-5    mail -s "It's 10pm" joe%Joe,%%Where are your kids?%
+23 0-23/2 * * * echo "run 23 minutes after midn, 2am, 4am ..., everyday"
+5 4 * * sun     echo "run at 5 after 4 every sunday"
+\end{lstlisting}

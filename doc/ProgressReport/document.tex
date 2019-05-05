@@ -9,6 +9,7 @@
 \usepackage{etoolbox}
 \usepackage{setspace} 
 \usepackage{lipsum}
+\usepackage{listings}
 \setlength{\headsep}{30pt}
 \usepackage[inner=2cm,outer=2.5cm,top=2.5cm,bottom=2cm]{geometry} %margin
 % \pagestyle{empty}
@@ -16,7 +17,7 @@
 \makeatletter
 \renewcommand{\@maketitle} {\begin{center} {\LARGE \textbf{ \textsc{\@title}} \par} \bigskip {\large \textbf{\textsc{\@author}} }\end{center} }
 \renewcommand{\thispagestyle}[1]{}
-\markright{\textbf{\textsc{Laporan Perkembangan Pengerjaan Skripsi\textemdash Sem. Genap 2015/2016}}}
+\markright{\textbf{\textsc{Laporan Perkembangan Pengerjaan Skripsi\textemdash Sem. Genap 2018/2019}}}
 
 \onehalfspacing
  
@@ -98,31 +99,87 @@ Detail bagian pekerjaan skripsi sesuai dengan rencan kerja/laporan perkembangan 
 	\begin{enumerate}
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai \textit{Node.js}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Karena banyaknya library yang disediakan oleh Node.js, maka akan dilakukan studi literatur secara terus menerus seiring dengan membuat kode program untuk skripsi ini. 
+		{\bf Hasil :} \textit{Node.js} adalah \textit{platform} perangkat lunak pada sisi \textit{server}. \textit{Node.js} ini ditulis dengan menggunakan bahasa \textit{Javascript} dengan menggunakan \textit{npm} sebagai \textit{default package manager}. Untuk menggunakan \textit{node.js}, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu \textit{node.js} yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall \textit{node.js}, barulah \textit{node.js} bisa digunakan. 
+
+Format \textit{file} yang digunakan oleh \textit{node.js} ini menggunakan format \textit{.js}. Untuk bisa menjalankan \textit{file} yang sudah dibuat, \textit{node.js} memiliki perintah yang harus dijalankan di \textit{terminal} yaitu perintah ``\textit{node} (nama file)''. Dengan perintah seperti itu, semua \textit{code} akan dieksekusi. Dengan menggunakan \textit{node.js}, sebuah kode program yang berbahasa \textit{JavaScript} akan menjadi \textit{server-base}, yang biasanya program \textit{JavaScript} adalah sebuah \textit{client-base}. Selain itu, \textit{node.js} juga merupakan sebuah \textit{JavaScript} yang berjalan secara \textit{asynchronous} yang diperuntukkan untuk membangun aplikasi jaringan yang bersifat skalabilitas. 
+
+\textit{Node.js} disusun pertama kali di tahun 2009 oleh Ryan Dahl dan dibangun serta dikelola juga oleh Ryan dengan mendapatkan bantuan dari Joyent. Alasan dari Ryan Dahl mencetuskan ide \textit{node.js} ini karena ia tidak suka dengan cara kerja server \textit{Apache} yang digunakan untuk menangani banyak koneksi secara bersamaan dan kode yang dibuat memblokir seluruh proses atau mengimplikasi banyak eksekusi pada koneksi serentak. Hal ini yang membawanya untuk berniat untuk membuat proyek \textit{Node.js} yang kemudian dia tunjukkan di \textit{JSConf} Eropa pada 8 November 2009. 
+
+\textit{Node.js} menyediakan berbagai macam kelas-kelas yang bisa membantu untuk membuat kode program berjalan sesuai dengan kebutuhan. Setiap kelas dari \textit{library Node.js} yang akan digunakan dan akan dipanggil di kode program yang akan dibuat perlu dipanggil dengan menggunakan perintah \textit{``require()''} dengan membutuhkan parameter yaitu nama kelas yang akan digunakannya.
+
+Salah satu kelas yang dipelajari adalah kelas \textit{HTTP}. Untuk bisa mengakses dan menggunakan kelas \textit{HTTP server} dan \textit{client}, maka harus menggunakan kode \textit{``require(`http')''}. Kelas \textit{interface HTTP} di dalam \textit{node.js} ini di\textit{design} untuk mendukung banyak fitur protokol yang sulit digunakan. Dengan adanya \textit{interface HTTP}, \textit{node.js} menjadi bisa mengirim data melalui \textit{Hyper Text Transfer Protocol(HTTP)}. \textit{Header} pada pesan \textit{HTTP} merepresentasikan sebuah objek seperti pada contoh table \ref{tab:contoh_header_pesan_http}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{header} pesan \textit{HTTP}}
+	\label{tab:contoh_header_pesan_http}
+	\begin{tabular}{|p{6cm}|}
+	\hline
+	\{\\
+	'content-length': '123',\\
+  	'content-type': 'text/plain',\\
+  	'connection': 'keep-alive',\\
+  	'host': 'mysite.com',\\
+  	'accept': '*/*' \\
+  	\}\\
+	\hline
+\end{tabular}  
+\end{table}
+
+Untuk bisa melakukan pengiriman \textit{request} ke suatu \textit{endpoint}, maka dibutuhkan \textit{method} dari kelas \textit{HTTP} yaitu \textit{method http.request()}. \textit{Method} ini menerima parameter berupa \textit{url}, \textit{options} yang berupa objek, \textit{callback} yang merupakan sebuah \textit{function}. Pada bagian ini akan dijelaskan secara lebih detail mengenai parameter yang dibutuhkan oleh \textit{method http.request()} ini. 
+\begin{itemize}
+	\item \textbf{url}\\
+	Bertipe String atau bisa bertipe class dari URL. 
+	\item \textbf{options}
+	\begin{itemize}
+		\item \textbf{Protocol} bertipe \textit{String} yang menggambarkan protokol yang digunakan dengan nilai \textit{default} adalah \textit{`http:'}. 
+		\item \textbf{host} bertipe \textit{String} yang merupakan nama \textit{domain} atau \textit{IP address} dari \textit{server} untuk mengeluarkan \textit{request} dengan nilai \textit{default} adalah `\textit{localhost}'. 
+		\item \textbf{hostname} bertipe \textit{String} yang merupakan alias untuk \textit{host}.
+		\item \textbf{family} bertipe \textit{number} yang merupakan nilai dari versi \textit{IP address} untuk melambangkan \textit{host} atau \textit{hostname}. Nilai yang bisa dipakai adalah 4 atau 6. 
+		\item \textbf{port} bertipe \textit{number} yang merupakan nilai dari \textit{port} dari \textit{server}. Nilai \textit{default} yang dipakai adalah 80. 
+		\item \textbf{localAddress} bertipe \textit{String} yang menggambarkan \textit{interface} lokal yang berfungsi untuk mengikat koneksi jaringan. 
+		\item \textbf{socketPath} bertipe \textit{String} yang merupakan soket \textit{domain} dari \textit{Unix}. Nilai ini tidak dapat ditentukan jika salah satu dari \textit{host} maupun \textit{port} ditentukan. Nilai ini menentukan soket \textit{TCP}. 
+		\item \textbf{method} bertipe \textit{String} yang menentukan nilai dari tipe \textit{request HTTP}. Nilai \textit{default} yang dipakai adalah `\textit{GET}'. 
+		\item \textbf{path} direktori \textit{endpoint} pada \textit{request} yang bertipe \textit{String}. Nilai ini harus disertakan dengan \textit{query String} jika dibutuhkan. Nilai \textit{default} dari ini adalah `/'. 
+		\item \textbf{headers} bertipe \textit{Object} yang merupakan objek yang mengandung \textit{request header}. 
+		\item \textbf{auth} bertipe \textit{String} yang merupakan nilai dari otentikasi dasar contohnya adalah `\textit{user:password}'. 
+		\item \textbf{agent} bertipe \textit{http.Agent} atau \textit{boolean} yang berfungsi untuk mengontrol tingkah laku dari \textit{agent}. Nilai yang mungkin ada dalam \textit{option} ini adalah:
+		\begin{itemize}
+			\item \textit{undefined}: sebagai nilai \textit{default}. Menggunakan \textit{http.globalAgent} untuk \textit{host} dan \textit{port}. 
+			\item \textit{Agent Object}: secara eksplisit menggunakan \textit{agent} yang diteruskan. 
+			\item \textit{false}: dikarenakan \textit{agent} baru dengan nilai-nilai \textit{default} yang akan dipakai. 
+		\end{itemize}		 
+		\item \textbf{createConnection} sebuah fungsi yang membuat sebuah \textit{socket/stream} untuk digunakan sebagai \textit{request} ketika pilihan agent tidak digunakan. 
+		\item \textbf{timeout} bertipe \textit{number} yang memiliki nilai yang menggambarkan batas waktu dari \textit{socket} di dalam satuan \textit{milliseconds}. 
+		\item \textbf{setHost} yang bertipe \textit{boolean} yang berguna untuk menentukan akan menambah \textit{header Host} secara otomatis atau tidak. Nilai \textit{default} dari \textit{option} ini adalah \textit{true}. 
+	\end{itemize}
+	\item \textbf{callback} yang berupa \textit{function}. 
+	\item \textbf{Returns} bertipe \textit{http.ClientRequest}. 
+\end{itemize}
+
+\textit{Node.js} memelihara beberapa koneksi per servernya untuk melakukan \textit{HTTP request}. Fungsi ini memungkinkan untuk pengguna mengeluarkan \textit{request} secara transparan. Untuk parameter \textit{url}, jika \textit{url} dituliskan dengan \textit{bertipe String}, maka \textit{url} tersebut akan langsung secara otomatis diubah menggunakan \textit{url.parser()} untuk menjadi \textit{url}. \textit{Http.request()} mengembalikan \textit{instance} dari kelas \textit{http.ClientRequest}. Parameter \textit{callback} adalah \textit{function} yang bersifat sebagai \textit{listener} untuk \textit{response} yang dihasilkan dari \textit{request} yang dijalankan. 
+  
 		
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Terdapat perubahan di poin ini dikarenakan adanya aplikasi yang berbeda yaitu aplikasi Outlook Calendar dan Outlook.com Calendar. Aplikasi yang akan digunakan di skripsi ini adalah Outlook.com Calendar yang memiliki API yang berpusat pada Microsoft Graph API. Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan Microsoft 365 yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi beta, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. 
+		{\bf Hasil :} Terdapat perubahan di poin ini dikarenakan adanya aplikasi yang berbeda yaitu aplikasi \textit{Outlook Calendar} dan \textit{Outlook.com Calendar}. Aplikasi yang akan digunakan di skripsi ini adalah \textit{Outlook.com Calendar} yang memiliki \textit{API} yang berpusat pada \textit{Microsoft Graph API}. \textit{Microsoft Graph API} adalah \textit{webservice} yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan \textit{Microsoft 365} yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi \textit{beta}, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. 
 		
-		Untuk menggunakan fungsi dari \textit{Microsoft Graph API}, dibutuhkan untuk mendaftarkan terlebih dahulu aplikasi yang akan dirancang dan memakai fungsi dari \textit{webservice} dari \textit{Microsoft Graph API} ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Pada saat mendaftarkan aplikasinya, pastikan untuk menyalin dan menyimpan \textit{application ID} yang adalah pengenal unik untuk aplikasi yang didaftarkan, dan juga menyalin \textit{Redirect URL} yang didaftarkan sebagai \textit{URL} yang akan menerima balikan \textit{authentication} dan juga \textit{token} yang akan dikirim oleh \textit{endpoint Azure AD v2.0}, serta menyalin \textit{application secret} yang didapat saat mengklik ``\textit{Generate New Password}'' saat mendaftarkan aplikasi (berlaku jika mendaftarkan aplikasi berjenis \textit{web apps}). \textit{Application ID} yang didapat saat mendaftar aplikasi akan dipakai untuk mengisi nilai dari parameter \textit{client\_id} yang akan diisi saat akan melakukan \textit{request} untuk mendapatkan \textit{authorization\_code}. Setelah mendapatkan \textit{authorization\_code}, maka langkah selanjutnya adalah meminta \textit{access\_token} yang membutuhkan \textit{parameter} \textit{authorization\_code} kepada \textit{field code}, dan juga \textit{application\_secret} yang didapat dari pendaftaran aplikasi sebelumnya yang akan mengisi \textit{field client\_secret}. Response dari request token akan mengembalikkan jangka waktu aktif dari token tersebut dan juga refresh\_token yang akan berguna untuk meminta refresh\_token saat token sudah \textit{expired}. 
+		Untuk menggunakan fungsi dari \textit{Microsoft Graph API}, dibutuhkan untuk mendaftarkan terlebih dahulu aplikasi yang akan dirancang dan memakai fungsi dari \textit{webservice} dari \textit{Microsoft Graph API} ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Pada saat mendaftarkan aplikasinya, pastikan untuk menyalin dan menyimpan \textit{application ID} yang adalah pengenal unik untuk aplikasi yang didaftarkan, dan juga menyalin \textit{Redirect URL} yang didaftarkan sebagai \textit{URL} yang akan menerima balikan \textit{authentication} dan juga \textit{token} yang akan dikirim oleh \textit{endpoint Azure AD v2.0}, serta menyalin \textit{application secret} yang didapat saat mengklik ``\textit{Generate New Password}'' saat mendaftarkan aplikasi (berlaku jika mendaftarkan aplikasi berjenis \textit{web apps}). \textit{Application ID} yang didapat saat mendaftar aplikasi akan dipakai untuk mengisi nilai dari parameter \textit{client\_id} yang akan diisi saat akan melakukan \textit{request} untuk mendapatkan \textit{authorization\_code}. Setelah mendapatkan \textit{authorization\_code}, maka langkah selanjutnya adalah meminta \textit{access\_token} yang membutuhkan \textit{parameter} \textit{authorization\_code} kepada \textit{field code}, dan juga \textit{application\_secret} yang didapat dari pendaftaran aplikasi sebelumnya yang akan mengisi \textit{field client\_secret}. \textit{Response} dari \textit{request token} akan mengembalikkan jangka waktu aktif dari \textit{token} tersebut dan juga \textit{refresh\_token} yang akan berguna untuk meminta \textit{access\_token} saat sudah \textit{expired}. 
 		
-		Setelah mendapatkan \textit{access token}, barulah layanan untuk mendapatkan data yang tersimpan di \textit{Microsoft} baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari \textit{Microsoft Graph API} yang dikelompokkan menjadi kelas-kelas yang masing-masing memiliki properti dan juga method-method yang cara mengaksesnya memiliki endpoint masing-masing. 
+		Setelah mendapatkan \textit{access token}, barulah layanan untuk mendapatkan data yang tersimpan di \textit{Microsoft} baru bisa diakses dan didapatkan. Ada banyak layanan yang disediakan dari \textit{Microsoft Graph API} yang dikelompokkan menjadi kelas-kelas yang masing-masing memiliki properti dan juga \textit{method-method} yang cara mengaksesnya memiliki \textit{endpoint} masing-masing. Dari banyaknya kelas yang disediakan oleh \textit{Microsoft Graph}, pembelajaran lebih difokuskan kepada kelas \textit{user} dan juga kelas \textit{event} dikarenakan yang akan diambil dari bagian \textit{Microsoft Graph} adalah \textit{event} dari seorang pengguna. 
 
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Pada poin ini lebih diutamakan mempelajari aplikasi terutama pada API yang telah disediakan oleh aplikasi Slack. \textit{Slack API} adalah \textit{webservice} yang akan digunakan untuk menghubungkan data yang sudah di dapat dari \textit{Outlook.com Calendar} ke aplikasi \textit{Slack}. Untuk mengakses \textit{Slack API}, kita diharuskan untuk mendaftarkan aplikasi yang akan dibuat dan juga mendaftarkannya ke \textit{workspace} yang akan dipakai untuk menjalankan aplikasi yang akan dibuat. Untuk mendaftarkan aplikasi yang akan dibuat bisa menuju ke laman \textit{https://api.slack.com/apps}. Aplikasi yang sudah terdaftar akan diberikan \textit{Client ID} yang unik dan juga \textit{Client Secret} yang akan digunakan pada proses \textit{OAuth}. 
+		{\bf Hasil :} Pada poin ini lebih diutamakan mempelajari aplikasi terutama pada \textit{API} yang telah disediakan oleh aplikasi \textit{Slack}. \textit{Slack API} adalah \textit{webservice} yang akan digunakan untuk menghubungkan data yang sudah di dapat dari \textit{Outlook.com Calendar} ke aplikasi \textit{Slack}. Untuk mengakses \textit{Slack API}, diharuskan untuk mendaftarkan aplikasi yang akan dibuat dan juga mendaftarkannya ke \textit{workspace} yang akan dipakai untuk menjalankan aplikasi yang akan dibuat. Untuk mendaftarkan aplikasi yang akan dibuat bisa menuju ke laman \textit{https://api.slack.com/apps}. Aplikasi yang sudah terdaftar akan diberikan \textit{Client ID} yang unik dan juga \textit{Client Secret} yang akan digunakan pada proses \textit{OAuth}. 
 		
-		Proses pertama yang akan dijalani dalam rangkaian proses \textit{OAuth} adalah dengan meminta \textit{authorization code} yang akan berjalan jika aplikasi yang akan dibuat untuk mengarahkan pengguna dan mengirimkan \textit{get request} ke \textit{URL} \textit{https://slack.com/oauth/authorize} dengan \textit{get parameter} yang wajib yaitu \textit{client\_id} yang diberikan pada saat mendaftarkan aplikasi yang akan dibuat dan juga \textit{get parameter scope}, serta memiliki parameter yang bersifat opsional yaitu \textit{redirect\_uri} yang berfungsi untuk alamat tujuan dari kembalian yang dikirim oleh API, \textit{state} yaitu yang berupa \textit{String} unik untuk diteruskan kembali setelah selesai, dan juga \textit{team} berupa \textit{Slack team ID} dari \textit{workspace} yang berfungsi untuk membatasi. Parameter \textit{scope} disini berguna untuk menentukan dengan tepat bagaimana aplikasi perlu mengakses akun pengguna \textit{Slack}. Penulisan format \textit{parameter scope} yaitu merujuk ke objek yang akan diberi akses, dan dilanjutkan dengan kelas tindakan pada objek yang diberikan izin, contohnya \textit{file:read}. Selain itu ada juga perspektif opsional yang berisi \textit{user}, \textit{bot}, dan \textit{admin} yang akan memengaruhi tindakan yang muncul nantinya di dalam aplikasi \textit{Slack}, contohnya \textit{chat:write:user} yang berarti akan mengirimkan pesan dari pengguna yang memiliki wewenang. Kelas tindakan yang ada disini ada 3 yaitu:
+		Proses pertama yang akan dijalani dalam rangkaian proses \textit{OAuth} adalah dengan meminta \textit{authorization code} yang akan berjalan jika aplikasi yang akan dibuat untuk mengarahkan pengguna dan mengirimkan \textit{get request} ke \textit{URL} \textit{https://slack.com/oauth/authorize} dengan \textit{get parameter} yang wajib yaitu \textit{client\_id} yang diberikan pada saat mendaftarkan aplikasi yang akan dibuat dan juga \textit{get parameter scope}, serta memiliki parameter yang bersifat \textit{optional} yaitu \textit{redirect\_uri} yang berfungsi untuk alamat tujuan dari kembalian yang dikirim oleh API, \textit{state} yaitu yang berupa \textit{String} unik untuk diteruskan kembali setelah selesai, dan juga \textit{team} berupa \textit{Slack team ID} dari \textit{workspace} yang berfungsi untuk membatasi. Parameter \textit{scope} disini berguna untuk menentukan dengan tepat bagaimana aplikasi perlu mengakses akun pengguna \textit{Slack}. Penulisan format \textit{parameter scope} yaitu merujuk ke objek yang akan diberi akses, dan dilanjutkan dengan kelas tindakan pada objek yang diberikan izin, contohnya \textit{file:read}. Selain itu ada juga perspektif opsional yang berisi \textit{user}, \textit{bot}, dan \textit{admin} yang akan memengaruhi tindakan yang muncul nantinya di dalam aplikasi \textit{Slack}, contohnya \textit{chat:write:user} yang berarti akan mengirimkan pesan dari pengguna yang memiliki wewenang. Kelas tindakan yang ada disini ada 3 yaitu:
 \begin{itemize}
 	\item \textbf{read:} Membaca informasi lengkap dari satu sumber. 
 	\item \textbf{write:} Memodifikasi sumber. Bisa melakukan \textit{create}, \textit{edit}, dan \textit{delete} dengan kelas tindakan ini. 
 	\item \textbf{history:} Mengakses arsip pesan. 
 \end{itemize} 
 
-\textit{Authorization code} yang telah didapat memiliki waktu kadaluarsa selama 10 menit. Setelah mendapatkan \textit{authorization code}, langkah selanjutnya yang harus dilakukan adalah menukarkan \textit{authorization code} dengan \textit{access token} dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{https://slack.com/api/oauth.access} yang memiliki \textit{request body} yang wajib yaitu \textit{client\_id}, \textit{client\_secret}, dan \textit{code}. \textit{Client\_id} dan juga \textit{client\_secret} didapat dari awal mendaftarkan aplikasi. Parameter \textit{code} didapat dari \textit{authorization code} yang didapatkan dari langkah sebelumnya.
-
-Setelah mendapatkan \textit{access token}, barulah method API yang disediakan bisa dijalankan.
-Objek yang bisa diakses dan daftar dari method-method API yang disediakan \textit{Slack}.
+\textit{Authorization code} yang telah didapat memiliki waktu kadaluarsa selama 10 menit. Setelah mendapatkan \textit{authorization code}, langkah selanjutnya yang harus dilakukan adalah menukarkan \textit{authorization code} dengan \textit{access token} dengan cara mengirimkan \textit{post request} kepada \textit{endpoint} \textit{https://slack.com/api/oauth.access} yang memiliki \textit{request body} yang wajib yaitu \textit{client\_id}, \textit{client\_secret}, dan \textit{code}. \textit{Client\_id} dan juga \textit{client\_secret} didapat dari awal mendaftarkan aplikasi. Parameter \textit{code} didapat dari \textit{authorization code} yang didapatkan dari langkah sebelumnya. Setelah mendapatkan \textit{access token}, barulah \textit{method} \textit{API} yang disediakan bisa dijalankan dengan mengirimkan \textit{request} yang memiliki \textit{header access token}nya dan \textit{parameter request} sesuai dengan apa yang diminta oleh \textit{method} yang tersedia.
 
 		\item \textbf{Melakukan studi literatur melalui dokumentasi \textit{online} mengenai cron dan crontab.}\\
 		{\bf Status :} Baru ditambahkan pada semester ini.\\
@@ -131,11 +188,11 @@ Objek yang bisa diakses dan daftar dari method-method API yang disediakan \texti
 \textit{Crontab} adalah \textit{file} yang digunakan untuk menjadwalkan eksekusi dari sebuah program. \textit{Crontab} bisa diakses oleh pengguna dengan menjalankan perintah ``\textit{crontab}'' di \textit{terminal} dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh \textit{crontab} adalah:
 \begin{itemize}
 	\item \textit{crontab -e}\\
-	Command ini digunakan untuk membuat atau mengubah file crontab jika sudah ada. 
+	Command ini digunakan untuk membuat atau mengubah \textit{file crontab} jika sudah ada. 
 	\item \textit{crontab -l}\\
-	Command ini digunakan untuk menampilkan isi file crontab.
+	Command ini digunakan untuk menampilkan isi \textit{file crontab}.
 	\item \textit{crontab -r}\\
-	Command ini digunakan untuk menghapus file crontab.
+	Command ini digunakan untuk menghapus \textit{file crontab}.
 \end{itemize}
 
 \textit{Crontab} memiliki baris kode yang berformat ``\textit{m h dom mon dow command}'' yang memiliki arti:
@@ -158,40 +215,418 @@ Semua nilai dari \textit{parameter} m, h, dom, mon, dan dow bisa diisi dengan si
 
 		\item \textbf{Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.}\\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} Analisis ini dilakukan harus dengan cara membaginya menjadi analisis atas pemakaian Microsoft Graph API, dan juga analisis mengenai Cron dan Crontab.  
+		{\bf Hasil :} Analisis ini dilakukan harus dengan cara membaginya menjadi analisis atas pemakaian \textit{Microsoft Graph API}, dan juga analisis mengenai \textit{Cron} dan \textit{Crontab}. Pada analisis bagian \textit{Microsoft Graph}, dilakukan analisis mengenai \textit{API} yang telah disediakan oleh \textit{Microsoft Graph API} yang akan digunakan untuk mengambil data acara/\textit{event} yang dibutuhkan oleh perangkat lunak yang akan dibangun. Akan ada beberapa langkah yang harus dijalankan untuk berhasil mencapai tujuan dari perangkat lunak ini. Langkah pertama yaitu mendapatkan \textit{authorization\_code}. Untuk mendapatkan \textit{authorization code}, diperlukan untuk mendaftarkan aplikasi yang akan dibuat ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Dari mendaftarkan aplikasi yang akan dibuat di portal registrasi tersebut akan menghasilkan \textit{Application ID}, \textit{Application Secret}, dan juga \textit{redirect URL} yang akan digunakan. Jika \textit{platform} yang dipilih adalah \textit{web}, maka \textit{redirect URL} harus ditentukan sendiri. Dalam meminta \textit{authorization code}, aplikasi yang dibuat harus mengirimkan \textit{get request} terlebih dahulu ke \textit{endpoint /authorize} yang membutuhkan parameter seperti yang dijelaskan di tabel \ref{tab:parameter_authorization_code}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{Authorization Code}}
+	\label{tab:parameter_authorization_code}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\hline
+	\textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
+	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama domain dari akun \textit{Microsoft}.\\ \hline 
+	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
+	\textit{response\_type} & wajib & Tipe balikan yang diterima dari \textit{request}. Bernilai 				\textit{code} yang berarti akan mengembalikan \textit{code}. \\ \hline 
+	\textit{redirect\_uri} & direkomendasikan & \textit{Redirect uri} dari aplikasi yang didaftarkan dimana hasil dari \textit{request} yang didapat akan dikembalikan ke url yang sudah didaftarkan. \\ \hline 
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. \\ \hline 
+\textit{response\_mode} & direkomendasikan & Menentukan metode yang harus digunakan untuk mengirimkan token yang dihasilkan kembali ke aplikasi. Dapat bernilai \textit{query} atau \textit{form\_post}. \\ \hline 
+	\textit{state} & direkomendasikan & Nilai yang diisi saat mengirimkan \textit{request} dan akan dikembalikan juga saat menerima \textit{response}. Tujuan dari nilai ini adalah untuk mencegah pemalsuan permintaan lintas situs. Digunakan untuk menyandikan informasi sebelum \textit{request} untuk otentikasi. Biasanya nilai ini berisi nilai unik secara acak. \\ \hline
+\end{tabular}  
+\end{table}
+
+Pada parameter \textit{scope}, dapat diisi dengan nilai \textit{offline\_access} yang akan menjadikan aplikasi mendapatkan \textit{response} berupa \textit{refresh token} yang berguna untuk mendapatkan \textit{access token} yang baru saat yang lama sudah kadaluarsa. Contoh \textit{request} yang dikirimkan akan seperti yang terdapat pada contoh table \ref{tab:contoh_request_authorization_code}.
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} \textit{Authorization Code}}
+	\label{tab:contoh_request_authorization_code}
+	\begin{tabular}{|p{12cm}|}
+	\hline
+	https://login.microsoftonline.com/\{tenant\}/oauth2/v2.0/authorize?\\
+client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
+\&response\_type=code\\
+\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\\
+\&response\_mode=query\\
+\&scope=offline\_access\%20user.read\%20mail.read\\
+\&state=12345\\
+	\hline
+\end{tabular}  
+\end{table}
+
+Dari \textit{request} seperti contoh table \ref{tab:contoh_request_authorization_code}, akan menghasilkan contoh \textit{response} seperti yang terdapat pada table \ref{tab:contoh_response_authorization_code} dengan keterangan parameter seperti yang terdapat pada table \ref{tab:parameter_response_authorization_code}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} \textit{Authorization Code}}
+	\label{tab:contoh_response_authorization_code}
+	\begin{tabular}{|p{9cm}|}
+	\hline
+	GET https://localhost/myapp/?\\
+code=M0ab92efe-b6fd-df08-87dc-2c6500a7f84d\\
+\&state=12345 \\
+	\hline
+\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{response} \textit{Authorization Code}}
+	\label{tab:parameter_response_authorization_code}
+	\begin{tabular}{|p{3cm}|p{9cm}|}
+	\hline
+	\textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
+	\textit{code} & Nilai ini merupakan \textit{authorization\_code} yang telah di\textit{request} oleh aplikasi. \textit{Authorization\_code} ini digunakan untuk meminta \textit{access token}. \textit{Authorization code} memiliki waktu kadaluarsa yang singkat yaitu biasanya akan kadaluarsa setelah 10 menit. \\ \hline 
+	\textit{state} & Jika saat melakukan \textit{request}, parameter \textit{state} diisi, maka pada saat mengeluarkan \textit{response}, akan mengeluarkan nilai \textit{state} yang sama seperti yang sudah diisi saat melakukan \textit{request}. Aplikasi harus mengidentifikasi apakah nilai \textit{state} saat melakukan \textit{request} dengan nilai \textit{state} di \textit{response} sama atau tidak. \\ \hline
+\end{tabular}  
+\end{table}
+
+Hasil \textit{response} yang ditampilkan oleh table \ref{tab:contoh_response_authorization_code} muncul karena pada saat \textit{request} di table \ref{tab:contoh_request_authorization_code} terdapat parameter \textit{response\_mode} yang diisi dengan nilai \textit{query} sehingga \textit{response} yang dikembalikan dalam bentuk \textit{query string} dari \textit{redirect url}. Setelah mendapatkan \textit{authorization code}, langkah selanjutnya yang harus dijalankan sebelum bisa memanggil \textit{method API} yang dibutuhkan adalah dengan mendapatkan \textit{access token}. Yang diperlukan untuk bisa mendapatkan \textit{access token}, maka aplikasi yang dibuat membutuhkan \textit{authorization code} yang diterima di langkah sebelumnya dan mengirimkan \textit{post request} kepada \textit{endpoint /token}. 
+
+Untuk mengirimkan \textit{post request}, diperlukan \textit{request body} yang memiliki elemen-elemen seperti yang terdapat di contoh table \ref{tab:contoh_request_access_token}. Adapun penjelasan dari setiap parameter yang terdapat di dalam \textit{request body} dijelaskan pada table \ref{tab:parameter_request_access_token}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} \textit{Access Token}}
+	\label{tab:contoh_request_access_token}
+	\begin{tabular}{|p{12cm}|}
+	\hline
+	POST /common/oauth2/v2.0/token HTTP/1.1\\
+Host: https://login.microsoftonline.com\\
+Content-Type: application/x-www-form-urlencoded\\
+\\
+client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
+\&scope=user.read\%20mail.read\\
+\&code=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQ\\
+JVzCTE9UkP3pSx1aXxUjq3n8b2JRLk4OxVXr...\\
+\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\\
+\&grant\_type=authorization\_code\\
+\&client\_secret=JqQX2PNo9bpM0uEihUPzyrh \\ 
+	\hline
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{request} \textit{Access Token}}
+	\label{tab:parameter_request_access_token}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\hline
+	 \textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
+	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama domain dari akun \textit{Microsoft}.\\ \hline 
+	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
+	\textit{grant\_type} & wajib & Harus diisi dengan nilai authorization\_code untuk alur authorization code. \\ \hline
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah sebelumnya harus sama dengan langkah ini.  \\ \hline 
+	\textit{code} & wajib & \textit{Authorization code} yang didapat dari langkah sebelumnya. \\ \hline  
+	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
+	\textit{client\_secret} & wajib untuk \textit{web apps} & \textit{Application secret} yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Dari contoh \textit{request} yang dilakukan pada table\ref{tab:contoh_request_access_token}, maka akan dihasilkan contoh \textit{token} seperti pada table \ref{tab:contoh_response_access_token} yang memiliki keterangan dari hasil yang dikembalikan pada table\ref{tab:parameter_response_access_token}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} \textit{Access Token}}
+	\label{tab:contoh_response_access_token}
+	\begin{tabular}{|p{9cm}|}
+	\hline
+	\{\\
+    "token\_type": "Bearer",\\
+    "scope": "user.read\%20Fmail.read",\\
+    "expires\_in": 3600,\\
+    "access\_token": "eyJ0eXAiOiJKV1QiLCJhbG\\
+    ciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",\\
+    "refresh\_token": "AwABAAAAvPM1KaPlrEqdF\\
+    SBzjqfTGAMxZGUTdM0t4B4..."\\
+	\}\\ 
+	\hline
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{response} \textit{Access Token}}
+	\label{tab:parameter_response_access_token}
+	\begin{tabular}{|p{3cm}|p{9cm}|}
+	\hline
+	 \textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
+	\textit{token\_type} & Menunjukkan nilai dari token. Satu-satunya jenis token yang didukung oleh Azure AD adalah Bearer.\\ \hline 
+	\textit{scope} & Nilai scope yang valid untuk access\_token yang diberikan.  \\ \hline 
+	\textit{expires\_in} & Lamanya access token akan berlaku(dalam detik). \\ \hline  
+	\textit{access\_token} & Access token yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil Microsoft Graph. \\ \hline 
+	\textit{refresh\_token} & Refresh token ini berguna untuk meminta kembali access token setelah access token itu berakhir. Refresh token memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke source. \\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Setelah mendapatkan \textit{access token}, panggilan ke \textit{Microsoft Graph} pun bisa dilakukan dengan syarat menyertakan \textit{access token} di \textit{authorization header} di setiap \textit{request} yang dikirim. Pada table\ref{tab:contoh_request_call_microsoft_graph} menunjukkan contoh \textit{request} untuk mendapatkan profil dari pengguna yang masuk. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} \textit{call Microsoft Graph}}
+	\label{tab:contoh_request_call_microsoft_graph}
+	\begin{tabular}{|p{9cm}|}
+	\hline
+	GET https://graph.microsoft.com/v1.0/me \\
+Authorization: Bearer eyJ0eXAiO ... 0X2tnSQLEANnSPHY0gKcgw\\
+Host: graph.microsoft.com \\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Jika \textit{request} yang dikirimkan berhasil, maka akan mendapatkan \textit{response} yang akan terlihat mirip dengan contoh seperti pada table \ref{tab:contoh_response_call_microsoft_graph}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} \textit{call Microsoft Graph}}
+	\label{tab:contoh_response_call_microsoft_graph}
+	\begin{tabular}{|p{12cm}|}
+	\hline
+	HTTP/1.1 200 OK\\
+Content-Type: application/json;\\
+odata.metadata=minimal;\\
+odata.streaming=true;\\
+IEEE754Compatible=false;\\
+charset=utf-8\\
+\\
+request-id: f45d08c0-6901-473a-90f5-7867287de97f\\
+client-request-id: f45d08c0-6901-473a-90f5-7867287de97f\\
+OData-Version: 4.0\\
+Duration: 727.0022\\
+Date: Thu, 20 Apr 2017 05:21:18 GMT\\
+Content-Length: 407\\
+\\
+\{\\
+    "@odata.context":"https://graph.microsoft.com/v1.0/\\
+    $metadata\#users/$entity",\\
+    "id":"12345678-73a6-4952-a53a-e9916737ff7f",\\
+    "businessPhones":[\\
+        "+1 555555555"\\
+    ],\\
+    "displayName":"Chris Green",\\
+    "givenName":"Chris",\\
+    "jobTitle":"Software Engineer",\\
+    "mail":null,\\
+    "mobilePhone":"+1 5555555555",\\
+    "officeLocation":"Seattle Office",\\
+    "preferredLanguage":null,\\
+    "surname":"Green",\\
+    "userPrincipalName":"ChrisG@contoso.onmicrosoft.com"\\
+\}\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+\textit{Access token} memiliki waktu yang singkat dan ketika sudah kadaluarsa, maka aplikasi yang akan dibuat harus meminta kembali \textit{access token} yang supaya bisa terus mengakses data yang ada di dalam \textit{Microsoft Graph}. Cara mendapatkan \textit{access token} yang baru dengan menggunakan \textit{refresh token} adalah dengan cara mengirimkan \textit{post request} sekali lagi kepada \textit{endpoint /token} dan untuk kali ini, gunakan \textit{refresh token} sebagai parameter yang dikirimkan dan juga \textit{grant type} yang berisikan \textit{refresh token} dalam \textit{body} dari \textit{request} yang dilakukan seperti contoh pada table \ref{tab:contoh_request_refresh_token} dengan keterangan parameter seperti yang dijelaskan pada table \ref{tab:parameter_request_refresh_token}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request} menggunakan \textit{Refresh Token}}
+	\label{tab:contoh_request_refresh_token}
+	\begin{tabular}{|p{12cm}|}
+	\hline
+	POST /common/oauth2/v2.0/token HTTP/1.1\\
+Host: https://login.microsoftonline.com\\
+Content-Type: application/x-www-form-urlencoded\\
+\\
+client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
+\&scope=user.read\%20mail.read\\
+\&refresh\_token=OAAABAAAAiL9Kn2Z27UubvWFPbm0gLWQJVzCTE\\
+9UkP3pSx1aXxUjq...\\
+\&redirect\_uri=http\%3A\%2F\%2Flocalhost\%2Fmyapp\%2F\\
+\&grant\_type=refresh\_token\\
+\&client\_secret=JqQX2PNo9bpM0uEihUPzyrh\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{request} \textit{Refresh Token}}
+	\label{tab:parameter_request_refresh_token}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\hline
+	 \textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
+	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
+	\textit{grant\_type} & wajib & Harus diisi dengan nilai refresh\_token. \\ \hline
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah meminta authorization\_code harus sama dengan langkah ini.  \\ \hline 
+	\textit{refresh\_token} & wajib & Refresh token yang didapat saat merequest token yang pertama kali. \\ \hline  
+	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
+	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Jika \textit{request} ini berhasil, maka akan mengembalikan \textit{response} seperti pada table \ref{tab:contoh_response_refresh_token} yang memiliki keterangan parameter yang dikembalikannya seperti pada table \ref{tab:parameter_response_refresh_token}. 
+\\
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response} menggunakan \textit{Refresh Token}}
+	\label{tab:contoh_response_refresh_token}
+	\begin{tabular}{|p{12cm}|}
+	\hline
+	\{\\
+    "access\_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiI\\
+    sIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",\\
+    "token\_type": "Bearer",\\
+    "expires\_in": 3599,\\
+    "scope": "user.read\%20mail.read",\\
+    "refresh\_token": "AwABAAAAvPM1KaPlrEqdFSBzjq\\
+    fTGAMxZGUTdM0t4B4...",\\
+\}\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{response} \textit{Refresh Token}}
+	\label{tab:parameter_response_refresh_token}
+	\begin{tabular}{|p{3cm}|p{9cm}|}
+	\hline
+	 \textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
+	 \textit{access\_token} & Access token yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil Microsoft Graph. \\ \hline 
+	\textit{token\_type} & Menunjukkan nilai dari token. Satu-satunya jenis token yang didukung oleh Azure AD adalah Bearer.\\ \hline 
+	\textit{expires\_in} & Lamanya access token akan berlaku(dalam detik). \\ \hline 
+	\textit{scope} & Nilai scope yang valid untuk access\_token yang diberikan.  \\ \hline  
+	\textit{refresh\_token} & Refresh token ini berguna untuk meminta kembali access token setelah access token itu berakhir. Refresh token memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke source. \\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Data \textit{event} di dalam \textit{Microsoft Graph} tersimpan di dalam objek \textit{event} yang memiliki relasi dengan objek \textit{user} dari pengguna. Untuk dapat mengakses \textit{event} yang memiliki relasi dengan \textit{user}, aplikasi yang akan dibuat harus menjalankan \textit{method} yang dimiliki objek \textit{user} yaitu \textit{method list events} dengan mengirimkan \textit{get request} kepada \textit{endpoint /me/events}. \textit{List events} sendiri adalah \textit{method} yang berfungsi untuk mengembalikan objek-objek \textit{event} yang berkaitan dengan objek \textit{user} pengguna. Untuk setiap operasi \textit{get} yang mengembalikan objek \textit{event} di \textit{Microsoft Graph}, ada sebuah parameter \textit{header} ``\textit{Prefer:outlook.timezone}'' yang berfungsi untuk menentukan \textit{time zone} untuk mulainya dan berakhirnya \textit{event}. Sebagai contoh, dapat dilihat pada table \ref{tab:contoh_header_time_zone}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{header time zone}}
+	\label{tab:contoh_header_time_zone}
+	\begin{tabular}{|p{9cm}|}
+	\hline
+	 Prefer: outlook.timezone="Eastern Standard Time" \\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Pada table \ref{tab:contoh_header_time_zone}, \textit{outlook timezone} diatur menjadi \textit{Eastern Standard Time} yang nantinya semua \textit{event} yang dipanggil dengan \textit{header} seperti itu akan mengembalikan \textit{starttime} dan \textit{endtime} dari \textit{event} akan disesuaikan dengan zona waktu \textit{Eastern Standard Time}. 
+
+Untuk bisa mengakses \textit{method} ini, maka diperlukan format \textit{header} dari \textit{request} seperti yang akan dijelaskan pada table \ref{tab:parameter_header_time_zone}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel parameter \textit{header time zone}}
+	\label{tab:parameter_header_time_zone}
+	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
+	\hline
+	 \textbf{Nama} & \textbf{\textit{Type}} & \textbf{Deskripsi}\\ \hline
+	 \textit{Authorization} & \textit{String} & Bearer {token}. Bersifat wajib diisi. \\ \hline
+	 \textit{Prefer:}& & \\
+	 \textit{outlook.timezone} & \textit{String} & Digunakan untuk menentukan zona waktu yang akan dipakai untuk data yang akan dikembalikan. Bersifat optional. \\ \hline
+	 \textit{Prefer:}& & \\
+	 \textit{outlook.body-content-type} & \textit{String} & Merupakan nilai yang mengatur properti dari response body yang akan dikembalikan. Nilai bisa berupa ``text'' atau ``html''. Nilai default dari parameter ini adalah html. Bersifat optional. \\ \hline
+	\hline
+	\end{tabular}  
+\end{table}
+
+\textit{Request} ini juga bisa menerima parameter \textit{\$select} yang berbentuk \textit{string query} sebagai \textit{filter} mengenai \textit{field} apa saja yang mau diambil dari objek \textit{event}. Dapat dilihat fungsi dari parameter \textit{string query \$select} seperti pada contoh table \ref{tab:contoh_request_event} dan contoh \textit{response}nya pada table \ref{tab:contoh_response_event}. 
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{request event}}
+	\label{tab:contoh_request_event}
+	\begin{tabular}{|p{12cm}|}
+	\hline
+	GET https://graph.microsoft.com/v1.0/me/events?\\
+	\$select=subject,bodyPreview,organizer,start,end,location\\
+	Prefer: outlook.timezone="Pacific Standard Time"\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+\begin{table}[H]
+	\centering 
+	\caption{Tabel contoh \textit{response event}}
+	\label{tab:contoh_response_event}
+	\begin{tabular}{|p{15cm}|}
+	\hline
+	\begin{lstlisting}
+{
+    "@odata.context":"https://graph.microsoft.com/v1.0/$metadata
+    #users('cd209b0b-3f83-4c35-82d2-d88a61820480')/events(subject
+    ,bodyPreview,organizer,start,end,location)",
+    "value":[
+        {
+            "@odata.etag":"W/\"ZlnW4RIAV06KYYwlrfNZvQAAKGWwbw==\"",
+            "id":"AAMkAGIAAAoZDOFAAA=",
+            "subject":"Orientation ",
+            "bodyPreview":"Dana, this is the time you selected for 
+            our orientation. Please bring the notes I sent you.",
+            "start":{
+                "dateTime":"2017-04-21T10:00:00.0000000",
+                "timeZone":"Pacific Standard Time"
+            },"end":{
+                "dateTime":"2017-04-21T12:00:00.0000000",
+                "timeZone":"Pacific Standard Time"
+            },"location": {
+                "displayName": "Assembly Hall",
+                "locationType": "default",
+                "uniqueId": "Assembly Hall",
+                "uniqueIdType": "private"
+            },"locations": [{
+                    "displayName": "Assembly Hall",
+                    "locationType": "default",
+                    "uniqueIdType": "unknown"
+            }],                
+            "organizer":{
+                "emailAddress":{
+                    "name":"Samantha Booth",
+                    "address":"samanthab@a830edad905084922E170
+                    20313.onmicrosoft.com"
+                }
+            }
+        }
+    ]
+}
+\end{lstlisting}\\
+	\hline
+	\end{tabular}  
+\end{table}
+
+Lalu untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari \textit{Microsoft Graph} yang berhubungan dengan pengambilan data \textit{event}, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan \textit{request} kepada \textit{Microsoft Graph}, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam \textit{Microsoft Graph}. \textit{Crontab} memiliki kemampuan untuk menjalankan program secara berkala sesuai dengan format pengaturan yang sudah di \textit{set} dari awal pembuatan perintah \textit{crontab}. \textit{Crontab} tinggal harus memanggil dan menjalankan aplikasi untuk mengambil data dan secara otomatis sesuai dengan waktu yang sudah diatur di \textit{crontab}, maka program akan dijalankan. Untuk contoh format \textit{file crontab} akan ditunjukkan pada \ref{lst:contoh_cronfile}.
+
+\begin{lstlisting}[caption=contoh cronfile]
+\label{lst:contoh_cronfile}
+# use /bin/sh to run commands, no matter what /etc/passwd says
+SHELL=/bin/sh
+# mail any output to 'paul', no matter whose crontab this is
+MAILTO=paul
+#
+CRON_TZ=Japan
+# run five minutes after midnight, every day
+5 0 * * *       $HOME/bin/daily.job >> $HOME/tmp/out 2>&1
+# run at 2:15pm on the first of every month -- output mailed to paul
+15 14 1 * *     $HOME/bin/monthly
+# run at 10 pm on weekdays, annoy Joe
+0 22 * * 1-5    mail -s "It's 10pm" joe%Joe,%%Where are your kids?%
+23 0-23/2 * * * echo "run 23 minutes after midn, 2am, 4am ..., everyday"
+5 4 * * sun     echo "run at 5 after 4 every sunday"
+\end{lstlisting}
 
 		\item \textbf{Melakukan analisis cara aplikasi merespons ketika menjadwalkan perubahan status di aplikasi \textit{Slack}, dengan kemungkinan masalah seperti : ada \textit{event} yang baru ditambahkan setelah program melakukan \textit{synchronize} secara berkala atau ada \textit{event} yang beririsan dengan \textit{event} lainnya sehingga terdapat masalah menentukan kapan status dibuang/ dikembalikan lagi ke status semula.}\\
-		{\bf Status :} belum dikerjakan.\\
-		{\bf Hasil :}
-
-		\item \textbf{Merancang bagian dari perangkat lunak yang akan mengambil data-data \textit{event} dari \textit{Outlook Calendar}. }\\
-		{\bf Status :} Ada sejak rencana kerja skripsi. \\
-		{\bf Hasil :} berdasarkan analisis singkat, tidak dilakukan analisis lebih jauh karena tidak diperlukan struktur data baru, karena sudah disediakan oleh OpenSteer versi terbaru
-
-		\item \textbf{Merancang bagian dari perangkat lunak yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook Calendar}.} \\
 		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :}
+		{\bf Hasil :} Belum dikerjakan. 
 
-		\item \textbf{Mengimplementasi bagian pengambilan data dari \textit{Outlook Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook Calendar} dengan \textit{Slack}.}\\
-		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :}
-
-		\item \textbf{Melakukan pengujian terhadap fitur yang telah diimplementasi.}\\
-		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} 
-		
-		\item \textbf{Menulis dokumen skripsi}\\
-		{\bf Status :} Ada sejak rencana kerja skripsi.\\
-		{\bf Hasil :} \lipsum[1]
 		
 	\end{enumerate}
 
 \section{Pencapaian Rencana Kerja}
 Langkah-langkah kerja yang berhasil diselesaikan dalam Skripsi 1 ini adalah sebagai berikut:
 \begin{enumerate}
+\item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai \textit{Node.js}.
 \item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Outlook Calendar}.
 \item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai aplikasi \textit{Slack}.
 \item Melakukan studi literatur melalui dokumentasi \textit{online} mengenai cron dan crontab. 
+\item Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook Calendar} secara berkala.
 \end{enumerate}
 
 
@@ -202,7 +637,7 @@ Kendala - kendala yang dihadapi selama mengerjakan skripsi :
 \begin{itemize}
 	\item Sulitnya fokus untuk mengerjakan. 
 	\item Terlalu banyak godaan berupa hiburan (game, film, dll). 
-	\item Dokumentasi dari Outlook Calendar kurang jelas dan ada beberapa versi dokumentasi mengacu kepada versi API yang disediakan.
+	\item Dokumentasi dari \textit{Outlook Calendar} kurang jelas dan lebih dari 1 versi dokumentasi untuk \textit{Microsoft Graph API}.
 \end{itemize}
 
 \vspace{1cm}
