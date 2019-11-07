@@ -721,6 +721,133 @@ Untuk bisa melakukan pengiriman request ke suatu endpoint, maka dibutuhkan metho
 
 Node.js memelihara beberapa koneksi per servernya untuk melakukan HTTP request. Fungsi ini memungkinkan untuk pengguna mengeluarkan request secara transparan. Untuk parameter url, jika url dituliskan dengan bertipe String, maka url tersebut akan langsung secara otomatis menggunakan url.parser() untuk menjadi url. Http.request() mengembalikan instance dari kelas http.ClientRequest. Parameter callback adalah function yang bersifat sebagai listener untuk response yang dihasilkan dari http request. 
 
+\subsection{Express.js}
+\label{express.js}
+\textit{Express.js} adalah sebuah \textit{web application framework} untuk \textit{Node.js}. Cara untuk menginstal \textit{express} ini dengan menggunakan \textit{command}:
+
+\begin{lstlisting}
+$ npm install express 
+\end{lstlisting}
+
+Express ini memiliki banyak fungsi yang disediakan untuk mempermudah membuat \textit{web application} seperti: 
+\begin{itemize}
+    \item {\textit{Express-generator}}\\
+    Express-generator ini memiliki fungsi untuk membangun rangka dari aplikasi dengan mudah. Dengan menggunakan \textit{express-generator}, maka kita akan mendapatkan direktori file dengan isi seperti: 
+    % Masukin gambar atau tulisan yang menggambarkan file direktori yang dihasilkan jika memakai express generator. 
+    
+    Cara menggunakan express generator bisa dengan menjalankan command ``npx express \{nama file yang akan dibuat\}'' atau bisa dengan command ``express \{nama file yang akan dibuat\}''
+    
+    \item {\textit{Routing}}\\
+    Fungsi ini berguna untuk memudahkan dari web application untuk bisa menuju kepada halaman yang berbeda dengan memakai path dari alamat \textit{url} aplikasi tersebut. Cara menggunakannya adalah seperti  
+\end{itemize}
+
+\subsection{Handlebars}
+\textit{Handlebars} adalah modul dari \textit{Node.js} yang membantu atas fungsi penggunaan \textit{template semantic} pada tampilan yang akan digunakan di dalam aplikasi.
+
+\subsection{Simple OAuth2}
+Modul ini berguna untuk membantu proses otentikasi pada perangkat lunak ini yang akan melakukan otentikasi kepada aplikasi pihak ketiga lainnya. Pada \textit{simple oauth} ini dapat ditangani 3 alur untuk melakukan otentikasi yaitu:
+\begin{itemize}
+    \item Alur kode otorisasi\\
+    Alur ini dipakai pada aplikasi yang dapat menyimpan data secara persisten. 
+    \item \textit{Password Credentials}\\
+    Alur ini digunakan pada saat alur sebelumnya tidak dapat dilakukan atau sedang dalam tahap pengembangan. 
+    \item \textit{Client Credentials}\\
+    \textit{Client} hanya bisa mendapatkan \textit{access token} dengan cara mengirimkan kredensial yang dimiliki oleh \textit{client}. 
+\end{itemize}
+
+Untuk bisa menggunakan \textit{library} ini, dibutuhkan persyaratan yaitu menggunakan \textit{Node} minimal versi 8. Jika menggunakan \textit{Node} versi 4, 5, atau 6, maka dapat menggunakan \textit{library} \textit{simple-oauth2@1.x}. Cara pemasangan library ini dengan cara menuliskan perintah pada terminal seperti: 
+
+\begin{lstlisting}
+$ npm install --save simple-oauth2
+\end{lstlisting}
+
+Saat digunakan, simple-oauth2 menerima objek yang berisi parameter yaitu: 
+\begin{itemize}
+    \item \textbf{\textit{client}} - objek parameter wajib yang memiliki properti: 
+    \begin{itemize}
+        \item \textbf{\textit{id}} - Parameter ini merupakan parameter yang dibutuhkan dan diisi dengan menggunakan \textit{client id} dari aplikasi yang sudah didaftarkan. 
+        \item \textbf{\textit{secret}} - Parameter ini merupakan parameter yang dibutuhkan dan diisi dengan menggunakan \textit{client secret} dari aplikasi yang sudah didaftarkan. 
+        \item \textbf{\textit{secretParamName}} - Merupakan nama parameter yang digunakan untuk mengirimkan \textit{client secret} yang memiliki nilai \textit{default} yaitu \textit{client\_secret} dari aplikasi yang sudah didaftarkan. 
+        \item \textbf{\textit{idParamName}} - Merupakan nama parameter yang digunakan untuk mengirimkan \textit{client id} yang memiliki nilai \textit{default} yaitu \textit{client\_id} dari aplikasi yang sudah didaftarkan. 
+    \end{itemize}
+    \item \textbf{\textit{auth}} - objek parameter wajib yang memiliki properti: 
+    \begin{itemize}
+        \item \textbf{\textit{tokenHost}} - \textit{String} yang digunakan untuk mengatur \textit{host} untuk meminta \textit{token} dan merupakan parameter yang dibutuhkan.  
+        \item \textbf{\textit{tokenPath}} - \textit{String} yang menunjukkan jalur untuk meminta \textit{access token} yang memiliki nilai \textit{default} yaitu ke \textit{/oauth/token}. 
+        \item \textbf{\textit{revokePath}} - \textit{String} yang menunjukkan jalur untuk mencabut \textit{access token} yang memiliki nilai \textit{default} yaitu ke \textit{/oauth/revoke}
+        \item \textbf{\textit{authorizeHost}} - \textit{String} yang digunakan untuk mengatur \textit{host} untuk meminta \textit{authorization code} dan memiliki nilai \textit{default} yaitu \textit{auth.tokenHost}. 
+        \item \textbf{\textit{authorizePath}} - \textit{String} yang menunjukkan jalur untuk meminta \textit{authorization code} yang memiliki nilai \textit{default} yaitu ke \textit{/oauth/authorize}. 
+    \end{itemize}
+    \item \textbf{\textit{http}} - objek parameter yang bersifat opsional yang memiliki fungsi sebagai pengatur opsi \textit{global} ke \textit{internal http library} yang memiliki properti: 
+    \begin{itemize}
+        \item Semua opsi diperbolehkan kecuali opsi baseUrl. Memiliki nilai default yaitu headers.Accept = application/json. 
+    \end{itemize}
+    \item \textbf{\textit{options}} - objek parameter yang bersifat opsional yang memiliki fungsi sebagai pengatur modul yang memiliki properti: 
+    \begin{itemize}
+        \item \textbf{\textit{bodyFormat}} - format data yang dikirim dalam \textit{request body} saat mengirimkan \textit{request}. Nilai yang \textit{valid} untuk properti ini adalah \textit{form} atau \textit{json} dan memiliki nilai \textit{default} yaitu \textit{form}. 
+        \item \textbf{\textit{authorizationMethod}} - menunjukkan metode yang dipakai untuk mengirimkan \textit{client.id/client secret} saat meminta \textit{token}. Nilai yang \textit{valid} untuk properti ini adalah \textit{header} atau \textit{body}. Jika properti ini bernilai \textit{body}, maka \textit{bodyFormat} akan dipakai untuk memformat kredensialnya. Nilai \textit{default} dari properti ini adalah \textit{header}.  
+    \end{itemize}
+\end{itemize}
+
+\begin{lstlisting}
+const credentials = {
+  client: {
+    id: <client-id>,
+    secret: <client-secret>,
+  },
+  auth: {
+    tokenHost: 'https://login.microsoftonline.com',
+    authorizePath: 'common/oauth2/v2.0/authorize',
+    tokenPath: 'common/oauth2/v2.0/token'
+  }
+};
+const oauth2 = require('simple-oauth2').create(credentials);
+\end{lstlisting}
+
+\subsubsection{Alur Oauth2 yang Didukung}
+\begin{itemize}
+    \item Authorization Code Flow
+    Authorization Code Flow menjalankan 2 langkah. Langkah pertama yaitu aplikasi akan meminta permission kepada pengguna untuk mengakses data mereka. Jika pengguna menyetujui, maka OAuth2 server akan mengirimkan authorization code kepada pengguna yang nantinya akan dilanjutkan dengan langkah kedua yaitu pengguna akan mengirimkan POST request yang berisi authorization code bersamaan dengan client secret ke oauth server untuk mendapatkan access token. 
+    
+    \item Password Credentials Flow
+    Alur ini menggunakan username serta password untuk bisa mendapatkan access token yang dibutuhkan oleh user. Alur ini biasanya digunakan saat pengguna dengan aplikasi atau sistem operasi dari komputer sudah sangt terpercaya sehingga keamanan username dan password bisa terjaga. Cara ini biasa dipakai untuk melakukan tes aplikasi secara cepat. 
+    
+    \item Client Credentials Flow
+    Alur ini cocok untuk pengguna yang melakukan request akses ke sumber yang dibawah kontrol dari pengguna itu sendiri. 
+\end{itemize}
+
+\subsubsection{Helpers}
+\begin{itemize}
+    \item Access Token object
+    Saat token kadaluarsa, diperlukan refresh token untuk bisa meminta ulang access token yang baru. Simple OAuth2 menyediakan sebuah kelas AccessToken yang memiliki beragam fungsi yang salah satunya membantu mempermudah untuk meminta ulang access token saat token itu sudah kadaluarsa. Inisialisasi dari kelas ini seperti 
+    
+    \begin{lstlisting}
+    // Sample of a JSON access token (you got it through previous steps)
+    const tokenObject = {
+      'access_token': '<access-token>',
+      'refresh_token': '<refresh-token>',
+      'expires_in': '7200'
+    };
+    \end{lstlisting}
+\end{itemize}
+
+\subsection{jsonwebtoken}
+Jsonwebtoken merupakan implementasi dari JSON Web Tokens yang dikembangkan terhadap draft-ieft-oauth-json-web-token-08. Jsonwebtoken ini memiliki beberapa fungsi yaitu:
+\begin{itemize}
+    \item \textbf{jwt.sign(payload,secretOrPrivateKey, [options, callback])}
+    Fungsi ini bisa berjalan secara asynchronous jika parameter callback diisi dan disediakan. Callback dipanggil dengan err atau dengan JWT. Tetapi fungsi ini juga bisa berjalan secara synchronous dan mengembalikan JsonWebToken sebagai sebuah string. 
+    \item \textbf{jwt.verify(token,secretOrPrivateKey, [options, callback])}
+    Fungsi ini bisa berjalan secara asynchronous jika parameter callback diisi dan disediakan. Callback dipanggil dengan payload yang telah di decode jika signature-nya valid dan ada parameter seperti kadaluarsa yang bersifat opsional, audiens, atau penerbit akan menjadi valid. Jika tidak, maka akan menimbulkan error. Fungsi ini juga bisa berjalan secara synchronous jika tidak ada callback yang diisi. 
+    \item \textbf{jwt.decode(token, [options])}
+    Fungsi ini berjalan secara synchronous dan mengembalikan payload yang sudah di decode tanpa memverifikasi signature yang ada valid atau tidak. 
+\end{itemize}
+
+\subsection{Microsoft Graph Javascript Client Library}
+Microsoft Graph Javascript Client Library adalah library yang membungkus API yang dimiliki Microsoft Graph. Cara penggunaan library ini memerlukan bantuan dari library lain yang bernama isomorphic-fetch yang akan dijelaskan pada point selanjutnya. 
+
+\subsection{Isomorphic Fetch}
+\textit{Isomorphic Fetch} adalah sebuah \textit{polyfill} \textit{window.fetch} untuk digunakan di \textit{node} dan \textit{browserify}. \textit{Polyfill} ini memungkinkan \textit{window.fetch} untuk \textit{javascript engine} yang tidak mendukungnya secara \textit{native}. 
+
 \section{Cron}
 \label{sec:cron}
 \textit{Cron} adalah sebuah \textit{daemon} untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. \textit{Daemon} sendiri adalah proses layanan yang berjalan secara \textit{background} dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. \textit{Cron} dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. \textit{File} unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. \textit{Cron} mencari ke direktori \textit{/var/spool/cron} untuk \textit{file-file crontab}. 

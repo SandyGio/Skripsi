@@ -1,0 +1,39 @@
+\chapter{Perancangan}
+\label{chap:perancangan}
+
+Pada bab ini akan dibahas perancangan dari perangkat lunak mulai dari perancangan antarmuka, dan perancangan untuk algoritma setiap \textit{route} yang dipakai. 
+
+\section{Perancangan Routing Handler}
+\subsection{\textit{Route} /}
+Pada \textit{route} ini, akan memiliki kalimat pengantar dan juga sebuah tombol yang bisa membawa pengguna untuk melakukan \textit{login} kepada ``\textit{Windows Live}''. Tombol itu akan membawa pengguna kepada halaman untuk melakukan \textit{login} Windows Live dan juga setelah \textit{login}, program akan meminta izin untuk bisa mendapatkan data mengenai \textit{event} yang terdapat pada kalender pengguna.
+
+\subsection{\textit{Route} /authorize}
+\textit{Route} ini akan muncul ketika langkah dari \textit{route} / sudah selesai dijalankan sehingga \textit{access token} dan izin dari pengguna sudah didapatkan oleh program ini. Di \textit{route} ini akan ada kalimat penjelasan untuk halaman ini dan juga ada tombol untuk pengguna bisa melakukan \textit{login} pada aplikasi \textit{Slack} untuk didapatkan \textit{access token} dan izinnya juga. Setelah tombol itu ditekan oleh pengguna, maka tombol itu akan mengantarkan pengguna kepada halaman untuk mengisi \textit{workspace} yang dipakai oleh pengguna dan juga akun yang dipakai oleh pengguna untuk melakukan sinkronisasi dengan \textit{Outlook Calendar}. Setelah melakukan \textit{login}, maka akan tampil halaman untuk pengguna memberikan izin kepada program untuk bisa mengubah data termasuk status pengguna di dalam aplikasi \textit{Slack}. 
+
+\subsection{\textit{Route} /slackAuthorize}
+\textit{Route} ini hanya menampilkan konfirmasi yang didapat dari hasil perekaman data dari \textit{Slack} yang berupa \textit{access token} dari aplikasi tersebut. 
+
+\subsection{\textit{Route} /statusChanger}
+\textit{Route} ini yang berfungsi mengeksekusi pengambilan data dari \textit{Outlook Calendar} secara berkala, dan jika ada data \textit{event} yang sesuai dengan waktu sekarang, maka lewat \textit{route} ini juga program ini akan mengganti status pada aplikasi \textit{Slack}. Sebelum melakukan pengambilan data pada \textit{Outlook Calendar}, pada \textit{route} ini juga melakukan pengecekan pada \textit{access token} yang didapat pada saat awal melakukan \textit{login Windows Live}. Jika \textit{access token} yang terekam pada \textit{database} sudah kadaluarsa, maka melalui \textit{route} ini juga program akan meminta \textit{access token} yang baru untuk bisa mengambil data \textit{event} dari \textit{Outlook Calendar}. 
+
+\section{Perancangan \textit{Helper}}
+\subsection{auth.js}
+Pada file javascript ini, terdapat kode yang membantu untuk melakukan request untuk mendapatkan access token dari Microsoft Graph maupun dari Slack. Cara mendapatkan access token di file ini dengan cara menggunakan library simple oauth2 yang membantu untuk melakukan request ke aplikasi yang akan dituju. Selain untuk meminta akses token, di dalam file ini juga berisi kode yang membantu program ini agar access token dan data yang dibutuhkan lainnya disimpan di dalam basis data.
+
+\section{Perancangan Basis Data}
+Pada program ini, digunakan 1 tabel basis data yang berfungsi untuk menampung data credensial dari pengguna yang sudah melakukan login dan sudah memberikan izin terhadap program ini untuk mengakses Windows Live dan Slack-nya. Kolom yang terdapat pada tabel basis data ini antara lain:
+\begin{itemize}
+    \item microsoft\_username
+    Kolom ini berfungsi sebagai primary key yang membedakan antara satu pengguna dengan pengguna lainnya. Nilai untuk kolom ini diambil dari nilai yang didapat saat program meminta access token. Saat meminta access token, microsoft juga mengembalikan id\_token yang jika dilakukan decode akan berisi data pengguna yang melakukan login termasuk data username yang dipakai oleh pengguna. 
+    \item microsoft\_refresh\_token
+    Kolom ini berfungsi untuk menampung refresh token yang didapat saat melakukan request ke microsoft yang digunakan untuk melakukan request ulang access token setelah access token sebelumnya kadaluarsa. 
+    \item microsoft\_access\_token\_expires
+    Kolom ini berfungsi untuk menampung lamanya masa access token akan berlaku. Nilai ini didapat saat awal melakukan request access token dengan mengambil nilai expires\_in dari respon yang didapat. 
+    \item microsoft\_access\_token
+    Kolom ini berfungsi untuk menampung access token Microsoft Graph yang didapat dari request. 
+    \item slack\_access\_token
+    Kolom ini berfungsi untuk menampung access token Slack yang didapat dari request. 
+    \item login\_timestamp
+    Kolom ini berfungsi untuk menampung waktu saat pengguna melakukan login. Format yang disimpan yaitu bertipe date. 
+\end{itemize}
+
