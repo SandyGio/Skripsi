@@ -7,7 +7,7 @@
 
 \textit{Outlook.com}\footnote{https://outlook.live.com/} adalah sebuah kumpulan aplikasi berbasis \textit{web} seperti \textit{webmail}, \textit{contacts}, \textit{tasks}, dan \textit{calendar} dari \textit{Microsoft}. Fitur calendar sendiri pertama dirilis pada 14 Januari 2008 dengan nama Windows Live Calendar. Fitur calendar yang dimiliki oleh \textit{Outlook.com Calendar} sendiri memiliki tampilan yang mirip dengan aplikasi kalender \textit{desktop} pada umumnya. Seperti layaknya kalender digital pada umumnya, aplikasi \textit{Outlook.com Calendar} juga bisa menambahkan, menyimpan, dan memodifikasi \textit{event-event} yang dimasukkan oleh pengguna dan bisa dibuka dimana saja karena bersifat \textit{online}. 
 
-\textit{Slack}\footnote{https://slack.com/} adalah alat dan layanan kolaborasi tim berbasis \textit{cloud}. \textit{Slack} merupakan singkatan dari ``\textit{Searchable Log of All Conversation and Knowledge}''. Cara melakukan kolaborasi di aplikasi \textit{Slack} sendiri adalah dengan komunitas, grup, atau tim bergabunga ke dalam URL yang spesifik. \textit{Room chat} yang terdapat di dalam aplikasi \textit{Slack} biasa disebut dengan \textit{Channel}. Ada 2 jenis \textit{channel} di dalam aplikasi \textit{Slack} yaitu \textit{Public Channel} dan \textit{Private Channel}. Pada \textit{Public Channel}, seluruh anggota dari tim atau komunitas bisa masuk dan bergabung untuk berkomunikasi di \textit{channel} tersebut. Tetapi pada \textit{Private Channel}, hanya anggota yang diizinkan, ditambahkan, dan diundang oleh admin atau pembuat \textit{channel} sajalah yang bisa ikut serta dalam berkomunikasi di dalam \textit{channel} tersebut. \textit{Slack} juga terintegrasi dengan banyak layanan pihak ketiga seperti contohnya adalah \textit{Google Drive}, \textit{Github}, \textit{Trello}, \textit{Dropbox}, dan masih banyak lagi layanan pihak ketiga yang bisa diintegrasikan dengan \textit{Slack} itu sendiri. 
+\textit{Slack}\footnote{https://slack.com/} adalah alat dan layanan kolaborasi tim berbasis \textit{cloud}. \textit{Slack} merupakan singkatan dari ``\textit{Searchable Log of All Conversation and Knowledge}''. Cara melakukan kolaborasi di aplikasi \textit{Slack} sendiri adalah dengan komunitas, grup, atau tim bergabung ke dalam URL yang spesifik. \textit{Room chat} yang terdapat di dalam aplikasi \textit{Slack} biasa disebut dengan \textit{Channel}. Ada 2 jenis \textit{channel} di dalam aplikasi \textit{Slack} yaitu \textit{Public Channel} dan \textit{Private Channel}. Pada \textit{Public Channel}, seluruh anggota dari tim atau komunitas bisa masuk dan bergabung untuk berkomunikasi di \textit{channel} tersebut. Tetapi pada \textit{Private Channel}, hanya anggota yang diizinkan, ditambahkan, dan diundang oleh admin atau pembuat \textit{channel} sajalah yang bisa ikut serta dalam berkomunikasi di dalam \textit{channel} tersebut. \textit{Slack} juga terintegrasi dengan banyak layanan pihak ketiga seperti contohnya adalah \textit{Google Drive}, \textit{Github}, \textit{Trello}, \textit{Dropbox}, dan masih banyak lagi layanan pihak ketiga yang bisa diintegrasikan dengan \textit{Slack} itu sendiri. 
 
 Pada \textit{Slack} terdapat status pengguna yang bisa diganti oleh pengguna tersebut untuk menggambarkan keadaan pengguna saat ini. Sebagai \textit{default}, status bisa menggambarkan jika pengguna sedang ``\textit{In a meeting}'' atau sedang ``\textit{Out Sick}'', dan banyak status default yang disediakan oleh \textit{Slack}. Serta status pun bisa diisi oleh pengguna secara sendiri sesuai dengan apa yang ingin dituliskan oleh penggunanya. Disinilah yang menjadi latar belakang dirancangnya perangkat lunak ini yaitu terkadang pengguna lupa untuk mengganti status menjadi ``\textit{In a meeting}'' saat pengguna memiliki jadwal untuk melakukan meeting, sehingga status di pengguna masih terlihat tersedia oleh user lain yang membuat tidak mengetahui sang pengguna sedang dalam keadaan \textit{meeting} yang tidak dapat diganggu. Di saat seperti ini, kemungkinan untuk \textit{meeting} terganggu oleh adanya \textit{chat} yang masuk lewat \textit{Slack} pun cukup tinggi. 
 
@@ -39,7 +39,8 @@ Adapun pada perangkat lunak ini memiliki tujuan sebagai berikut:
 \label{sec:batasan}
 Perancangan perangkat lunak ini dibuat berdasarkan batasan-batasan sebagai berikut: 
 \begin{enumerate}
-	\item Program ini dijalankan secara berkala sehingga tidak dapat menjalankan \textit{update} status secara \textit{real-time}. 
+	\item Perangkat lunak ini dijalankan secara berkala sehingga tidak dapat menjalankan \textit{update} status secara \textit{real-time}. 
+	\item Hanya berlaku setiap satu pengguna terhubung dengan satu \textit{workspace} di dalam \textit{Slack}. 
 \end{enumerate}
 
 \section{Metodologi}
@@ -48,7 +49,6 @@ Berikut adalah metodologi yang akan digunakan dalam penelitian ini:
 \begin{enumerate}
 	\item Melakukan studi literatur tentang \textit{Outlook.com Calendar}, \textit{Slack}, dan juga \textit{Node.js}.
 	\item Menggunakan aplikasi \textit{Slack} di lingkungan tempat penulis melakukan magang. 
-	\item Menganalisis aplikasi-aplikasi sejenis. 
 	\item Melakukan analisis cara melakukan \textit{synchronize} dengan aplikasi \textit{Outlook.com Calendar} secara berkala. 
 	\item Merancang bagian dari perangkat lunak yang akan mengambil data-data \textit{event} dari \textit{Outlook.com Calendar} dan yang bertugas untuk mengubah status pada \textit{Slack} saat waktu sesuai dengan jadwal yang sudah tercatat dari \textit{Outlook.com Calendar}.
 	\item Mengimplementasi bagian pengambilan data dari \textit{Outlook.com Calendar} dan juga bagian mengatur status pada \textit{Slack} sesuai jadwal yang telah diambil kepada perangkat lunak Integrasi \textit{Outlook.com Calendar} dengan \textit{Slack} serta melakukan pengujian terhadap fitur yang telah diimplementasikan.
@@ -59,9 +59,9 @@ Berikut adalah metodologi yang akan digunakan dalam penelitian ini:
 Setiap bab dalam penelitian ini akan memiliki sistematika pembahasan yang dijelaskan ke dalam poin-poin sebagai berikut:
 \begin{enumerate}
 	\item Bab 1: Pendahuluan, yaitu menjelaskan gambaran umum dari penelitian ini yang berisi tentang latar belakang, rumusan masalah, tujuan, batasan masalah, metodologi, dan sistematika pembahasan.
-	\item Bab 2: Dasar Teori, yaitu menjelaskan dan membahas teori-teori yang dibutuhkan dan mendukung berjalannya penelitian ini. Meliputi tentang \textit{Outlook.com Calendar API}, \textit{Slack API}, \textit{Node.js}, dan juga \textit{Crontab}. 
-	\item Bab 3: Analisis, yaitu membahas mengenai analisis masalah. Berisi tentang analisis aplikasi sejenis, analisis cara pengambilan data dari \textit{Outlook.com Calendar}, dan proses pengubahan status menggunakan program pada \textit{Slack}.
+	\item Bab 2: Dasar Teori, yaitu menjelaskan dan membahas teori yang dibutuhkan untuk melakukan penelitian ini. Meliputi tentang \textit{Outlook.com Calendar API}, \textit{Slack API}, dan \textit{Node.js}. 
+	\item Bab 3: Analisis, yaitu membahas mengenai analisis masalah. Berisi tentang analisis cara pengambilan data dari \textit{Outlook.com Calendar}, dan proses pengubahan status menggunakan program pada \textit{Slack}.
 	\item Bab 4: Perancangan, yaitu membahas mengenai perancangan aplikasi untuk melakukan sinkronisasi antara \textit{Outlook.com Calendar} dengan \textit{Slack}. 
-	\item Bab 5: Implementasi dan Pengujian, yaitu membahas mengenai implementasi dari aplikasi yang telah dirancang dan juga pengujian aplikasi tersebut.   
+	\item Bab 5: Implementasi dan Pengujian, yaitu membahas mengenai implementasi dari perangkat lunak yang telah dirancang dan juga pengujian perangkat lunak tersebut.   
 	\item Bab 6: Kesimpulan dan Saran, yaitu berisi tentang kesimpulan dari penelitian ini dan juga saran yang dapat diberikan untuk penelitian selanjutnya.  
 \end{enumerate}

@@ -1,7 +1,7 @@
 \chapter{Analisis}
 \label{chap:analisis}
 
-Pada bab ini akan dijelaskan mengenai analisis dari penggunaan \textit{Microsoft Graph API} untuk mendapatkan data event yang sudah tercatat di dalam Outlook Calendar web dan juga penggunaan dari \textit{Slack API} untuk memampukan program mengubah status yang terdapat pada aplikasi Slack, serta analisis dari penggunaan \textit{cron} yang akan digunakan untuk menjalankan program yang disusun secara berkala. Untuk bisa menjalankan program ini, maka dibutuhkan input dari pengguna berupa login ke Windows Live dan juga memberikan akses kepada program ini untuk mengambil access token dan refresh token yang akan digunakan untuk mengambil data event yang sudah tercatat di dalam Outlook Calendar. Selain ke Windows Live, program ini juga memerlukan pengguna untuk login ke akun yang terdapat di suatu workspace di platform Slack serta memberikan akses untuk aplikasi ini sebagai aplikasi yang terdaftar dalam workspace-nya.  
+Pada bab ini akan dijelaskan mengenai analisis dari penggunaan \textit{Microsoft Graph API} untuk mendapatkan data \textit{event} yang sudah tercatat di dalam \textit{Outlook Calendar web} dan juga penggunaan dari \textit{Slack API} untuk memampukan program mengubah status yang terdapat pada aplikasi \textit{Slack}, serta analisis dari penggunaan \textit{cron} yang akan digunakan untuk menjalankan program yang disusun secara berkala. Untuk bisa menjalankan program ini, maka dibutuhkan input dari pengguna berupa \textit{login} ke \textit{Windows Live} dan juga memberikan akses kepada program ini untuk mengambil \textit{access token} dan \textit{refresh token} yang akan digunakan untuk mengambil data \textit{event} yang sudah tercatat di dalam \textit{Outlook Calendar}. Selain ke \textit{Windows Live}, program ini juga memerlukan pengguna untuk \textit{login} ke akun yang terdapat di suatu \textit{workspace} di platform \textit{Slack} serta memberikan akses untuk aplikasi ini sebagai aplikasi yang terdaftar dalam \textit{workspace}-nya.  
 
 \section{Analisis Microsoft Graph API}
 \label{sec:analisis_microsoft_graph_api}
@@ -404,24 +404,140 @@ Untuk dapat memakai dan mengakses \textit{method-method} yang disediakan oleh \t
 
 Pada sesi ini akan dibutuhkan \textit{method} dari \textit{Slack API} yang bisa mengubah status yang terdapat pada bagian \textit{user.profile}. Dari informasi yang disediakan oleh Slack secara \textit{online}, bahwa status tergabung dalam \textit{user.profile}, maka untuk memenuhi dari kebutuhan di sisi ini dicoba menggunakan \textit{method-method} yang bisa untuk mengakses kepada objek \textit{user.profile}. Karena di sisi ini akan mengubah nilai dari status, asumsi sementara dari \textit{method} yang bisa dipakai dari sisi ini adalah \textit{method users.profile.set} yang akan berguna untuk mengubah isi dari profil pengguna yang di dalamnya terdapat status. 
 
-\section{Analisis Cron}
+\section{Analisis Heroku Scheduler}
 \label{sec:analisis_cron}
-Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan request kepada Microsoft Graph, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Crontab memiliki kemampuan untuk menjalankan program secara berkala sesuai dengan format pengaturan yang sudah di set dari awal pembuatan perintah crontab. Crontab tinggal harus memanggil dan menjalankan aplikasi untuk mengambil data dan secara otomatis sesuai dengan waktu yang sudah diatur di crontab, maka program akan dijalankan. Untuk contoh format file crontab akan ditunjukkan pada \ref{lst:contoh_cronfile}.
+Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan request kepada Microsoft Graph, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Heroku Scheduler merupakan add-ons dari Heroku yang dapat menjalankan perintah secara berkala sesuai dengan yang sudah diatur sejak awal. Untuk menambahan job pada Heroku Scheduler, dapat diakses melalui command line dengan perintah seperti:
 
-\begin{lstlisting}[caption=contoh cronfile]
-\label{lst:contoh_cronfile}
-# use /bin/sh to run commands, no matter what /etc/passwd says
-SHELL=/bin/sh
-# mail any output to 'paul', no matter whose crontab this is
-MAILTO=paul
-#
-CRON_TZ=Japan
-# run five minutes after midnight, every day
-5 0 * * *       $HOME/bin/daily.job >> $HOME/tmp/out 2>&1
-# run at 2:15pm on the first of every month -- output mailed to paul
-15 14 1 * *     $HOME/bin/monthly
-# run at 10 pm on weekdays, annoy Joe
-0 22 * * 1-5    mail -s "It's 10pm" joe%Joe,%%Where are your kids?%
-23 0-23/2 * * * echo "run 23 minutes after midn, 2am, 4am ..., everyday"
-5 4 * * sun     echo "run at 5 after 4 every sunday"
+\begin{lstlisting}
+\$ heroku addons:open scheduler
 \end{lstlisting}
+
+Setelah halaman baru pada browser muncul, pilih tombol untuk menambahkan job di scheduler dengan menekan tombol ``Add Job''. Pada Heroku Scheduler tersedia interval untuk menjalankan sebuah job yaitu setiap 10 menit sekali, atau setiap jam pada menit ke, atau setiap hari pada jam ke.
+
+Untuk memperkecil perangkat lunak melewatkan event yang tercatat di Outlook Calendar, maka bagian dari perangkat lunak yang melakukan sinkronisasi akan dijalankan setiap 10 menit sekali. 
+
+\section{Analisis Diagram Alir Sistem}
+\subsection{Bagian perangkat lunak yang berinteraksi dengan pengguna}
+
+\begin{figure}[h]
+  \includegraphics[width=3cm]{./Gambar/workflow.png}
+  \centering
+  \caption{Diagram alir sistem pada bagian perangkat lunak yang berinteraksi dengan user.}
+  \label{fig:workflow1}
+\end{figure}
+
+Diagram alir pada gambar \ref{fig:workflow1} menunjukkan aliran proses yang terjadi pada bagian perangkat lunak yang berinteraksi dengan pengguna, berikut penjelasan dari aliran proses tersebut:
+\begin{itemize}
+    \item Proses pengguna melakukan login ke Windows Live adalah proses dimana perangkat lunak akan mendapatkan access token dari Windows Live dan data lainnya yang dibutuhkan untuk mendapatkan data dari event yang tercatat di dalam Outlook Calendar. 
+    \item Proses pengguna melakukan login ke Slack adalah proses dimana perangkat lunak akan mendapatkan access token dari Slack untuk bisa mengganti status jika ada suatu event yang berjalan. 
+    \item Setelah kedua proses dijalankan, maka semua data yang dibutuhkan akan dimasukkan ke dalam database agar bisa dijalankan juga dengan bagian dari perangkat lunak yang lain. 
+\end{itemize}
+\clearpage
+
+\subsection{Bagian perangkat lunak yang dijalankan secara berkala}
+
+\begin{figure}[h]
+  \includegraphics[width=10cm]{./Gambar/workflow2.png}
+  \centering
+  \caption{Diagram alir sistem pada bagian perangkat lunak yang dijalankan secara berkala.}
+  \label{fig:workflow2}
+\end{figure}
+
+Diagram alir pada gambar \ref{fig:workflow2} menunjukkan aliran proses yang dilakukan oleh bagian perangkat lunak yang dijalankan secara berkala, berikur penjelasan dari aliran proses tersebut:
+\begin{itemize}
+    \item Pertama-tama perangkat lunak akan mengambil data dari dalam basis data. 
+    \item Lalu terdapat proses untuk melakukan pengecekan untuk access token dari Microsoft dikarenakan access token ini memiliki waktu kadaluarsa. 
+    \item Jika access token sudah kadaluarsa, maka meminta ulang access token dengan menggunakan refresh token.
+    \item Jika access token belum expired, maka dilanjutkan dengan meminta data mengenai event yang ada di Outlook Calendar. 
+    \item Jika setelah melakukan permintaan ulang access token dan sudah mendapatkan access token yang baru, maka meminta data mengenai event yang ada di Outlook Calendar. 
+    \item Lalu setelah mendapatkan data event, maka melakukan pengecekan data event dengan waktu sekarang. Jika waktu sekarang beririsan dengan event yang sedang berjalan, maka perangkat lunak akan mengganti status yang ada pada Slack. 
+    \item Jika tidak ada yang beririsan, maka tidak akan melakukan apa-apa. 
+    \item Proses ini akan berjalan kembali secara berkala sesuai dengan waktu yang sudah diatur di dalam Heroku Scheduler. 
+\end{itemize}
+
+\section{Analisis Diagram Use Case}
+\begin{figure}[h]
+  \includegraphics[width=10cm]{./Gambar/usecase.png}
+  \centering
+  \caption{Diagram Use Case.}
+  \label{fig:usecase}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Skenario \textit{Login Windows Live}}\\
+    Nama : Login Windows Live\\
+    Aktor : Pengguna\\
+    Kondisi Awal : Pengguna memiliki akun Windows Live\\
+    Deskripsi : Pengguna melakukan login pada aplikasi Windows Live dengan akun pribadinya.\\
+    Kondisi Akhir : Pengguna berhasil melakukan login ke Windows Live\\
+    Skenario : 
+    \begin{itemize}
+        \item Pengguna melakukan login dengan id dan kata sandi yang dimilikinya. 
+        \item Pengguna mengizinkan akun Windows Live miliknya bekerjasama dengan perangkat lunak ini. 
+        \item Pengguna berhasil melakukan login ke Windows Live dan perangkat lunak mendapatkan akses. 
+    \end{itemize}
+    Eksepsi : 
+    \begin{itemize}
+        \item Pengguna tidak memiliki akun Windows Live. 
+    \end{itemize}
+    
+    \item \textbf{Skenario \textit{Login Slack}}\\
+    Nama : Login Slack\\
+    Aktor : Pengguna\\
+    Kondisi Awal : Pengguna memiliki akun Slack yang tergabung dalam suatu workspace\\
+    Deskripsi : Pengguna melakukan login pada aplikasi Slack di workspace pengguna tergabung.\\
+    Kondisi Akhir : Pengguna berhasil melakukan login ke workspace Slack\\
+    Skenario : 
+    \begin{itemize}
+        \item Pengguna melakukan login dengan id dan kata sandi yang dimilikinya. 
+        \item Pengguna mengizinkan perangkat lunak ini menjadi bagian di dalam workspace Slack sebagai aplikasi pembantu di workspace tersebut. 
+        \item Pengguna berhasil melakukan login ke Slack dan perangkat lunak mendapatkan akses. 
+    \end{itemize}
+    Eksepsi : 
+    \begin{itemize}
+        \item Pengguna tidak memiliki akun Slack dan atau tidak terdaftar di dalam workspace manapun. 
+    \end{itemize}
+    
+    \item \textbf{Skenario Meregistrasikan Akun}
+    Nama : Meregistrasikan Akun\\
+    Aktor : Pengguna\\
+    Kondisi Awal : Pengguna memiliki akun Windows Live dan Slack\\
+    Deskripsi : Pengguna meregistrasikan akunnya untuk bisa melakukan sinkronisasi antara Outlook Calendar dengan Slack.\\
+    Kondisi Akhir : Pengguna berhasil meregistrasikan akunnya\\
+    Skenario : 
+    \begin{itemize}
+        \item Pengguna melakukan login pada Windows Live. 
+        \item Pengguna melakukan login pada Slack. 
+        \item Pengguna berhasil melakukan login ke kedua aplikasi tersebut dan pengguna berhasil meregistrasikan akunnya untuk disinkronkan. 
+    \end{itemize}
+    Eksepsi : 
+    \begin{itemize}
+        \item Pengguna tidak memiliki akun Windows Live dan Slack. 
+    \end{itemize}
+    
+\end{itemize}
+
+\section{Analisis Data Flow Diagram}
+
+\begin{figure}[h]
+  \includegraphics[width=10cm]{./Gambar/DFD.png}
+  \centering
+  \caption{Data Flow Diagram.}
+  \label{fig:dfd}
+\end{figure}
+
+Diagram alir data pada gambar \ref{fig:dfd} menunjukkan aliran data pada sistem, nerikut penjelasan dari setiap proses aliran data tersebut:
+\begin{itemize}
+    \item \textbf{Proses melakukan \textit{login} ke \textit{Windows Live}}\\
+    Input : ID dan Password akun Windows Live.\\
+    Output : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp\\
+    Proses ini merupakan proses meminta access token dan segala data yang diperlukan untuk mendapatkan data event dari Outlook Calendar. Proses ini menghasilkan data microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp. 
+    \item \textbf{Proses melakukan \textit{login} ke \textit{Slack}}\\
+    Input : \textit{ID} dan \textit{Password} beserta \textit{workspace} di \textit{Slack}.\\
+    Output : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp, slack\_access\_token\\
+    Proses ini merupakan proses meminta access token kepada aplikasi Slack agar perangkat lunak bisa mengubah status di dalam aplikasi Slack. Proses ini menghasilkan data microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp, slack\_access\_token. 
+    \item \textbf{Proses melakukan sinkronisasi antara Outlook Calendar dan Slack}\\
+    Input : Data dari basis data seperti token dari Windows Live dan juga dari Slack.\\
+    Output : -
+    Proses ini merupakan proses sinkronisasi aplikasi Outlook Calendar dan juga Slack dengan cara mengambil data event yang terdapat di Outlook Calendar menggunakan token yang didapat dari Windows Live dan juga menggunakan token yang didapat dari Slack untuk dapat mengubah status dalam Slack jika waktu event dan waktu sekarang beririsan. 
+\end{itemize}

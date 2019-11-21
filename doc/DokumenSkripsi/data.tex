@@ -75,10 +75,9 @@
 %=============================================================================
 %\mode{bimbingan} 		% untuk keperluan bimbingan
 %\mode{sidang} 			% untuk sidang 1
-%\mode{sidangakhir} 	% untuk sidang 2 / sidang pada Skripsi 2(IF)
+\mode{sidangakhir} 	% untuk sidang 2 / sidang pada Skripsi 2(IF)
 %\mode{final} 			% untuk mencetak buku skripsi 
 %=============================================================================
-
 %_____________________________________________________________________________
 %=============================================================================
 % 								BAGIAN III
@@ -111,8 +110,8 @@
 %             catatan yg banyak di antara baris (dianjurkan untuk bimbingan)
 % Catatan: bagian ini hanya bisa diatur di mode bimbingan
 %=============================================================================
-\linespacing{single}
-%\linespacing{onehalf}
+%\linespacing{single}
+\linespacing{onehalf}
 %\linespacing{double}
 %=============================================================================
 
@@ -195,10 +194,10 @@
 % !!Lihat singkatan pembimbing dan penguji anda di file dosen.tex!!
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda
 %=============================================================================
-\namanpm{<<Nama Lengkap>>}{<<10 digit NPM UNPAR>>}
-\tanggal{<<tanggal>>}{<<bulan>>}{<<tahun>>}
-\pembimbing{<<pembimbing utama/1>>}{<<pembimbing pendamping/2>>}    
-\penguji{<<penguji 1>>}{<<penguji 2>>} 
+\namanpm{Sandy Giovanni Sutiansen}{2015730041}
+\tanggal{28}{05}{2019}
+\pembimbing{\PAN}{<<pembimbing pendamping/2>>}    
+\penguji{\LCA}{<<Natalia>>} 
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -214,8 +213,8 @@
 % - gunakan \texorpdfstring{\\}{} untuk pindah ke baris baru
 % - judul TIDAK ditulis dengan menggunakan huruf besar seluruhnya !!
 %=============================================================================
-\judulINA{<<Judul Bahasa Indonesia>>}
-\judulENG{<<Judul Bahasa Inggris>>}
+\judulINA{Integrasi Outlook Calendar dan Slack}
+\judulENG{Outlook Calendar and Slack Integration}
 %_____________________________________________________________________________
 %=============================================================================
 % 								BAGIAN X
@@ -227,8 +226,17 @@
 % - hilangkan tanda << & >>, dan isi sesuai dengan data anda
 % - langsung mulai setelah '{' awal, jangan mulai menulis di baris bawahnya
 %=============================================================================
-\abstrakINA{<<Tuliskan abstrak anda di sini, dalam bahasa Indonesia>>}
-\abstrakENG{<<Tuliskan abstrak anda di sini, dalam bahasa Inggris>>} 
+\abstrakINA{
+\textit{Outlook Calendar} adalah sebuah aplikasi yang berfungsi selayaknya kalender yang bisa diisi sebuah event oleh pengguna dari aplikasi tersebut. \textit{Slack} sendiri adalah sebuah aplikasi yang berbasis \textit{cloud} yang diperuntukkan sebagai wadah kolaborasi antar tim. Para pengguna bisa mengatur status yang akan dipasang di dalam akunnya. Namun terkadang pengguna lupa untuk mengubah statusnya agar tidak terganggu dengan pengguna lain yang berusaha mengirimkan pesan disaat pengguna itu sedang dalam keadaan genting atau di dalam suatu pertemuan. 
+
+Dengan permasalahan itu, maka skripsi ini akan membahas mengenai sebuah perangkat lunak yang mengintegrasikan antara \textit{event-event} yang tercatat di dalam \textit{Outlook Calendar} dengan status dalam akun pengguna dalam \textit{Slack}. Perangkat lunak yang akan dibangun di dalam skripsi ini adalah perangkat lunak yang mengambil data event, dan ketika sedang ada \textit{event} yang berjalan pada saat itu, maka status di dalam akun pengguna di \textit{Slack} akan terganti agar meminimalisir pengguna lain berusaha untuk mengirimkan pesan kepada pengguna yang akan mengganggu dengan status yang sudah terpasang.
+}
+\abstrakENG{
+
+Outlook Calendar is an application that works like a calendar that can be filled by an event by the user of the application. Slack itself is a cloud-based application that is intended as a forum for collaboration between teams. Users can set the status that will be installed in their account. But sometimes the user forgets to change their status so that they don't interfere with other users who try to send messages when the user is in a critical situation or in a meeting.
+
+With that problem, this thesis will discuss about a software that integrates the events recorded in Outlook Calendar with the status in the user's account in Slack. The software that will be built in this thesis is software that retrieves event data, and when an event is running at that time, the status in the user's account in Slack will be changed to minimize other users trying to send messages to users who will interfere with the status that is already installed.
+} 
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -240,8 +248,8 @@
 % - kunciENG: keywords in english
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda.
 %=============================================================================
-\kunciINA{<<Tuliskan di sini kata-kata kunci yang anda gunakan, dalam bahasa Indonesia>>}
-\kunciENG{<<Tuliskan di sini kata-kata kunci yang anda gunakan, dalam bahasa Inggris>>}
+\kunciINA{\textit{Outlook Calendar}, \textit{Slack}, Mengintegrasikan, \textit{Event}, Status}
+\kunciENG{Outlook Calendar, Slack, Integrates, Event, Status}
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -251,7 +259,7 @@
 % Persembahan : kepada siapa anda mempersembahkan skripsi ini ...
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda.
 %=============================================================================
-\untuk{<<kepada siapa anda mempersembahkan skripsi ini\ldots?>>}
+\untuk{Untuk diri sendiri, keluarga, teman-teman seperjuangan, dan semua yang telah mendukung}
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -262,7 +270,16 @@
 % kasih kepada yang telah membantu anda bla bla bla ....  
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda.
 %=============================================================================
-\prakata{<<Tuliskan kata pengantar dari anda di sini \ldots>>} 
+\prakata{Puji Syukur penulis panjatkan kepada Tuhan Yesus karena atas berkat-Nya lah skripsi dengan judul ``Integrasi Outlook Calendar dan Slack'' ini bisa selesai dengan baik dan tepat waktu. Penulis berharap skripsi dan perangkat lunak yang dibangun dapat berguna bagi orang yang membutuhkan dan juga dapat membantu bagi orang yang akan melanjutkan penelitian ini untuk selanjutnya. Tidak lupa juga penulis mengucapkan terima kasih kepada: 
+\begin{itemize}
+    \item Keluarga, khususnya orang tua dan juga kepada adik yang telah menyemangati penulis secara langsung maupun tidak langsung, serta membuat suasana senyaman mungkin. 
+    \item Pak Pascal Alfadian yang telah membantu membimbing penulis dalam proses pembuatan skripsi beserta perangkat lunaknya.
+    \item Teman yang selalu mendukung: Andi Tangguh Kippi Nusantara, Reyner Alexander, Adriswara Dwikarkasa, Vincent Joel Sinatra, Yonathan Kristian, Yosua, Raymond Nagawijaya, Arlin Sasqia Puspa Shiffa. 
+    \item Admin Lab Ftis yang bersedia ikutserta dalam melakukan pengujian perangkat lunak ini. 
+    \item Rekan-rekan kerja di Talent Media yang menyemangati dan juga ikutserta dalam melakukan pengujian perangkat lunak. 
+    \item Pihak-pihak lain yang tidak bisa disebutkan satu persatu. 
+\end{itemize}
+}
 %=============================================================================
 
 %_____________________________________________________________________________

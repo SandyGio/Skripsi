@@ -4,7 +4,7 @@
 
 \section{\textit{Microsoft Graph API}}
 \label{sec:microsoftgraph}
-Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan Microsoft 365 yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi beta, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. 
+Microsoft Graph API adalah webservice yang berguna untuk mendapatkan data-data yang terdapat di dalam layanan Microsoft 365 yaitu seperti \textit{Azure Active Directory}, layanan \textit{Office} 365 (\textit{SharePoint, OneDrive, Outlook/Exchange, Microsoft Teams, OneNote, Planner,} dan \textit{Excel}), layanan \textit{Enterprise Mobility and Security} (\textit{Identity Manager, Intune, Advanced Threat Analytics,} dan \textit{Advanced Threat Protection}), layanan \textit{Windows} 10 (\textit{activities} dan \textit{devices}), dan \textit{Education}. Terdapat 2 versi referensi untuk \textit{Microsoft Graph API} yaitu versi 1.0 dan juga versi beta, tetapi yang dituliskan pada subbab ini mengacu kepada versi 1.0. \cite{microsoft} Pada versi 1.0, \textit{endpoint} utama yang dipakai adalah mengacu kepada \textit{endpoint} \textit{https://graph.microsoft.com/v1.0}. 
 
 Untuk menggunakan fungsi dari \textit{Microsoft Graph API}, dibutuhkan untuk mendaftarkan terlebih dahulu aplikasi yang akan dirancang dan memakai fungsi dari \textit{webservice} dari \textit{Microsoft Graph API} ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Pada saat mendaftarkan aplikasinya, pastikan untuk menyalin dan menyimpan \textit{application ID} yang adalah pengenal unik untuk aplikasi yang didaftarkan, dan juga menyalin \textit{Redirect URL} yang didaftarkan sebagai \textit{URL} yang akan menerima balikan \textit{authentication} dan juga \textit{token} yang akan dikirim oleh \textit{endpoint Azure AD v2.0}, serta menyalin \textit{application secret} yang didapat saat mengklik ``\textit{Generate New Password}'' saat mendaftarkan aplikasi (berlaku jika mendaftarkan aplikasi berjenis \textit{web apps}). \textit{Application ID} yang didapat saat mendaftar aplikasi akan dipakai untuk mengisi nilai dari parameter \textit{client\_id} yang akan diisi saat akan melakukan \textit{request} untuk mendapatkan \textit{authorization\_code}. Setelah mendapatkan \textit{authorization\_code}, maka langkah selanjutnya adalah meminta \textit{access\_token} yang membutuhkan \textit{parameter} \textit{authorization\_code} kepada \textit{field code}, dan juga \textit{application\_secret} yang didapat dari pendaftaran aplikasi sebelumnya yang akan mengisi \textit{field client\_secret}. Response dari request token akan mengembalikkan jangka waktu aktif dari token tersebut dan juga refresh\_token yang akan berguna untuk meminta refresh\_token saat token sudah \textit{expired}.
 
@@ -329,11 +329,11 @@ Untuk mengakses setiap \textit{method} yang akan dijabarkan, perlu diketahui bah
 Seluruh \textit{endpoint} \textit{/users/\{id | userPrincipalName\}} bisa diganti dengan \textit{/me}. 
 
 \subsection{Lain-lain}
-Terdapat masih banyak kelas yang disediakan dan digunakan pada \textit{Microsoft Graph API} dan dapat dilihat lebih jelas pada laman \textit{website} referensi yang disediakan oleh \textit{Microsoft Graph} yaitu bisa melalui \textit{https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0}. 
+Terdapat masih banyak kelas yang disediakan dan digunakan pada \textit{Microsoft Graph API} dan dapat dilihat lebih jelas pada laman \textit{website} referensi yang disediakan oleh \textit{Microsoft Graph} yaitu bisa melalui \url{https://docs.microsoft.com/en-us/graph/api/overview?view=graph-rest-1.0}. 
 
 \section{\textit{Slack API}}
 \label{sec:slack}
-\textit{Slack API} adalah \textit{webservice} yang akan digunakan untuk menghubungkan data yang sudah di dapat dari \textit{Outlook.com Calendar} ke aplikasi \textit{Slack}. Untuk mengakses \textit{Slack API}, kita diharuskan untuk mendaftarkan aplikasi yang akan dibuat dan juga mendaftarkannya ke \textit{workspace} yang akan dipakai untuk menjalankan aplikasi yang akan dibuat. Untuk mendaftarkan aplikasi yang akan dibuat bisa menuju ke laman \textit{https://api.slack.com/apps}. Aplikasi yang sudah terdaftar akan diberikan \textit{Client ID} yang unik dan juga \textit{Client Secret} yang akan digunakan pada proses \textit{OAuth}. 
+\textit{Slack API} adalah \textit{webservice} yang akan digunakan untuk menghubungkan data yang sudah di dapat dari \textit{Outlook.com Calendar} ke aplikasi \textit{Slack}.\cite{slack} Untuk mengakses \textit{Slack API}, kita diharuskan untuk mendaftarkan aplikasi yang akan dibuat dan juga mendaftarkannya ke \textit{workspace} yang akan dipakai untuk menjalankan aplikasi yang akan dibuat. Untuk mendaftarkan aplikasi yang akan dibuat bisa menuju ke laman \url{https://api.slack.com/apps}. Aplikasi yang sudah terdaftar akan diberikan \textit{Client ID} yang unik dan juga \textit{Client Secret} yang akan digunakan pada proses \textit{OAuth}. 
 
 Proses pertama yang akan dijalani dalam rangkaian proses \textit{OAuth} adalah dengan meminta \textit{authorization code} yang akan berjalan jika aplikasi yang akan dibuat untuk mengarahkan pengguna dan mengirimkan \textit{get request} ke \textit{URL} \textit{https://slack.com/oauth/authorize} dengan \textit{get parameter} yang wajib yaitu \textit{client\_id} yang diberikan pada saat mendaftarkan aplikasi yang akan dibuat dan juga \textit{get parameter scope}, serta memiliki parameter yang bersifat opsional yaitu \textit{redirect\_uri} yang berfungsi untuk alamat tujuan dari kembalian yang dikirim oleh API, \textit{state} yaitu yang berupa \textit{String} unik untuk diteruskan kembali setelah selesai, dan juga \textit{team} berupa \textit{Slack team ID} dari \textit{workspace} yang berfungsi untuk membatasi. Parameter \textit{scope} disini berguna untuk menentukan dengan tepat bagaimana aplikasi perlu mengakses akun pengguna \textit{Slack}. Penulisan format \textit{parameter scope} yaitu merujuk ke objek yang akan diberi akses, dan dilanjutkan dengan kelas tindakan pada objek yang diberikan izin, contohnya \textit{file:read}. Selain itu ada juga perspektif opsional yang berisi \textit{user}, \textit{bot}, dan \textit{admin} yang akan memengaruhi tindakan yang muncul nantinya di dalam aplikasi \textit{Slack}, contohnya \textit{chat:write:user} yang berarti akan mengirimkan pesan dari pengguna yang memiliki wewenang. Kelas tindakan yang ada disini ada 3 yaitu:
 \begin{itemize}
@@ -659,11 +659,9 @@ Pada bagian ini, objek yang bisa diakses adalah profil dari pengguna. Terdapat m
 
 \section{\textit{Node.js}}
 \label{sec:nodejs}
-\textit{Node.js} adalah \textit{platform} perangkat lunak pada sisi \textit{server}. \textit{Node.js} ini ditulis dengan menggunakan bahasa \textit{Javascript} dengan menggunakan npm sebagai default package manager. Untuk menggunakan \textit{node.js}, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu \textit{node.js} yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall node.js, barulah node.js bisa digunakan. 
+\textit{Node.js} adalah \textit{platform} perangkat lunak pada sisi \textit{server}.\cite{nodejs} \textit{Node.js} ini ditulis dengan menggunakan bahasa \textit{Javascript} dengan menggunakan npm sebagai default package manager. Untuk menggunakan \textit{node.js}, dibutuhkan untuk mengunduh dan menginstal terlebih dahulu \textit{node.js} yang akan dipakai pada situs resmi yang tersedia\footnote{https://nodejs.org/en/}. Setelah mengunduh dan menginstall node.js, barulah node.js bisa digunakan. 
 
 Format \textit{file} yang digunakan oleh node.js ini menggunakan format \textit{.js}. Untuk bisa menjalankan \textit{file} yang sudah dibuat, \textit{node.js} memiliki perintah yang harus dijalankan di \textit{terminal} yaitu perintah ``\textit{node} (nama file)''. Dengan perintah seperti itu, semua \textit{code} akan dieksekusi. Dengan menggunakan \textit{node.js}, sebuah kode program yang berbahasa \textit{JavaScript} akan menjadi \textit{server-base}, yang biasanya program \textit{JavaScript} adalah sebuah \textit{client-base}. Selain itu, node.js juga merupakan sebuah runtime JavaScript yang berjalan secara asynchronous yang diperuntukkan untuk membangun aplikasi jaringan yang bersifat skalabilitas. 
-
-Node.js disusun pertama kali di tahun 2009 oleh Ryan Dahl dan dibangun serta dikelola juga oleh Ryan dengan mendapatkan bantuan dari Joyent. Alasan dari Ryan Dahl mencetuskan ide node.js ini karena ia tidak suka dengan cara kerja server Apache yang digunakan untuk menanganin banyak koneksi secara bersamaan dan kode yang dibuat memblokir seluruh proses atau mengimplikasi banyak eksekusi pada koneksi serentak. Hal ini yang membawanya untuk berniat untuk membuat proyek Node.js yang kemudian dia tunjukkan di JSConf Eropa pada 8 November 2009. 
 
 Node.js menyediakan berbagai macam kelas-kelas yang bisa membantu untuk membuat kode program berjalan sesuai dengan kebutuhan. Setiap kelas dari library Node.js yang akan digunakan dan akan dipanggil di kode program yang akan dibuat perlu dipanggil dengan menggunakan perintah \textit{``require()''} dengan membutuhkan parameter yaitu nama kelas yang akan digunakannya. Contoh dari kelas yang ada di library node.js akan dijabarkan pada subbab \ref{http}
 
@@ -700,7 +698,7 @@ Untuk bisa melakukan pengiriman request ke suatu endpoint, maka dibutuhkan metho
 		\item \textbf{family} bertipe number yang merupakan nilai dari versi IP address untuk melambangkan host atau hostname. Nilai yang bisa dipakai adalah 4 atau 6. 
 		\item \textbf{port} bertipe number yang merupakan nilai dari port dari server. Nilai default yang dipakai adalah 80. 
 		\item \textbf{localAddress} bertipe String yang menggambarkan interface lokal yang berfungsi untuk mengikat koneksi jaringan. 
-		\item \textbf{socketPath} bertipe String yang merupakan soket domain dari Unix. Nilai ini tidak dapat ditentukan jika salah satu dari host maupun port ditentukan. Nilai ini menentukan soket TCP. 
+		\item \textbf{socketPath} bertipe String yang merupakan socket domain dari Unix. Nilai ini tidak dapat ditentukan jika salah satu dari host maupun port ditentukan. Nilai ini menentukan soket TCP. 
 		\item \textbf{method} bertipe String yang menentukan nilai dari tipe request HTTP. Nilai default yang dipakai adalah `GET'. 
 		\item \textbf{path} direktori endpoint pada request yang bertipe String. Nilai ini harus disertakan dengan query String jika dibutuhkan. Nilai default dari ini adalah `/'. 
 		\item \textbf{headers} bertipe Object yang merupakan objek yang mengandung request header. 
@@ -723,7 +721,7 @@ Node.js memelihara beberapa koneksi per servernya untuk melakukan HTTP request. 
 
 \subsection{Express.js}
 \label{express.js}
-\textit{Express.js} adalah sebuah \textit{web application framework} untuk \textit{Node.js}. Cara untuk menginstal \textit{express} ini dengan menggunakan \textit{command}:
+\textit{Express.js} adalah sebuah \textit{web application framework} untuk \textit{Node.js}. Cara untuk memasang \textit{express} ini adalah dengan menggunakan \textit{command}:
 
 \begin{lstlisting}
 $ npm install express 
@@ -732,17 +730,22 @@ $ npm install express
 Express ini memiliki banyak fungsi yang disediakan untuk mempermudah membuat \textit{web application} seperti: 
 \begin{itemize}
     \item {\textit{Express-generator}}\\
-    Express-generator ini memiliki fungsi untuk membangun rangka dari aplikasi dengan mudah. Dengan menggunakan \textit{express-generator}, maka kita akan mendapatkan direktori file dengan isi seperti: 
-    % Masukin gambar atau tulisan yang menggambarkan file direktori yang dihasilkan jika memakai express generator. 
+    Express-generator ini memiliki fungsi untuk membangun rangka dari aplikasi dengan mudah. Dengan menggunakan \textit{express-generator}, maka kita akan mendapatkan direktori file dengan isi seperti: \\
+    \begin{figure}[h]
+      \includegraphics[width=10cm]{./Gambar/express_generator.png}
+      \centering
+      \caption{Tampilan direktori yang dibuat jika menjalankan express generator.}
+      \label{fig:express_generator}
+    \end{figure}
     
-    Cara menggunakan express generator bisa dengan menjalankan command ``npx express \{nama file yang akan dibuat\}'' atau bisa dengan command ``express \{nama file yang akan dibuat\}''
+    Cara menggunakan express generator bisa dengan menjalankan command ``npx express \{nama file yang akan dibuat\}'' atau bisa dengan command ``express \{nama file yang akan dibuat\}'', maka express generator akan langsung secara otomatis membuat folder dan file-file seperti yang ada pada gambar \ref{fig:express_generator}. 
     
     \item {\textit{Routing}}\\
     Fungsi ini berguna untuk memudahkan dari web application untuk bisa menuju kepada halaman yang berbeda dengan memakai path dari alamat \textit{url} aplikasi tersebut. Cara menggunakannya adalah seperti  
 \end{itemize}
 
 \subsection{Handlebars}
-\textit{Handlebars} adalah modul dari \textit{Node.js} yang membantu atas fungsi penggunaan \textit{template semantic} pada tampilan yang akan digunakan di dalam aplikasi.
+\textit{Handlebars} adalah modul dari \textit{Node.js} yang membantu atas fungsi penggunaan \textit{template semantic} pada tampilan yang akan digunakan di dalam pembangunan perangkat lunak. Template semantic ini membantu pengiriman data variable dari javascript belakang ke tampilan. 
 
 \subsection{Simple OAuth2}
 Modul ini berguna untuk membantu proses otentikasi pada perangkat lunak ini yang akan melakukan otentikasi kepada aplikasi pihak ketiga lainnya. Pada \textit{simple oauth} ini dapat ditangani 3 alur untuk melakukan otentikasi yaitu:
@@ -822,7 +825,8 @@ const oauth2 = require('simple-oauth2').create(credentials);
     Saat token kadaluarsa, diperlukan refresh token untuk bisa meminta ulang access token yang baru. Simple OAuth2 menyediakan sebuah kelas AccessToken yang memiliki beragam fungsi yang salah satunya membantu mempermudah untuk meminta ulang access token saat token itu sudah kadaluarsa. Inisialisasi dari kelas ini seperti 
     
     \begin{lstlisting}
-    // Sample of a JSON access token (you got it through previous steps)
+    // Sample of a JSON access token (you got it through
+    previous steps)
     const tokenObject = {
       'access_token': '<access-token>',
       'refresh_token': '<refresh-token>',
@@ -834,49 +838,100 @@ const oauth2 = require('simple-oauth2').create(credentials);
 \subsection{jsonwebtoken}
 Jsonwebtoken merupakan implementasi dari JSON Web Tokens yang dikembangkan terhadap draft-ieft-oauth-json-web-token-08. Jsonwebtoken ini memiliki beberapa fungsi yaitu:
 \begin{itemize}
-    \item \textbf{jwt.sign(payload,secretOrPrivateKey, [options, callback])}
+    \item \textbf{jwt.sign(payload,secretOrPrivateKey, [options, callback])}\\
     Fungsi ini bisa berjalan secara asynchronous jika parameter callback diisi dan disediakan. Callback dipanggil dengan err atau dengan JWT. Tetapi fungsi ini juga bisa berjalan secara synchronous dan mengembalikan JsonWebToken sebagai sebuah string. 
-    \item \textbf{jwt.verify(token,secretOrPrivateKey, [options, callback])}
+    \item \textbf{jwt.verify(token,secretOrPrivateKey, [options, callback])}\\
     Fungsi ini bisa berjalan secara asynchronous jika parameter callback diisi dan disediakan. Callback dipanggil dengan payload yang telah di decode jika signature-nya valid dan ada parameter seperti kadaluarsa yang bersifat opsional, audiens, atau penerbit akan menjadi valid. Jika tidak, maka akan menimbulkan error. Fungsi ini juga bisa berjalan secara synchronous jika tidak ada callback yang diisi. 
-    \item \textbf{jwt.decode(token, [options])}
+    \item \textbf{jwt.decode(token, [options])}\\
     Fungsi ini berjalan secara synchronous dan mengembalikan payload yang sudah di decode tanpa memverifikasi signature yang ada valid atau tidak. 
 \end{itemize}
-
-\subsection{Microsoft Graph Javascript Client Library}
-Microsoft Graph Javascript Client Library adalah library yang membungkus API yang dimiliki Microsoft Graph. Cara penggunaan library ini memerlukan bantuan dari library lain yang bernama isomorphic-fetch yang akan dijelaskan pada point selanjutnya. 
 
 \subsection{Isomorphic Fetch}
 \textit{Isomorphic Fetch} adalah sebuah \textit{polyfill} \textit{window.fetch} untuk digunakan di \textit{node} dan \textit{browserify}. \textit{Polyfill} ini memungkinkan \textit{window.fetch} untuk \textit{javascript engine} yang tidak mendukungnya secara \textit{native}. 
 
-\section{Cron}
-\label{sec:cron}
-\textit{Cron} adalah sebuah \textit{daemon} untuk mengeksekusi perintah-perintah yang sudah terjadwalkan. \textit{Daemon} sendiri adalah proses layanan yang berjalan secara \textit{background} dan mengawasi sistem atau menyediakan fungsionalitas untuk proses lainnya. \textit{Cron} dimulai dari \textit{/etc/rc.d/init.d} atau \textit{/etc/init.d} ketika \textit{sysvinit} digunakan. \textit{File} unit disimpan dan diinstal ke \textit{/lib/systemd/system/crond.service} dan \textit{daemon} dimulai dengan cara menjalankan perintah \textit{systemctl start crond.service}. \textit{Cron} mencari ke direktori \textit{/var/spool/cron} untuk \textit{file-file crontab}. 
+\subsection{Microsoft Graph Client Library}
+Microsoft Graph Client Library adalah sebuah library yang disediakan oleh Microsoft untuk perangkat lunak yang akan menggunakan API ke Microsoft bisa lebih mudah. Library ini hanya sebagai pembungkus dari semua fungsi API yang disediakan oleh Microsoft. Untuk bisa memakainya, maka harus menginisialisasi terlebih dahulu sebuah objek inisialisasi dari library ini dengan menggunakan access token yang didapat saat melakukan request awal. Setelah melakukan inisialisasi, maka setiap API dapat diakses dengan menjalankan kode seperti:
 
-\textit{Crontab} adalah \textit{file} yang digunakan untuk menjadwalkan eksekusi dari sebuah program. \textit{Crontab} bisa diakses oleh pengguna dengan menjalankan perintah ``\textit{crontab}'' di \textit{terminal} dilanjutkan dengan perintah yang akan diberikan. Daftar perintah yang bisa dijalankan oleh \textit{crontab} adalah:
+\begin{lstlisting}
+const result = await client.api(`/me/events`).select('subject,start,end').orderby('start/dateTime DESC').get();
+\end{lstlisting}
+
+Api diatas diisi dengan fungsi yang akan dipanggil lalu select diatas diisi dengan data yang akan diambil. Orderby digunakan untuk jika data ingin diurutkan berdasarkan urutan tertentu.
+
+\subsection{Slack Web API}
+Sama seperti Microsoft Graph Client Library, Slack Web API ini juga adalah library yang membungkus method-methid yang disediakan oleh Slack agar untuk mengakses method bisa lebih mudah. Cara menggunakannya adalah dengan menginisialisasi terlebih dahulu library yang akan dipakai sebagai kelas yang akan dipakai, lalu menginisialisasi kelas ke sebuah variable yang diisikan dengan parameter slack access token yang didapat dari request. Setelah itu, jalankan variable tersebut dengan memanggil scope yang dipakai seperti contoh pada code:
+
+\begin{lstlisting}
+const web = new WebClient(slack_access_token);
+
+  const result = await web.users.profile.set({
+    "profile":{
+        "status_text": "In A Meeting",
+        "status_emoji": ":no_entry:"
+      }
+  });
+\end{lstlisting}
+
+Untuk setiap scope yang dipakai akan memerlukan request body yang berbeda-beda. Untuk mengetahui request body yang diperlukan, dapat dilihat pada \url{https://api.slack.com/methods}. 
+
+\section{Heroku}
+Heroku adalah \textit{cloud platform} yang menampung program agar bisa dibangun, dan dijalankan di \textit{cloud}.\cite{heroku} Heroku mendukung beberapa bahasa pemrograman yaitu: Ruby, Node.js, Java, Python, Clojure, Scala, Go, dan PHP. 
+\subsection{Dyno}
+Dyno adalah sebuah wadah berbasis Unix yang disediakan oleh Heroku. Dyno disini dikategorikan ke 3 jenis dyno yaitu:
 \begin{itemize}
-	\item \textit{crontab -e}\\
-	Command ini digunakan untuk membuat atau mengubah file crontab jika sudah ada. 
-	\item \textit{crontab -l}\\
-	Command ini digunakan untuk menampilkan isi file crontab.
-	\item \textit{crontab -r}\\
-	Command ini digunakan untuk menghapus file crontab.
+    \item Web Dyno \\ 
+    Web dyno adalah dyno yang berjalan pada tipe proses web. Web dyno adalah satu-satunya dyno yang bisa menerima HTTP dari router heroku. 
+    \item Worker Dyno \\ 
+    Worker dyno adalah dyno yang berjalan selain pada tipe proses web. Worker dyno biasa digunakan untuk pekerjaan pada latar belakang, sistem antrian, dan pekerjaan berjangka waktu tertentu. 
+    \item One-off Dyno \\ 
+    One-off dyno adalah dyno yang bersifat sementara dan contoh penggunaannya adalah seperti saat migrasi basis data. Dyno ini dijalankan menggunakan command shell. 
+\end{itemize}
+Heroku menyediakan beberapa paket dyno yang mempengaruhi karakteristik dan juga cara kerja dyno seperti:
+\begin{itemize}
+    \item Free \\ 
+    Pada paket ini, jumlah dyno yang didapat untuk setiap proccess type adalah 1 serta adanya batasan dyno hours yaitu sebanyak 550 jam untuk akun yang belum terverifikasi dan 1000 jam untuk akun yang sudah terverifikasi. Dyno akan memasuki kondisi sleep jika web dyno sedang tidak aktif selama lebih dari 30 menit. Dyno akan kembali lagi aktif ketika ada arus yang masuk ke HTTP tetapi ada keterlambatan untuk memproses arus tersebut.  
+    \item Hobby \\ 
+    Jumlah dyno yang didapat untuk setiap proccess type adalah 1. Jumlah dyno hours di dalam paket ini tidak dibatasi tetapi setiap dyno hours yang dipakai akan dikenakan biaya sebesar \$7 per jam per bulannya.  
+    \item Standard \\
+    Jumlah dyno yang didapat untuk setiap proccess type adalah sebanyak 10. Jumlah dyno yang bisa dijalankan secara bersamaan adalah sebanyak 100 pada satu aplikasi. Harga dari dyno hours berkisar antara \$25 sampai \$500. 
+    \item Performance \\
+    Jumlah dyno yang didapat untuk setiap proccess type adalah sebanyak 10. Jumlah dyno yang bisa dijalankan secara bersamaan adalah sebanyak 100 pada satu aplikasi. Harga dari dyno hours berkisar antara \$25 sampai \$500. Perbedaan dari paket standard dengan paket performance adalah paket ini bersifat dedicated. 
 \end{itemize}
 
-\textit{Crontab} memiliki baris kode yang berformat ``\textit{m h dom mon dow command}'' yang memiliki arti:
-\begin{itemize}
-	\item m\\
-	m sebagai menit yang bisa diisi dengan nilai dari 0-59. 
-	\item h\\
-	h sebagai jam yang bisa diisi dengan nilai dari 0-23.
-	\item dom\\
-	dom sebagai \textit{Day Of Month} (tanggal) yang bisa diisi dengan nilai dari 0-31.
-	\item mon\\
-	mon sebagai bulan yang bisa diisi dengan nilai dari 0-12.
-	\item dow\\
-	dow sebagai \textit{Day Of Week} yang bisa diisi dengan nilai dari 0-7 yang menggambarkan hari dalam angka. Nilai 0 dan nilai 7 adalah hari Minggu. 
-	\item command\\
-	\textit{command} disini berisi program yang akan dijalankan dengan jadwal yang sudah diatur dengan parameter sebelumnya. 
-\end{itemize}
+Pada heroku terdapat banyak fitur-fitur penyokong untuk menjalankan aplikasi seperti basis data, sistem antrean, layanan email, dan lain-lain yang disebut dengan \textit{add-ons}. Daftar dari \textit{add-ons} yang tersedia untuk Heroku dapat dilihat pada situs web \textit{Elements Marketplace} (\url{https://elements.heroku.com/addons}) Beberapa contoh \textit{add-ons} yang tersedia di \textit{heroku} antara lain:
 
-Semua nilai dari \textit{parameter} m, h, dom, mon, dan dow bisa diisi dengan simbol bintang (*) yang memiliki arti dijalankan setiap menit, setiap jam, setiap hari, setiap bulan tergantung dari posisi dimana simbol itu ditempatkan. 
- 
+\subsection{Heroku Scheduler}
+Scheduler adalah add-ons gratis yang bertugas untuk mengatur jalannya pekerjaan dalam aplikasi secara berkala sesuai dengan interval yang ditentukan oleh pengguna. Tugas heroku scheduler lebih mirip dengan cara kerja cron di server tradisional. Melalui scheduler, pekerjaan dimungkinkan untuk dijalankan setiap 10 menit sekali, setiap jam, setiap hari, atau pada waktu yang ditentukan. Saat dijalankan, job ini akan berjalan sebagai one-off dynos dan akan muncul di dalam logs sebagai dyno seperti scheduler.X. Cara memasang add-ons ini melalui command shell adalah dengan cara:
+\begin{lstlisting}
+\$ heroku addons:create scheduler:standard
+\end{lstlisting}
+Scheduler akan menjalankan one-off dynos yang akan dihitung sebagai penggunaan dari pengguna pada bulan itu. Dyno-hours yang dihitung akan sama seperti saat menjalankan aplikasi atau dari dynos yang berskala. Untuk pemakaian dari dyno-hours dapat pengguna lihat pada bagian tagihan pada tab ``\textit{Manage account}''. 
+
+\subsection{Heroku Postgres}
+Heroku Postgres adalah layanan basis data SQL yang dikelola dan disediakan langsung oleh Heroku. Basis data Heroku Postgres dapat diakses dengan menggunakan semua bahasa pemrograman dengan driver PostgreSQL termasuk seluruh bahasa pemrograman yang didukung di Heroku. Untuk cara penggunaannya di dalam bahasa Node.js, maka dibutuhkan langkah-langkah yaitu 
+\begin{itemize}
+    \item Melakukan pemasangan modul pg sebagai dependency dengan cara menjalankan command line seperti:
+    \begin{lstlisting}
+    $ npm install pg 
+    \end{lstlisting}
+    \item Melakukan koneksi ke url dari basis data yang disediakan oleh Heroku saat perangkat lunak dijalankan. Contoh dari kode programnya seperti:
+    \begin{lstlisting}
+    const { Client } = require('pg');
+
+    const client = new Client({
+      connectionString: database_url,
+      ssl: true,
+    });
+    
+    client.connect();
+    
+    client.query('SELECT table_schema,table_name FROM
+    information_schema.tables;', (err, res) => {
+      if (err) throw err;
+      for (let row of res.rows) {
+        console.log(JSON.stringify(row));
+      }
+      client.end();
+    });
+    \end{lstlisting}
+\end{itemize}
