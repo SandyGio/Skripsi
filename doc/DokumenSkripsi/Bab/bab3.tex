@@ -409,7 +409,7 @@ Pada sesi ini akan dibutuhkan \textit{method} dari \textit{Slack API} yang bisa 
 Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan request kepada Microsoft Graph, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Heroku Scheduler merupakan add-ons dari Heroku yang dapat menjalankan perintah secara berkala sesuai dengan yang sudah diatur sejak awal. Untuk menambahan job pada Heroku Scheduler, dapat diakses melalui command line dengan perintah seperti:
 
 \begin{lstlisting}
-\$ heroku addons:open scheduler
+$ heroku addons:open scheduler
 \end{lstlisting}
 
 Setelah halaman baru pada browser muncul, pilih tombol untuk menambahkan job di scheduler dengan menekan tombol ``Add Job''. Pada Heroku Scheduler tersedia interval untuk menjalankan sebuah job yaitu setiap 10 menit sekali, atau setiap jam pada menit ke, atau setiap hari pada jam ke.
@@ -456,6 +456,7 @@ Diagram alir pada gambar \ref{fig:workflow2} menunjukkan aliran proses yang dila
 \end{itemize}
 
 \section{Analisis Diagram Use Case}
+\subsection{Use Case dengan actor: pengguna}
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/usecase.png}
   \centering
@@ -516,11 +517,39 @@ Diagram alir pada gambar \ref{fig:workflow2} menunjukkan aliran proses yang dila
     \end{itemize}
     
 \end{itemize}
+\clearpage
+
+\subsection{Use Case dengan actor: Heroku Scheduler}
+\begin{figure}[h]
+  \includegraphics[width=10cm]{./Gambar/usecase2.png}
+  \centering
+  \caption{Diagram Use Case.}
+  \label{fig:usecase_heroku}
+\end{figure}
+\begin{itemize}
+\item \textbf{Skenario Mengubah Status di Slack}
+    Nama : Merubah Status di Slack\\
+    Aktor : Heroku Scheduler\\
+    Kondisi Awal : Aktor memiliki data access token dari Windows Live maupun dari Slack. \\
+    Deskripsi : Heroku Scheduler akan mengubah status pada Slack dengan mengambil data event terlebih dahulu menggunakan access token Windows Live yang sudah tercatat, dan lalu menggunakan access token Slack yang sudah tercatat untuk mengubah status pada Slack.\\
+    Kondisi Akhir : Akun Slack pengguna berhasil diubah statusnya oleh Heroku Scheduler. \\
+    Skenario : 
+    \begin{itemize}
+        \item Heroku Scheduler mengambil access token Windows Live pengguna dari basis data dan memeriksa masa kadaluarsanya. 
+        \item Heroku Scheduler mengambil data event dari Windows Live. 
+        \item Heroku Scheduler memeriksa event dengan waktu sekarang, lalu mengambil access token Slack dan mengubah status jika ada event yang sedang berjalan.
+    \end{itemize}
+    Eksepsi : 
+    \begin{itemize}
+        \item Tidak ada data access token Windows Live dan Slack di basis data. 
+    \end{itemize}
+    
+\end{itemize}
 
 \section{Analisis Data Flow Diagram}
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/DFD.png}
+  \includegraphics[width=15cm]{./Gambar/DFD.png}
   \centering
   \caption{Data Flow Diagram.}
   \label{fig:dfd}

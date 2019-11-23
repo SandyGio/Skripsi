@@ -10,8 +10,8 @@ Pada bab ini akan dibahas mengenai implementasi dari antarmuka perangkat lunak, 
  Pada subbab ini akan disebutkan spesifikasi perangkat keras maupun perangkat lunak yang dipakai untuk menyusun skripsi ini:
 \subsubsection{Spesifikasi Perangkat Keras}
 \begin{itemize}
-    \item Processor Intel® Core™ i5-8250U CPU @ 1.60GHz × 8 
-    \item Graphics Intel® UHD Graphics 620 \(Kabylake GT2\)
+    \item Processor Intel Core i5-8250U CPU @ 1.60GHz × 8 
+    \item Graphics Intel UHD Graphics 620 \(Kabylake GT2\)
     \item RAM 12 GB
     \item Harddisk 1000GB HDD
 \end{itemize}
@@ -86,9 +86,6 @@ Setelah berhasil melakukan \textit{login} dan pengguna memberikan izin akses kep
 
 Setelah pengguna berhasil \textit{login} dan memberikan akses kepada perangkat lunak maka akan ditampilkan halaman seperti gambar \ref{fig:setelah_selesai}. 
 
-\section{Hasil Implementasi}
-Hasil implementasi dari perangkat lunak ini berupa kode program yang dibangun dengan menggunakan bahasa pemrograman \textit{Node.js} dengan aplikasi \textit{Atom} sebagai \textit{text editor} dan juga \textit{pgAdmin4} sebagai aplikasi yang menghubungkan dengan basis data dari \textit{Heroku Postgres}.  
-
 \section{Pengujian}
 Pada bagian pengujian, akan dibagi kepada 2 tipe pengujian yaitu pengujian fungsional dan juga pengujian eksperimental. Pada pengujian fungsional, akan dicoba tombol-tombol sesuai dengan fungsinya dan juga memastikan bahwa perangkat lunak bisa berjalan dengan baik pada \textit{workspace} tempat perangkat lunak ini didaftarkan, sedangkan pada pengujian eksperimental akan dilakukan pengujian untuk \textit{workspace} lain selain \textit{workspace} tempat perangkat lunak ini didaftarkan. 
 
@@ -99,117 +96,122 @@ Tujuan dari diadakannya pengujian bagian ini adalah untuk membuktikan bahwa pera
 Gambar \ref{fig:outlook_raymond} sampai dengan gambar \ref{fig:slack_after_yonathan} menunjukkan bukti hasil dari pengguna yang dimintai ketersediaannya untuk melakukan pengujian terhadap perangkat lunak ini. 
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianRaymond/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Raymond).}
+  \includegraphics[width=8cm]{./Gambar/PengujianRaymond/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Raymond).}
   \label{fig:outlook_raymond}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianRaymond/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Raymond).}
+  \includegraphics[width=8cm]{./Gambar/PengujianRaymond/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Raymond).}
   \label{fig:slack_before_raymond}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianRaymond/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Raymond).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Raymond).}
   \label{fig:slack_after_raymond}
 \end{figure}
 
 Dari gambar \ref{fig:outlook_raymond} sampai gambar \ref{fig:slack_after_raymond} merupakan bukti yang diambil dari pengguna yang melakukan pengujian yang bernama Raymond. Pada gambar \ref{fig:outlook_raymond} merupakan bukti bahwa Raymond sudah membuat sebuah \textit{event} pada waktu 16.30 dan gambar \ref{fig:slack_before_raymond} menunjukkan kondisi \textit{Slack} pada pukul 16.21 yang tidak memperlihatkan adanya status yang terpasang pada akun pengguna. Lalu pada gambar \ref{fig:slack_after_raymond} menunjukkan kondisi \textit{Slack} pada pukul 16.32 yang memperlihatkan adanya status yang terpasang pada akun pengguna yang status itu akan terpasang hingga waktu \textit{event} berakhir yaitu pukul 5.30. 
-\clearpage
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianReyner/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Reyner).}
+  \includegraphics[width=8cm]{./Gambar/PengujianReyner/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Reyner).}
   \label{fig:outlook_reyner}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianReyner/Slack_After.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Reyner).}
+  \includegraphics[width=8cm]{./Gambar/PengujianReyner/Slack_After.png}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Reyner).}
   \label{fig:slack_after_reyner}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 Dari gambar \ref{fig:outlook_reyner} sampai gambar \ref{fig:slack_after_reyner} merupakan bukti dari hasil pengujian dari pengguna yang bernama Reyner. Pada gambar \ref{fig:outlook_reyner} dapat dilihat bahwa pengguna memiliki sebuah \textit{event} yang dimulai pada pukul 16.30 dan berakhir pada pukul 18.00. Lalu pada gambar \ref{fig:slack_after_reyner} dapat dilihat bahwa status pengguna telah berubah dan status itu berlaku sampai pukul 18.00 tepat saat \textit{event} berakhir. 
-\clearpage
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianSandy/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Sandy).}
+  \includegraphics[width=8cm]{./Gambar/PengujianSandy/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Sandy).}
   \label{fig:outlook_sandy}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianSandy/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Sandy).}
+  \includegraphics[width=8cm]{./Gambar/PengujianSandy/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Sandy).}
   \label{fig:slack_before_sandy}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianSandy/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Sandy).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Sandy).}
   \label{fig:slack_after_sandy}
 \end{figure}
 
-Pada gambar \ref{fig:outlook_sandy} sampai gambar \ref{fig:slack_after_sandy} merupakan bukti hasil pengujian yang dilakukan oleh pengguna bernama Sandy. Pada gambar \ref{fig:outlook_sandy} terlihat bahwa ada \textit{event} yang tercatat akan dimulai pada pukul 14.00 dan pada pukul 13.06 belum ada status yang tertulis di akun pengguna yang terekam dalam gambar \ref{fig:slack_before_sandy}. Lalu pada pukul 14.14 status muncul dalam akun pengguna yang status itu akan hilang pada pukul 15.00 sesuai dengan yang tertulis di dalam \textit{Outlook Calendar}. 
-\clearpage
+Pada gambar \ref{fig:outlook_sandy} sampai gambar \ref{fig:slack_after_sandy} merupakan bukti hasil pengujian yang dilakukan oleh pengguna bernama Sandy. Pada gambar \ref{fig:outlook_sandy} terlihat bahwa ada \textit{event} yang tercatat akan dimulai pada pukul 14.00 dan pada pukul 13.06 belum ada status yang tertulis di akun pengguna yang terekam dalam gambar \ref{fig:slack_before_sandy}. Lalu pada pukul 14.14 status muncul dalam akun pengguna yang status itu akan hilang pada pukul 15.00 sesuai dengan yang tertulis di dalam \textit{Outlook Calendar}.
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianVincent/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Vincent).}
+  \includegraphics[width=8cm]{./Gambar/PengujianVincent/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Vincent).}
   \label{fig:outlook_vincent}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianVincent/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Vincent).}
+  \includegraphics[width=8cm]{./Gambar/PengujianVincent/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Vincent).}
   \label{fig:slack_before_vincent}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianVincent/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Vincent).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Vincent).}
   \label{fig:slack_after_vincent}
 \end{figure}
 
-Pada gambar \ref{fig:outlook_vincent} sampai dengan gambar \ref{fig:slack_after_vincent} merupakan hasil dari pengujian yang dilakukan pengguna bernama Vincent. Pada gambar \ref{fig:outlook_vincent} terlihat ada sebuah \textit{event} yang akan dimulai pada pukul 13.00 dan pada gambar \ref{fig:slack_before_vincent} dapat terlihat bahwa pada pukul 12.58 tidak ada status di dalam akun pengguna lalu pada pukul 13.05 terdapat status dalam akun pengguna yang statusnya akan hilang pada pukul 15.00 seperti di gambar \ref{fig:slack_after_vincent} sesuai dengan keterangan \textit{event} yang terdapat pada \textit{Outlook Calendar}. 
-\clearpage
+Pada gambar \ref{fig:outlook_vincent} sampai dengan gambar \ref{fig:slack_after_vincent} merupakan hasil dari pengujian yang dilakukan pengguna bernama Vincent. Pada gambar \ref{fig:outlook_vincent} terlihat ada sebuah \textit{event} yang akan dimulai pada pukul 13.00 dan pada gambar \ref{fig:slack_before_vincent} dapat terlihat bahwa pada pukul 12.58 tidak ada status di dalam akun pengguna lalu pada pukul 13.05 terdapat status dalam akun pengguna yang statusnya akan hilang pada pukul 15.00 seperti di gambar \ref{fig:slack_after_vincent} sesuai dengan keterangan \textit{event} yang terdapat pada \textit{Outlook Calendar}.
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianYonathan/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Yonathan).}
+  \includegraphics[width=8cm]{./Gambar/PengujianYonathan/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Yonathan).}
   \label{fig:outlook_yonathan}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianYonathan/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Yonathan).}
+  \includegraphics[width=8cm]{./Gambar/PengujianYonathan/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Yonathan).}
   \label{fig:slack_before_yonathan}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianYonathan/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Yonathan).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Yonathan).}
   \label{fig:slack_after_yonathan}
 \end{figure}
 
 Pada gambar \ref{fig:outlook_yonathan} sampai dengan gambar \ref{fig:slack_after_yonathan} merupakan hasil dari pengujian yang dilakukan oleh pengguna bernama Yonathan. Di gambar \ref{fig:outlook_yonathan} terdapat \textit{event} yang mulai pada pukul 16.30 dan pada gambar \ref{fig:slack_before_yonathan} yang diambil pada pukul 16.07, belum ada status yang terpasang di akun pengguna. Pada gambar \ref{fig:slack_after_yonathan} yang diambil pada pukul 16.36 sudah ada status yang terpasang di akun pengguna dan status itu akan hilang pada pukul 17.30 yang sesuai dengan \textit{event} yang tercatat pada \textit{Outlook Calendar}. 
-\clearpage
 
 \subsection{Pengujian Eksperimental}
 \subsubsection{Skenario Pengujian}
@@ -220,156 +222,163 @@ Tujuan dari pengujian ini adalah untuk mengetahui bahwa perangkat lunak yang did
 Dari gambar \ref{fig:outlook_chris} sampai dengan gambar \ref{fig:slack_after_yosua} merupakan hasil dari para pengguna yang bersedia untuk menguji perangkat lunak di \textit{workspace} yang dimiliki masing-masing atau di luar dari \textit{workspace} tempat perangkat lunak ini didaftarkan. 
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianChris/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Chris).}
+  \includegraphics[width=8cm]{./Gambar/PengujianChris/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Chris).}
   \label{fig:outlook_chris}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianChris/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Chris).}
+  \includegraphics[width=8cm]{./Gambar/PengujianChris/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Chris).}
   \label{fig:slack_before_chris}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianChris/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Chris).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Chris).}
   \label{fig:slack_after_chris}
 \end{figure}
 
 Gambar \ref{fig:outlook_chris} sampai dengan gambar \ref{fig:slack_after_chris} merupakan hasil yang didapat dari pengguna yang bernama Chris yang merupakan seorang admin di lab FTIS. Pada gambar \ref{fig:outlook_chris} terlihat ada \textit{event} yang terdaftar pukul 16.30. Lalu pada gambar \ref{fig:slack_before_chris} belum terdapat status yang terpasang pada akun pengguna dan \textit{workspace} yang pengguna pakai adalah \textit{workspace} yang bernama Lab FTIS. Pada gambar \ref{fig:slack_after_chris} dapat terlihat bahwa status sudah terpasang pada akun pengguna. 
-\clearpage
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianFerdian/Outlook.jpg}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Ferdian).}
+  \includegraphics[width=8cm]{./Gambar/PengujianFerdian/Outlook.jpg}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Ferdian).}
   \label{fig:outlook_ferdian}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianFerdian/Slack_Before(2).jpg}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Ferdian).}
+  \includegraphics[width=8cm]{./Gambar/PengujianFerdian/Slack_Before(2).jpg}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Ferdian).}
   \label{fig:slack_before_ferdian}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianFerdian/Slack_After.jpg}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Ferdian).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Ferdian).}
   \label{fig:slack_after_ferdian}
 \end{figure}
 
 Gambar \ref{fig:outlook_ferdian} sampai dengan gambar \ref{fig:slack_after_ferdian} merupakan hasil yang didapat dari hasil pengujian yang dilakukan oleh pengguna yang bernama Ferdian yang merupakan seorang admin di lab FTIS. Pengguna ini menguji perangkat lunak pada \textit{workspace} Lab FTIS. Di gambar \ref{fig:outlook_ferdian} dapat dilihat bahwa pengguna memiliki \textit{event} yang akan berjalan pukul 17.00 dan waktu di komputer nya menunjukkan pukul 16.52. Lalu pada gambar \ref{fig:slack_before_ferdian} dapat terlihat bahwa tidak ada status yang terpasang pada akun pengguna dan pada gambar \ref{fig:slack_after_ferdian} terlihat bahwa sudah ada status yang terpasang pada akun pengguna pada pukul 17.02 dan status itu akan berakhir pada pukul 18.00. 
-\clearpage
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianKikil/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Yehezkiel).}
+  \includegraphics[width=8cm]{./Gambar/PengujianKikil/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Yehezkiel).}
   \label{fig:outlook_kikil}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianKikil/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Yehezkiel).}
+  \includegraphics[width=8cm]{./Gambar/PengujianKikil/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Yehezkiel).}
   \label{fig:slack_before_kikil}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianKikil/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Yehezkiel).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Yehezkiel).}
   \label{fig:slack_after_kikil}
 \end{figure}
 
-Dari gambar \ref{fig:outlook_kikil} sampai dengan gambar \ref{fig:slack_after_kikil} merupakan bukti yang didapatkan oleh pengguna yang bernama Yehezkiel yang merupakan seorang admin di lab FTIS pada saat pengujian perangkat lunak ini. Pengguna ini menguji di \textit{workspace} Lab FTIS. Pada gambar \ref{fig:outlook_kikil} terdapat sebuah \textit{event} yang akan dimulai pada pukul 12.00 dan pada gambar \ref{fig:slack_before_kikil} belum terdapat adanya status yang terpasang pada akun pengguna. Lalu pada gambar \ref{fig:slack_after_kikil} dapat terlihat bahwa sudah ada status yang terpasang dan akan berakhir pada pukul 12.30. 
-\clearpage
+Dari gambar \ref{fig:outlook_kikil} sampai dengan gambar \ref{fig:slack_after_kikil} merupakan bukti yang didapatkan oleh pengguna yang bernama Yehezkiel yang merupakan seorang admin di lab FTIS pada saat pengujian perangkat lunak ini. Pengguna ini menguji di \textit{workspace} Lab FTIS. Pada gambar \ref{fig:outlook_kikil} terdapat sebuah \textit{event} yang akan dimulai pada pukul 12.00 dan pada gambar \ref{fig:slack_before_kikil}\footnote{Gambar \ref{fig:slack_before_kikil} di blur atas permintaan responden} belum terdapat adanya status yang terpasang pada akun pengguna. Lalu pada gambar \ref{fig:slack_after_kikil} \footnote{Gambar \ref{fig:slack_after_kikil} di blur atas permintaan responden}dapat terlihat bahwa sudah ada status yang terpasang dan akan berakhir pada pukul 12.30. 
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianPaPascal/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Pascal).}
+  \includegraphics[width=8cm]{./Gambar/PengujianPaPascal/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Pascal).}
   \label{fig:outlook_pascal}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianPaPascal/Slack_After_Authorize_PL.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} setelah mengizinkan perangkat lunak kepada \textit{workspace Slack}(Pascal).}
+  \includegraphics[width=8cm]{./Gambar/PengujianPaPascal/Slack_After_Authorize_PL.png}
+  \caption{Tampilan \textit{Slack} setelah mengizinkan perangkat lunak kepada \textit{workspace Slack} (Pascal).}
   \label{fig:slack_after_auth_pascal}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianPaPascal/Slack_After.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Pascal).}
+  \includegraphics[width=8cm]{./Gambar/PengujianPaPascal/Slack_After.png}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Pascal).}
   \label{fig:slack_after_pascal}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianPaPascal/Slack_After_Event_End.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
+  \includegraphics[width=8cm]{./Gambar/PengujianPaPascal/Slack_After_Event_End.png}
   \caption{Tampilan \textit{Slack} setelah \textit{event} berakhir(Pascal).}
   \label{fig:slack_after_event_end_pascal}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 Dari gambar \ref{fig:outlook_pascal} sampai \ref{fig:slack_after_event_end_pascal} merupakan hasil dari pengujian yang dilakukan oleh pengguna bernama Pascal yang mencoba perangkat lunak di \textit{workspace} pndevworks. Pada gambar \ref{fig:outlook_pascal} terlihat ada \textit{event} yang sedang berjalan yaitu dimulai dari pukul 09.00 sampai 10.00. Tetapi pengguna baru selesai menjalankan perangkat lunak yang dibangun dan berhasil memberikan izin pada pukul 09.13 yang bisa dilihat pada gambar \ref{fig:slack_after_auth_pascal} bahwa pada pukul 09.16 status masih belum berubah. Pada pukul 09.43 status sudah berubah seperti gambar \ref{fig:slack_after_pascal} dan status sudah hilang pada pukul 10.03 seperti pada gambar \ref{fig:slack_after_event_end_pascal}.  
 
-\clearpage
-
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianTedi/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Tedi).}
+  \includegraphics[width=8cm]{./Gambar/PengujianTedi/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Tedi).}
   \label{fig:outlook_tedi}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianTedi/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Tedi).}
+  \includegraphics[width=8cm]{./Gambar/PengujianTedi/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Tedi).}
   \label{fig:slack_before_tedi}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianTedi/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Tedi).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Tedi).}
   \label{fig:slack_after_tedi}
 \end{figure}
 
-Dari gambar \ref{fig:outlook_tedi} sampai dengan gambar \ref{fig:slack_after_tedi} merupakan hasil pengujian dari pengguna yang bernama Tedi. Pengguna ini mencoba di \textit{workspace} yang bernama Dummy Workspace. Pada gambar \ref{fig:outlook_tedi} terdapat \textit{event} yang terdaftar yang dimulai pada pukul 15.00 dan pada gambar \ref{fig:slack_before_tedi} terlihat waktu pada komputer menunjukkan pukul 14.28 dan belum terdapat status yang terpasang pada akun pengguna. Pada gambar \ref{fig:slack_after_tedi} menunjukkan pada pukul 15.04 pada komputer, di akun pengguna sudah terpasang status yang statusnya akan berakhir pada pukul 16.00. 
-\clearpage
+Dari gambar \ref{fig:outlook_tedi} sampai dengan gambar \ref{fig:slack_after_tedi} merupakan hasil pengujian dari pengguna yang bernama Tedi. Pengguna ini mencoba di \textit{workspace} yang bernama Dummy Workspace. Pada gambar \ref{fig:outlook_tedi}\footnote{Judul event yang ada di gambar \ref{fig:outlook_tedi} di blur atas permintaan responden} terdapat \textit{event} yang terdaftar yang dimulai pada pukul 15.00 dan pada gambar \ref{fig:slack_before_tedi} terlihat waktu pada komputer menunjukkan pukul 14.28 dan belum terdapat status yang terpasang pada akun pengguna. Pada gambar \ref{fig:slack_after_tedi} menunjukkan pada pukul 15.04 pada komputer, di akun pengguna sudah terpasang status yang statusnya akan berakhir pada pukul 16.00. 
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianYosua/Outlook.png}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{event} yang dibuat pengguna(Yosua).}
+  \includegraphics[width=8cm]{./Gambar/PengujianYosua/Outlook.png}
+  \caption{Tampilan \textit{event} yang dibuat pengguna (Yosua).}
   \label{fig:outlook_yosua}
-\end{figure}
-
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/PengujianYosua/Slack_Before.png}
+\end{subfigure}
+\begin{subfigure}{8.5cm}
   \centering
-  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai(Yosua).}
+  \includegraphics[width=8cm]{./Gambar/PengujianYosua/Slack_Before.png}
+  \caption{Tampilan \textit{Slack} sebelum \textit{event} dimulai (Yosua).}
   \label{fig:slack_before_yosua}
+\end{subfigure}
+\caption{}
 \end{figure}
 
 \begin{figure}[h]
   \includegraphics[width=10cm]{./Gambar/PengujianYosua/Slack_After.png}
   \centering
-  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai(Yosua).}
+  \caption{Tampilan \textit{Slack} setelah \textit{event} dimulai (Yosua).}
   \label{fig:slack_after_yosua}
 \end{figure}
 
 Pada gambar \ref{fig:outlook_yosua} sampai gambar \ref{fig:slack_after_yosua} merupakan hasil yang didapatkan dari pengujian oleh pengguna yang bernama Yosua. Pengguna ini mencoba perangkat lunak ini di \textit{workspace} Dummy Workspace. Pada gambar \ref{fig:outlook_yosua} terdapat \textit{event} yang dimulai pada pukul 15.00 dan pada gambar \ref{fig:slack_before_yosua} status pengguna masih kosong. Pada gambar \ref{fig:slack_after_yosua} sudah terlihat ada status dan status itu berakhir pada pukul 15.30. 
-\clearpage
 
 \subsubsection{Kesimpulan dari Pengujian}
 Pada pengujian yang sudah dilakukan oleh beberapa pengguna yang terlibat menyatakan bahwa perangkat lunak menjalankan fungsinya untuk mengganti status pada saat ada \textit{event} dan menggantinya kembali jika \textit{event} sudah berhasil dengan baik. Hanya saja terdapat perbedaan jeda saat mengubah status sehingga tidak tepat pada saat \textit{event} dimulai maka status langsung berubah. Hal ini dikarenakan adanya proses yang dilakukan setiap kali memanggil fungsi yang dijalankan kurang lebih 2 menit sehingga mempengaruhi jadwal iterasi dari \textit{Heroku Scheduler} yang selanjutnya. 

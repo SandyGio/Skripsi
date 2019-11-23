@@ -719,7 +719,7 @@ Untuk bisa melakukan pengiriman request ke suatu endpoint, maka dibutuhkan metho
 
 Node.js memelihara beberapa koneksi per servernya untuk melakukan HTTP request. Fungsi ini memungkinkan untuk pengguna mengeluarkan request secara transparan. Untuk parameter url, jika url dituliskan dengan bertipe String, maka url tersebut akan langsung secara otomatis menggunakan url.parser() untuk menjadi url. Http.request() mengembalikan instance dari kelas http.ClientRequest. Parameter callback adalah function yang bersifat sebagai listener untuk response yang dihasilkan dari http request. 
 
-\subsection{Express.js}
+\subsection{Express.js}\footnote{\url{https://expressjs.com/}}
 \label{express.js}
 \textit{Express.js} adalah sebuah \textit{web application framework} untuk \textit{Node.js}. Cara untuk memasang \textit{express} ini adalah dengan menggunakan \textit{command}:
 
@@ -741,13 +741,23 @@ Express ini memiliki banyak fungsi yang disediakan untuk mempermudah membuat \te
     Cara menggunakan express generator bisa dengan menjalankan command ``npx express \{nama file yang akan dibuat\}'' atau bisa dengan command ``express \{nama file yang akan dibuat\}'', maka express generator akan langsung secara otomatis membuat folder dan file-file seperti yang ada pada gambar \ref{fig:express_generator}. 
     
     \item {\textit{Routing}}\\
-    Fungsi ini berguna untuk memudahkan dari web application untuk bisa menuju kepada halaman yang berbeda dengan memakai path dari alamat \textit{url} aplikasi tersebut. Cara menggunakannya adalah seperti  
+    Fungsi ini berguna untuk memudahkan dari web application untuk bisa menuju kepada halaman yang berbeda dengan memakai path dari alamat \textit{url} aplikasi tersebut. Cara menggunakannya adalah dengan menggunakan kode program seperti:
+    \begin{lstlisting}
+    app.METHOD(PATH, HANDLER)
+    \end{lstlisting}
+    Kode program seperti itu memiliki arti:
+    \begin{itemize}
+        \item \textbf{app} yang merupakan inisiasi dari \textit{express}.
+        \item \textbf{METHOD} yang merupakan jenis http request dengan menggunakan penggunaan huruf kecil. (get, post, put, atau delete)
+        \item \textbf{PATH} adalah jalur di dalam server.
+        \item \textbf{HANDLER} adalah fungsi yang akan dieksekusi jika rute yang diakses cocok. 
+    \end{itemize}
 \end{itemize}
 
-\subsection{Handlebars}
-\textit{Handlebars} adalah modul dari \textit{Node.js} yang membantu atas fungsi penggunaan \textit{template semantic} pada tampilan yang akan digunakan di dalam pembangunan perangkat lunak. Template semantic ini membantu pengiriman data variable dari javascript belakang ke tampilan. 
+\subsection{Handlebars}\footnote{\url{https://www.npmjs.com/package/handlebars}}
+\textit{Handlebars} adalah modul dari \textit{Node.js} yang membantu atas fungsi penggunaan \textit{template semantic} pada tampilan yang akan digunakan di dalam pembangunan perangkat lunak. \textit{Template semantic} ini membantu pengiriman data variable dari javascript belakang ke tampilan. 
 
-\subsection{Simple OAuth2}
+\subsection{Simple OAuth2}\footnote{\url{https://www.npmjs.com/package/simple-oauth2}}
 Modul ini berguna untuk membantu proses otentikasi pada perangkat lunak ini yang akan melakukan otentikasi kepada aplikasi pihak ketiga lainnya. Pada \textit{simple oauth} ini dapat ditangani 3 alur untuk melakukan otentikasi yaitu:
 \begin{itemize}
     \item Alur kode otorisasi\\
@@ -835,7 +845,7 @@ const oauth2 = require('simple-oauth2').create(credentials);
     \end{lstlisting}
 \end{itemize}
 
-\subsection{jsonwebtoken}
+\subsection{jsonwebtoken}\footnote{\url{https://www.npmjs.com/package/jsonwebtoken}}
 Jsonwebtoken merupakan implementasi dari JSON Web Tokens yang dikembangkan terhadap draft-ieft-oauth-json-web-token-08. Jsonwebtoken ini memiliki beberapa fungsi yaitu:
 \begin{itemize}
     \item \textbf{jwt.sign(payload,secretOrPrivateKey, [options, callback])}\\
@@ -846,10 +856,10 @@ Jsonwebtoken merupakan implementasi dari JSON Web Tokens yang dikembangkan terha
     Fungsi ini berjalan secara synchronous dan mengembalikan payload yang sudah di decode tanpa memverifikasi signature yang ada valid atau tidak. 
 \end{itemize}
 
-\subsection{Isomorphic Fetch}
+\subsection{Isomorphic Fetch}\footnote{\url{https://www.npmjs.com/package/isomorphic-fetch}}
 \textit{Isomorphic Fetch} adalah sebuah \textit{polyfill} \textit{window.fetch} untuk digunakan di \textit{node} dan \textit{browserify}. \textit{Polyfill} ini memungkinkan \textit{window.fetch} untuk \textit{javascript engine} yang tidak mendukungnya secara \textit{native}. 
 
-\subsection{Microsoft Graph Client Library}
+\subsection{Microsoft Graph Client Library}\footnote{\url{https://github.com/microsoftgraph/msgraph-sdk-javascript}}
 Microsoft Graph Client Library adalah sebuah library yang disediakan oleh Microsoft untuk perangkat lunak yang akan menggunakan API ke Microsoft bisa lebih mudah. Library ini hanya sebagai pembungkus dari semua fungsi API yang disediakan oleh Microsoft. Untuk bisa memakainya, maka harus menginisialisasi terlebih dahulu sebuah objek inisialisasi dari library ini dengan menggunakan access token yang didapat saat melakukan request awal. Setelah melakukan inisialisasi, maka setiap API dapat diakses dengan menjalankan kode seperti:
 
 \begin{lstlisting}
@@ -858,7 +868,7 @@ const result = await client.api(`/me/events`).select('subject,start,end').orderb
 
 Api diatas diisi dengan fungsi yang akan dipanggil lalu select diatas diisi dengan data yang akan diambil. Orderby digunakan untuk jika data ingin diurutkan berdasarkan urutan tertentu.
 
-\subsection{Slack Web API}
+\subsection{Slack Web API}\footnote{\url{https://www.npmjs.com/package/@slack/web-api}}
 Sama seperti Microsoft Graph Client Library, Slack Web API ini juga adalah library yang membungkus method-methid yang disediakan oleh Slack agar untuk mengakses method bisa lebih mudah. Cara menggunakannya adalah dengan menginisialisasi terlebih dahulu library yang akan dipakai sebagai kelas yang akan dipakai, lalu menginisialisasi kelas ke sebuah variable yang diisikan dengan parameter slack access token yang didapat dari request. Setelah itu, jalankan variable tersebut dengan memanggil scope yang dipakai seperti contoh pada code:
 
 \begin{lstlisting}
