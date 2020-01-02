@@ -1,20 +1,64 @@
 \chapter{Analisis}
 \label{chap:analisis}
 
-Pada bab ini akan dijelaskan mengenai analisis dari penggunaan \textit{Microsoft Graph API} untuk mendapatkan data \textit{event} yang sudah tercatat di dalam \textit{Outlook Calendar web} dan juga penggunaan dari \textit{Slack API} untuk memampukan program mengubah status yang terdapat pada aplikasi \textit{Slack}, serta analisis dari penggunaan \textit{cron} yang akan digunakan untuk menjalankan program yang disusun secara berkala. Untuk bisa menjalankan program ini, maka dibutuhkan input dari pengguna berupa \textit{login} ke \textit{Windows Live} dan juga memberikan akses kepada program ini untuk mengambil \textit{access token} dan \textit{refresh token} yang akan digunakan untuk mengambil data \textit{event} yang sudah tercatat di dalam \textit{Outlook Calendar}. Selain ke \textit{Windows Live}, program ini juga memerlukan pengguna untuk \textit{login} ke akun yang terdapat di suatu \textit{workspace} di platform \textit{Slack} serta memberikan akses untuk aplikasi ini sebagai aplikasi yang terdaftar dalam \textit{workspace}-nya.  
+Pada bab ini akan dijelaskan mengenai analisis masalah yang dihadapi perangkat lunak dimulai dari \textit{overview} dari perangkat lunak ini lalu dilanjutkan ke langkah bagaimana cara mengganti status pada aplikasi \textit{Slack} saat ada \textit{event} yang tercatat di aplikasi \textit{Outlook Calendar} sedang berjalan. Lalu akan dilanjutkan dengan memperdalam analisis dari kedua buah aplikasi yang diintegrasikan, serta analisis mengenai \textit{heroku} yang digunakan sebagai sarana untuk menyimpan dan menjalankan perangkat lunak ini secara berkala dengan menggunakan \textit{add-ons heroku scheduler}. Lalu analisis akan dilanjutkan dengan melakukan analisis mengenai kasus khusus. 
 
-\section{Analisis Microsoft Graph API}
+\section{Analisis Perangkat Lunak}
+Perangkat lunak yang dibangun akan dibagi menjadi 2 bagian yaitu ada bagian yang akan berinteraksi secara langsung kepada pengguna yang memiliki tujuan untuk mendapatkan data yang dibutuhkan dari pengguna seperti \textit{access token} dan \textit{refresh token}, serta ada bagian perangkat lunak yang akan dijalankan secara berkala yang bertugas untuk memeriksa status \textit{access token}, memeriksa \textit{event}, dan mengganti status. Untuk penjelasan analisis ini, akan dijelaskan pada subbab \ref{sec:diagram_alir_sistem}. 
+\subsection{Analisis Diagram Alir Sistem} 
+\label{sec:diagram_alir_sistem}
+Pada bagian ini akan menjelaskan mengenai aliran secara garis besar mengenai pekerjaan yang akan dikerjakan oleh bagian masing-masing perangkat lunak.
+\begin{itemize}
+    \item \textbf{Bagian perangkat lunak yang berinteraksi dengan pengguna}
+    \begin{figure}[h]
+      \includegraphics[width=3cm]{./Gambar/workflow.png}
+      \centering
+      \caption{Diagram alir sistem pada bagian perangkat lunak yang berinteraksi dengan \textit{user}.}
+      \label{fig:workflow1}
+    \end{figure}
+    
+    Diagram alir pada gambar \ref{fig:workflow1} menunjukkan aliran proses yang terjadi pada bagian perangkat lunak yang berinteraksi dengan pengguna, berikut penjelasan dari aliran proses tersebut:
+    \begin{itemize}
+        \item Proses pengguna melakukan \textit{login} ke \textit{Windows Live} adalah proses dimana perangkat lunak akan mendapatkan \textit{access token} dari \textit{Windows Live} dan data lainnya yang dibutuhkan untuk mendapatkan data dari \textit{event} yang tercatat di dalam \textit{Outlook Calendar}. 
+        \item Proses pengguna melakukan \textit{login} ke \textit{Slack} adalah proses dimana perangkat lunak akan mendapatkan \textit{access token} dari \textit{Slack} untuk bisa mengganti status jika ada suatu \textit{event} yang berjalan. 
+        \item Setelah kedua proses dijalankan, maka semua data yang dibutuhkan akan dimasukkan ke dalam \textit{database} agar bisa dijalankan juga dengan bagian dari perangkat lunak yang lain. 
+    \end{itemize}
+    
+    \item \textbf{Bagian perangkat lunak yang dijalankan secara berkala}
+    \begin{figure}[h]
+      \includegraphics[width=10cm]{./Gambar/workflow2.png}
+      \centering
+      \caption{Diagram alir sistem pada bagian perangkat lunak yang dijalankan secara berkala.}
+      \label{fig:workflow2}
+    \end{figure}
+    
+    Diagram alir pada gambar \ref{fig:workflow2} menunjukkan aliran proses yang dilakukan oleh bagian perangkat lunak yang dijalankan secara berkala, berikut penjelasan dari aliran proses tersebut:
+    \begin{itemize}
+        \item Pertama-tama perangkat lunak akan mengambil data dari dalam basis data. 
+        \item Lalu terdapat proses untuk melakukan pengecekan untuk \textit{access token} dari \textit{Microsoft} dikarenakan \textit{access token} ini memiliki waktu kadaluarsa. 
+        \item Jika \textit{access token} sudah kadaluarsa, maka meminta ulang \textit{access token} dengan menggunakan \textit{refresh token}.
+        \item Jika \textit{access token} belum \textit{expired}, maka dilanjutkan dengan meminta data mengenai \textit{event} yang ada di \textit{Outlook Calendar}. 
+        \item Jika setelah melakukan permintaan ulang \textit{access token} dan sudah mendapatkan \textit{access token} yang baru, maka meminta data mengenai \textit{event} yang ada di \textit{Outlook Calendar}. 
+        \item Lalu setelah mendapatkan data \textit{event}, maka melakukan pengecekan data \textit{event} dengan waktu sekarang. Jika waktu sekarang beririsan dengan \textit{event} yang sedang berjalan, maka perangkat lunak akan mengganti status yang ada pada \textit{Slack}. 
+        \item Jika tidak ada yang beririsan, maka tidak akan melakukan apa-apa. 
+        \item Proses ini akan berjalan kembali secara berkala sesuai dengan waktu yang sudah diatur di dalam \textit{Heroku Scheduler}. 
+    \end{itemize}
+\end{itemize}
+
+Untuk bisa mendapatkan data \textit{event} yang disimpan pada aplikasi \textit{Outlook Calendar}, dibutuhkan analisis mengenai \textit{Microsoft Graph} seperti yang dijelaskan pada subbab \ref{sec:analisis_microsoft_graph_api}.
+
+\subsection{Analisis \textit{Microsoft Graph API}}
 \label{sec:analisis_microsoft_graph_api}
 
-Pada analisis bagian ini, dilakukan analisis mengenai API yang telah disediakan oleh Microsoft Graph API yang akan digunakan untuk mengambil data acara / event yang dibutuhkan oleh perangkat lunak yang akan dibangun. Akan ada beberapa langkah yang harus dijalankan untuk berhasil mencapai tujuan dari perangkat lunak ini. Analisis dari setiap langkah akan dijelaskan pada subbab \ref{analisis_authorization_code} sampai subbab \ref{analisis_menggunakan_refresh_token}.
+Pada analisis bagian ini, dilakukan analisis mengenai \textit{API} yang telah disediakan oleh \textit{Microsoft Graph API} yang akan digunakan untuk mengambil data acara / \textit{event} yang dibutuhkan oleh perangkat lunak yang akan dibangun. Akan ada beberapa langkah yang harus dijalankan untuk berhasil mencapai tujuan dari perangkat lunak ini. Analisis dari setiap langkah akan dijelaskan pada subbab \ref{analisis_authorization_code} sampai subbab \ref{analisis_menggunakan_refresh_token}.
 
-\subsection{Analisis Mendapatkan Authorization Code}
+\subsubsection{Analisis Mendapatkan \textit{Authorization Code}}
 \label{analisis_authorization_code}
-Untuk mendapatkan authorization code, diperlukan untuk mendaftarkan aplikasi yang akan dibuat ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Dari mendaftarkan aplikasi yang akan dibuat di portal registrasi tersebut akan menghasilkan Application ID, Application Secret, dan juga redirect URL yang akan digunakan. Jika platform yang dipilih adalah web, maka redirect URL harus ditentukan sendiri. Dalam meminta authorization code, aplikasi yang dibuat harus mengirimkan \textit{get request} terlebih dahulu ke \textit{endpoint /authorize} yang membutuhkan parameter seperti yang dijelaskan di tabel \ref{tab:parameter_authorization_code}. 
+Untuk mendapatkan \textit{authorization code}, diperlukan untuk mendaftarkan aplikasi yang akan dibuat ke \textit{Microsoft App Registration Portal}\footnote{https://apps.dev.microsoft.com/}. Dari mendaftarkan aplikasi yang akan dibuat di portal registrasi tersebut akan menghasilkan \textit{Application ID}, \textit{Application Secret}, dan juga \textit{redirect URL} yang akan digunakan. Jika \textit{platform} yang dipilih adalah \textit{web}, maka \textit{redirect URL} harus ditentukan sendiri. Dalam meminta \textit{authorization code}, aplikasi yang dibuat harus mengirimkan \textit{get request} terlebih dahulu ke \textit{endpoint /authorize} yang membutuhkan \textit{parameter} seperti yang dijelaskan di tabel \ref{tab:parameter_authorization_code}. 
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{Authorization Code}}
+	\caption{Tabel \textit{parameter} \textit{Authorization Code}}
 	\label{tab:parameter_authorization_code}
 	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 	\toprule
@@ -22,14 +66,14 @@ Untuk mendapatkan authorization code, diperlukan untuk mendaftarkan aplikasi yan
 	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama domain dari akun \textit{Microsoft}.\\ \hline 
 	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
 	\textit{response\_type} & wajib & Tipe balikan yang diterima dari \textit{request}. Bernilai 				\textit{code} yang berarti akan mengembalikan \textit{code}. \\ \hline 
-	\textit{redirect\_uri} & direkomendasikan & \textit{Redirect uri} dari aplikasi yang didaftarkan dimana hasil dari \textit{request} yang didapat akan dikembalikan ke url yang sudah didaftarkan. \\ \hline 
+	\textit{redirect\_uri} & direkomendasikan & \textit{Redirect uri} dari aplikasi yang didaftarkan dimana hasil dari \textit{request} yang didapat akan dikembalikan ke \textit{url} yang sudah didaftarkan. \\ \hline 
 	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. \\ \hline 
-\textit{response\_mode} & direkomendasikan & Menentukan metode yang harus digunakan untuk mengirimkan token yang dihasilkan kembali ke aplikasi. Dapat bernilai \textit{query} atau \textit{form\_post}. \\ \hline 
+\textit{response\_mode} & direkomendasikan & Menentukan metode yang harus digunakan untuk mengirimkan \textit{token} yang dihasilkan kembali ke aplikasi. Dapat bernilai \textit{query} atau \textit{form\_post}. \\ \hline 
 	\textit{state} & direkomendasikan & Nilai yang diisi saat mengirimkan \textit{request} dan akan dikembalikan juga saat menerima \textit{response}. Tujuan dari nilai ini adalah untuk mencegah pemalsuan permintaan lintas situs. Digunakan untuk menyandikan informasi sebelum \textit{request} untuk otentikasi. Biasanya nilai ini berisi nilai unik secara acak. \\ \bottomrule
 \end{tabular}  
 \end{table}
 
-Pada parameter scope, dapat diisi dengan nilai offline\_access yang akan menjadikan aplikasi mendapatkan response berupa refresh token yang berguna untuk mendapatkan access token yang baru saat yang lama sudah kadaluarsa. Contoh request yang dikirimkan akan seperti yang terdapat pada contoh table \ref{tab:contoh_request_authorization_code}.
+Pada \textit{parameter scope}, dapat diisi dengan nilai \textit{offline\_access} yang menjadikan aplikasi mendapatkan \textit{response} berupa \textit{refresh token} yang berguna untuk mendapatkan \textit{access token} yang baru saat yang lama sudah kadaluarsa. Contoh \textit{request} yang dikirimkan akan seperti yang terdapat pada contoh table \ref{tab:contoh_request_authorization_code}.
 
 \begin{table}[H]
 	\centering 
@@ -48,7 +92,7 @@ client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
 \end{tabular}  
 \end{table}
 
-Dari \textit{request} seperti contoh table \ref{tab:contoh_request_authorization_code}, akan menghasilkan contoh \textit{response} seperti yang terdapat pada table \ref{tab:contoh_response_authorization_code} dengan keterangan parameter seperti yang terdapat pada table \ref{tab:parameter_response_authorization_code}. 
+Dari \textit{request} seperti contoh table \ref{tab:contoh_request_authorization_code}, akan menghasilkan contoh \textit{response} seperti yang terdapat pada table \ref{tab:contoh_response_authorization_code} dengan keterangan \textit{parameter} seperti yang terdapat pada table \ref{tab:parameter_response_authorization_code}. 
 
 \begin{table}[H]
 	\centering 
@@ -65,24 +109,24 @@ code=M0ab92efe-b6fd-df08-87dc-2c6500a7f84d\\
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{response} \textit{Authorization Code}}
+	\caption{Tabel \textit{parameter} \textit{response} \textit{Authorization Code}}
 	\label{tab:parameter_response_authorization_code}
 	\begin{tabular}{|p{3cm}|p{9cm}|}
 	\toprule
 	\textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
 	\textit{code} & Nilai ini merupakan \textit{authorization\_code} yang telah di\textit{request} oleh aplikasi. \textit{Authorization\_code} ini digunakan untuk meminta \textit{access token}. \textit{Authorization code} memiliki waktu kadaluarsa yang singkat yaitu biasanya akan kadaluarsa setelah 10 menit. \\ \hline 
-	\textit{state} & Jika saat melakukan \textit{request}, parameter \textit{state} diisi, maka pada saat mengeluarkan \textit{response}, akan mengeluarkan nilai \textit{state} yang sama seperti yang sudah diisi saat melakukan \textit{request}. Aplikasi harus mengidentifikasi apakah nilai \textit{state} saat melakukan \textit{request} dengan nilai \textit{state} di \textit{response} sama atau tidak. \\ \bottomrule
+	\textit{state} & Jika saat melakukan \textit{request}, \textit{parameter} \textit{state} diisi, maka pada saat mengeluarkan \textit{response}, akan mengeluarkan nilai \textit{state} yang sama seperti yang sudah diisi saat melakukan \textit{request}. Aplikasi harus mengidentifikasi apakah nilai \textit{state} saat melakukan \textit{request} dengan nilai \textit{state} di \textit{response} sama atau tidak. \\ \bottomrule
 \end{tabular}  
 \end{table}
 
-Hasil \textit{response} yang ditampilkan oleh table \ref{tab:contoh_response_authorization_code} muncul karena pada saat \textit{request} di table \ref{tab:contoh_request_authorization_code} terdapat parameter \textit{response\_mode} yang diisi dengan nilai \textit{query} sehingga \textit{response} yang dikembalikan dalam bentuk \textit{query string} dari \textit{redirect url}. 
+Hasil \textit{response} yang ditampilkan oleh table \ref{tab:contoh_response_authorization_code} muncul karena pada saat \textit{request} di table \ref{tab:contoh_request_authorization_code} terdapat \textit{parameter} \textit{response\_mode} yang diisi dengan nilai \textit{query} sehingga \textit{response} yang dikembalikan dalam bentuk \textit{query string} dari \textit{redirect url}. 
 
-\subsection{Analisis Mendapatkan Access Token}
+\subsubsection{Analisis Mendapatkan \textit{Access Token}}
 \label{analisis_access_token}
 
-Setelah mendapatkan authorization code, langkah selanjutnya yang harus dijalankan sebelum bisa memanggil method API yang dibutuhkan adalah dengan mendapatkan access token. Yang diperlukan untuk bisa mendapatkan access token, maka aplikasi yang dibuat membutuhkan authorization code yang diterima di langkah sebelumnya dan mengirimkan post request kepada endpoint /token. 
+Setelah mendapatkan \textit{authorization code}, langkah selanjutnya yang harus dijalankan sebelum bisa memanggil \textit{method API} yang dibutuhkan adalah dengan mendapatkan \textit{access token}. Yang diperlukan untuk bisa mendapatkan \textit{access token}, maka aplikasi yang dibuat membutuhkan \textit{authorization code} yang diterima di langkah sebelumnya dan mengirimkan \textit{post request} kepada \textit{endpoint /token}. 
 
-Untuk mengirimkan post request, diperlukan request body yang memiliki elemen-elemen seperti yang terdapat di contoh table \ref{tab:contoh_request_access_token}. Adapun penjelasan dari setiap parameter yang terdapat di dalam request body dijelaskan pada table \ref{tab:parameter_request_access_token}. 
+Untuk mengirimkan \textit{post request}, diperlukan \textit{request body} yang memiliki elemen-elemen seperti yang terdapat di contoh table \ref{tab:contoh_request_access_token}. Adapun penjelasan dari setiap \textit{parameter} yang terdapat di dalam \textit{request body} dijelaskan pada table \ref{tab:parameter_request_access_token}. 
 
 \begin{table}[H]
 	\centering 
@@ -107,23 +151,23 @@ JVzCTE9UkP3pSx1aXxUjq3n8b2JRLk4OxVXr...\\
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{request} \textit{Access Token}}
+	\caption{Tabel \textit{parameter} \textit{request} \textit{Access Token}}
 	\label{tab:parameter_request_access_token}
 	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 	\toprule
 	 \textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
-	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama domain dari akun \textit{Microsoft}.\\ \hline 
+	\textit{tenant} & wajib & Nilai \textit{tenant} berfungsi untuk mengontrol siapa yang dapat masuk ke dalam aplikasi. Bisa diisi dengan \textit{tenant ID} atau nama \textit{domain} dari akun \textit{Microsoft}.\\ \hline 
 	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
-	\textit{grant\_type} & wajib & Harus diisi dengan nilai authorization\_code untuk alur authorization code. \\ \hline
-	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah sebelumnya harus sama dengan langkah ini.  \\ \hline 
-	\textit{code} & wajib & Authorization code yang didapat dari langkah sebelumnya. \\ \hline  
-	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
-	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
+	\textit{grant\_type} & wajib & Harus diisi dengan nilai \textit{authorization\_code} untuk alur \textit{authorization code}. \\ \hline
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari \textit{scope} pada langkah sebelumnya harus sama dengan langkah ini.  \\ \hline 
+	\textit{code} & wajib & \textit{Authorization code} yang didapat dari langkah sebelumnya. \\ \hline  
+	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan \textit{authorization code}. \\ \hline 
+	\textit{client\_secret} & wajib untuk \textit{web apps} & \textit{Application secret} yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
 	\bottomrule
 	\end{tabular}  
 \end{table}
 
-Dari contoh request yang dilakukan pada table\ref{tab:contoh_request_access_token}, maka akan dihasilkan contoh token seperti pada table \ref{tab:contoh_response_access_token} yang memiliki keterangan dari hasil yang dikembalikan pada table\ref{tab:parameter_response_access_token}. 
+Dari contoh \textit{request} yang dilakukan pada table\ref{tab:contoh_request_access_token}, maka akan dihasilkan contoh \textit{token} seperti pada table \ref{tab:contoh_response_access_token} yang memiliki keterangan dari hasil yang dikembalikan pada table\ref{tab:parameter_response_access_token}. 
 
 \begin{table}[H]
 	\centering 
@@ -146,23 +190,23 @@ Dari contoh request yang dilakukan pada table\ref{tab:contoh_request_access_toke
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{response} \textit{Access Token}}
+	\caption{Tabel \textit{parameter} \textit{response} \textit{Access Token}}
 	\label{tab:parameter_response_access_token}
 	\begin{tabular}{|p{3cm}|p{9cm}|}
 	\toprule
 	 \textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
-	\textit{token\_type} & Menunjukkan nilai dari token. Satu-satunya jenis token yang didukung oleh Azure AD adalah Bearer.\\ \hline 
-	\textit{scope} & Nilai scope yang valid untuk access\_token yang diberikan.  \\ \hline 
-	\textit{expires\_in} & Lamanya access token akan berlaku(dalam detik). \\ \hline  
-	\textit{access\_token} & Access token yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil Microsoft Graph. \\ \hline 
-	\textit{refresh\_token} & Refresh token ini berguna untuk meminta kembali access token setelah access token itu berakhir. Refresh token memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke source. \\
+	\textit{token\_type} & Menunjukkan nilai dari \textit{token}. Satu-satunya jenis \textit{token} yang didukung oleh \textit{Azure AD} adalah \textit{Bearer}.\\ \hline 
+	\textit{scope} & Nilai \textit{scope} yang \textit{valid} untuk \textit{access\_token} yang diberikan.  \\ \hline 
+	\textit{expires\_in} & Lamanya \textit{access token} akan berlaku(dalam detik). \\ \hline  
+	\textit{access\_token} & \textit{Access token} yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil \textit{Microsoft Graph}. \\ \hline 
+	\textit{refresh\_token} & \textit{Refresh token} ini berguna untuk meminta kembali \textit{access token} setelah \textit{access token} itu berakhir. \textit{Refresh token} memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke \textit{source}. \\
 	\bottomrule
 	\end{tabular}  
 \end{table}
 
-\subsection{Analisis Menggunakan Access Token untuk memanggil Microsoft Graph}
+\subsubsection{Analisis Menggunakan \textit{Access Token} untuk memanggil \textit{Microsoft Graph}}
 \label{analisis_menggunakan_access_token}
-Setelah mendapatkan access token, panggilan ke Microsoft Graph pun bisa dilakukan dengan syarat menyertakan access token di authorization header di setiap request yang dikirim. Pada table\ref{tab:contoh_request_call_microsoft_graph} menunjukkan contoh request untuk mendapatkan profile dari pengguna yang masuk. 
+Setelah mendapatkan \textit{access token}, panggilan ke \textit{Microsoft Graph} pun bisa dilakukan dengan syarat menyertakan \textit{access token} di \textit{authorization header} di setiap \textit{request} yang dikirim. Pada table\ref{tab:contoh_request_call_microsoft_graph} menunjukkan contoh \textit{request} untuk mendapatkan \textit{profile} dari pengguna yang masuk. 
 
 \begin{table}[H]
 	\centering 
@@ -177,7 +221,7 @@ Host: graph.microsoft.com \\
 	\end{tabular}  
 \end{table}
 
-Jika request yang dikirimkan berhasil, maka akan mendapatkan response yang akan terlihat mirip dengan contoh seperti pada table \ref{tab:contoh_response_call_microsoft_graph}
+Jika \textit{request} yang dikirimkan berhasil, maka akan mendapatkan \textit{response} yang akan terlihat mirip dengan contoh seperti pada table \ref{tab:contoh_response_call_microsoft_graph}
 
 \begin{table}[H]
 	\centering 
@@ -220,9 +264,9 @@ Content-Length: 407\\
 	\end{tabular}  
 \end{table}
 
-\subsection{Analisis Menggunakan Refresh Token untuk Mendapatkan Access Token Baru}
+\subsubsection{Analisis Menggunakan \textit{Refresh Token} untuk Mendapatkan \textit{Access Token} Baru}
 \label{analisis_menggunakan_refresh_token}
-Access token memiliki waktu yang singkat dan ketika sudah kadaluarsa, maka aplikasi yang akan dibuat harus meminta kembali access token yang supaya bisa terus mengakses data yang ada di dalam Microsoft Graph. Cara mendapatkan access token yang baru dengan menggunakan refresh token adalah dengan cara mengirimkan post request sekali lagi kepada endpoint /token dan untuk kali ini, gunakan refresh token sebagai parameter yang dikirimkan dan juga grant type yang berisikan refresh token dalam body dari request yang dilakukan seperti contoh pada table \ref{tab:contoh_request_refresh_token} dengan keterangan parameter seperti yang dijelaskan pada table \ref{tab:parameter_request_refresh_token}. 
+\textit{Access token} memiliki waktu yang singkat dan ketika sudah kadaluarsa, maka aplikasi yang akan dibuat harus meminta kembali \textit{access token} supaya bisa terus mengakses data yang ada di dalam \textit{Microsoft Graph}. Cara mendapatkan \textit{access token} yang baru dengan menggunakan \textit{refresh token} adalah dengan cara mengirimkan \textit{post request} sekali lagi kepada \textit{endpoint /token} dengan menggunakan \textit{refresh token} sebagai \textit{parameter} yang dikirimkan dan juga \textit{grant type} yang berisikan \textit{refresh token} dalam \textit{body} dari \textit{request} yang dilakukan seperti contoh pada table \ref{tab:contoh_request_refresh_token} dengan keterangan \textit{parameter} seperti yang dijelaskan pada table \ref{tab:parameter_request_refresh_token}. 
 
 \begin{table}[H]
 	\centering 
@@ -247,22 +291,22 @@ client\_id=6731de76-14a6-49ae-97bc-6eba6914391e\\
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{request} \textit{Refresh Token}}
+	\caption{Tabel \textit{parameter} \textit{request} \textit{Refresh Token}}
 	\label{tab:parameter_request_refresh_token}
 	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 	\toprule
 	 \textbf{Parameter} & & \textbf{Deskripsi}\\ \hline 
 	\textit{client\_id} & wajib & Nilai yang dipakai adalah nilai dari \textit{application ID} yang didapatkan saat mendaftarkan aplikasi di \textit{Microsoft App Registration Portal}.\\ \hline 
-	\textit{grant\_type} & wajib & Harus diisi dengan nilai refresh\_token. \\ \hline
-	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari scope pada langkah meminta authorization\_code harus sama dengan langkah ini.  \\ \hline 
-	\textit{refresh\_token} & wajib & Refresh token yang didapat saat merequest token yang pertama kali. \\ \hline  
-	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan authorization code. \\ \hline 
-	\textit{client\_secret} & wajib untuk \textit{web apps} & Application secret yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
+	\textit{grant\_type} & wajib & Harus diisi dengan nilai \textit{refresh\_token}. \\ \hline
+	\textit{scope} & wajib & Daftar izin dari \textit{Microsoft Graph} yang dipisahkan oleh cakupan yang diinginkan dan disetujui oleh pengguna. Dalam langkah ini, nilai dari \textit{scope} pada langkah meminta \textit{authorization\_code} harus sama dengan langkah ini.  \\ \hline 
+	\textit{refresh\_token} & wajib & \textit{Refresh token} yang didapat saat melakukan \textit{request token} yang pertama kali. \\ \hline  
+	\textit{redirect\_uri} & wajib & \textit{Redirect uri} yang sama yang dipakai untuk mendapatkan \textit{authorization code}. \\ \hline 
+	\textit{client\_secret} & wajib untuk \textit{web apps} & \textit{Application secret} yang dibuat saat mendaftarkan aplikasi di portal registrasi untuk aplikasi yang didaftarkan.\\
 	\bottomrule
 	\end{tabular}  
 \end{table}
 
-Jika request ini berhasil, maka akan mengembalikan response seperti pada table \ref{tab:contoh_response_refresh_token} yang memiliki keterangan parameter yang dikembalikannya seperti pada table \ref{tab:parameter_response_refresh_token}. 
+Jika \textit{request} ini berhasil, maka akan mengembalikan \textit{response} seperti pada table \ref{tab:contoh_response_refresh_token} yang memiliki keterangan \textit{parameter} yang dikembalikannya seperti pada table \ref{tab:parameter_response_refresh_token}. 
 \\
 \begin{table}[H]
 	\centering 
@@ -285,23 +329,23 @@ Jika request ini berhasil, maka akan mengembalikan response seperti pada table \
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{response} \textit{Refresh Token}}
+	\caption{Tabel \textit{parameter} \textit{response} \textit{Refresh Token}}
 	\label{tab:parameter_response_refresh_token}
 	\begin{tabular}{|p{3cm}|p{9cm}|}
 	\toprule
 	 \textbf{Parameter} & \textbf{Deskripsi}\\ \hline 
-	 \textit{access\_token} & Access token yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil Microsoft Graph. \\ \hline 
-	\textit{token\_type} & Menunjukkan nilai dari token. Satu-satunya jenis token yang didukung oleh Azure AD adalah Bearer.\\ \hline 
-	\textit{expires\_in} & Lamanya access token akan berlaku(dalam detik). \\ \hline 
-	\textit{scope} & Nilai scope yang valid untuk access\_token yang diberikan.  \\ \hline  
-	\textit{refresh\_token} & Refresh token ini berguna untuk meminta kembali access token setelah access token itu berakhir. Refresh token memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke source. \\
+	 \textit{access\_token} & \textit{Access token} yang diminta. Dengan memakai ini, maka aplikasi bisa memanggil \textit{Microsoft Graph}. \\ \hline 
+	\textit{token\_type} & Menunjukkan nilai dari \textit{token}. Satu-satunya jenis \textit{token} yang didukung oleh \textit{Azure AD} adalah \textit{Bearer}.\\ \hline 
+	\textit{expires\_in} & Lamanya \textit{access token} akan berlaku(dalam detik). \\ \hline 
+	\textit{scope} & Nilai \textit{scope} yang valid untuk \textit{access\_token} yang diberikan.  \\ \hline  
+	\textit{refresh\_token} & \textit{Refresh token} ini berguna untuk meminta kembali \textit{access token} setelah \textit{access token} itu berakhir. \textit{Refresh token} memiliki umur yang panjang dan dapat digunakan untuk mempertahankan akses ke \textit{source}. \\
 	\bottomrule
 	\end{tabular}  
 \end{table}
 
-\subsection{Analisis Mendapatkan Data Events}
+\subsubsection{Analisis Mendapatkan Data \textit{Events}}
 \label{sec:analisis_mendapatkan_data_events}
-Data event di dalam Microsoft Graph tersimpan di dalam objek event yang memiliki relasi dengan objek user dari pengguna. Untuk dapat mengakses event yang memiliki relasi dengan user, aplikasi yang akan dibuat harus menjalankan method yang dimiliki objek user yaitu method list events mengirimkan get request kepada endpoint /me/events. List events sendiri adalah method yang berfungsi untuk mengembalikan objek-objek event yang berkaitan dengan objek user pengguna. Untuk setiap operasi get yang mengembalikan objek event di Microsoft Graph, ada sebuah parameter header ``Prefer:outlook.timezone'' yang berfungsi untuk menentukan time zone untuk mulainya dan berakhirnya event. Sebagai contoh, dapat dilihat pada table \ref{tab:contoh_header_time_zone}. 
+Data \textit{event} di dalam \textit{Microsoft Graph} tersimpan di dalam objek \textit{event} yang memiliki relasi dengan objek \textit{user} dari pengguna. Untuk dapat mengakses \textit{event} yang memiliki relasi dengan \textit{user}, aplikasi yang dibuat harus menjalankan \textit{method} yang dimiliki objek \textit{user} yaitu \textit{method list events}. Cara menggunakan \textit{method} ini adalah dengan mengirimkan \textit{get request} kepada \textit{endpoint /me/events}. \textit{List events} sendiri adalah method yang berfungsi untuk mengembalikan objek-objek \textit{event} yang berkaitan dengan objek \textit{user} pengguna. Untuk setiap operasi \textit{get} yang mengembalikan objek \textit{event} di \textit{Microsoft Graph}, ada sebuah \textit{parameter header} ``\textit{Prefer:outlook.timezone}'' yang berfungsi untuk menentukan \textit{time zone} untuk mulainya dan berakhirnya \textit{event}. Sebagai contoh, dapat dilihat pada table \ref{tab:contoh_header_time_zone}. 
 
 \begin{table}[H]
 	\centering 
@@ -314,27 +358,27 @@ Data event di dalam Microsoft Graph tersimpan di dalam objek event yang memiliki
 	\end{tabular}  
 \end{table}
 
-Pada table \ref{tab:contoh_header_time_zone}, outlook timezone diatur menjadi Eastern Standard Time yang nantinya semua event yang dipanggil dengan header seperti itu akan mengembalikan starttime dan endtime dari event akan disesuaikan dengan zona waktu Eastern Standard Time. 
+Pada table \ref{tab:contoh_header_time_zone}, \textit{outlook timezone} diatur menjadi \textit{Eastern Standard Time} yang nantinya semua \textit{event} yang dipanggil dengan \textit{header} seperti itu akan mengembalikan \textit{starttime} dan \textit{endtime} dari \textit{event} akan disesuaikan dengan zona waktu \textit{Eastern Standard Time}. 
 
-Untuk bisa mengakses method ini, maka diperlukan format header dari request seperti yang akan dijelaskan pada table \ref{tab:parameter_header_time_zone}. 
+Untuk bisa mengakses \textit{method} ini, maka diperlukan \textit{format header} dari \textit{request} seperti yang akan dijelaskan pada table \ref{tab:parameter_header_time_zone}. 
 
 \begin{table}[H]
 	\centering 
-	\caption{Tabel parameter \textit{header time zone}}
+	\caption{Tabel \textit{parameter} \textit{header time zone}}
 	\label{tab:parameter_header_time_zone}
 	\begin{tabular}{|p{3cm}|p{3cm}|p{9cm}|}
 	\toprule
 	 \textbf{Nama} & \textbf{\textit{Type}} & \textbf{Deskripsi}\\ \hline
-	 \textit{Authorization} & \textit{String} & Bearer {token}. Bersifat wajib diisi. \\ \hline
+	 \textit{Authorization} & \textit{String} & \textit{Bearer {token}}. Bersifat wajib diisi. \\ \hline
 	 \textit{Prefer:}& & \\
 	 \textit{outlook.timezone} & \textit{String} & Digunakan untuk menentukan zona waktu yang akan dipakai untuk data yang akan dikembalikan. Bersifat optional. \\ \hline
 	 \textit{Prefer:}& & \\
-	 \textit{outlook.body-content-type} & \textit{String} & Merupakan nilai yang mengatur properti dari response body yang akan dikembalikan. Nilai bisa berupa ``text'' atau ``html''. Nilai default dari parameter ini adalah html. Bersifat optional. \\ \hline
+	 \textit{outlook.body-content-type} & \textit{String} & Merupakan nilai yang mengatur properti dari \textit{response body} yang akan dikembalikan. Nilai bisa berupa ``\textit{text}'' atau ``\textit{html}''. Nilai \textit{default} dari \textit{parameter} ini adalah \textit{html}. Bersifat optional. \\ \hline
 	\bottomrule
 	\end{tabular}  
 \end{table}
 
-Request ini juga bisa menerima parameter \$select yang berbentuk string query sebagai filter mengenai field apa saja yang mau diambil dari objek event. Dapat dilihat fungsi dari parameter string query \$select seperti pada contoh table \ref{tab:contoh_request_event} dan contoh responsenya pada table \ref{tab:contoh_response_event}. 
+\textit{Request} ini mengembalikan \textit{response} berupa \textit{json} objek dari \textit{event resource type}. \textit{Request} ini juga bisa menerima \textit{parameter} \$select yang berbentuk \textit{string query} sebagai \textit{filter} mengenai \textit{field} yang mau diambil dari objek \textit{event}. Dapat dilihat fungsi dari \textit{parameter string query} \$select seperti pada contoh table \ref{tab:contoh_request_event} dan contoh \textit{response}nya pada table \ref{tab:contoh_response_event}. 
 
 \begin{table}[H]
 	\centering 
@@ -375,13 +419,10 @@ Request ini juga bisa menerima parameter \$select yang berbentuk string query se
                 "timeZone":"Pacific Standard Time"
             },"location": {
                 "displayName": "Assembly Hall",
-                "locationType": "default",
-                "uniqueId": "Assembly Hall",
-                "uniqueIdType": "private"
+                "locationType": "default"
             },"locations": [{
                     "displayName": "Assembly Hall",
-                    "locationType": "default",
-                    "uniqueIdType": "unknown"
+                    "locationType": "default"
             }],                
             "organizer":{
                 "emailAddress":{
@@ -398,175 +439,114 @@ Request ini juga bisa menerima parameter \$select yang berbentuk string query se
 	\end{tabular}  
 \end{table}
 
-\section{Analisis Slack API}
+Setelah melakukan analisis kepada aplikasi \textit{Outlook Calendar} melalui \textit{Microsoft Graph API} yang dipakai, maka sekarang akan dijelaskan analisis mengenai bagian dari perangkat lunak yang berinteraksi dengan aplikasi \textit{Slack} pada subbab \ref{sec:analisis_slack}.
+
+\subsection{Analisis \textit{Slack}}
+\label{sec:analisis_slack}
+Pada bagian ini akan dijelaskan mengenai analisis pada aplikasi \textit{Slack}. Yang akan dibahas antara lain adalah analisis mengenai Status yang terdapat pada aplikasi \textit{Slack} yang akan dijelaskan pada bagian \ref{sec:analisis_status}. Lalu akan dilanjutkan dengan analisis cara menggunakan \textit{API} yang sudah disediakan oleh aplikasi \textit{Slack} untuk perangkat lunak bisa mengakses kepada aplikasi \textit{Slack} yang akan dibahas pada bagian \ref{sec:analisis_slack_api}
+
+\subsubsection{Analisis Status pada \textit{Slack}}
+\label{sec:analisis_status}
+Status pada aplikasi \textit{Slack} adalah fitur yang menggambarkan kondisi dari pengguna saat itu dan fitur itu tergabung dalam profil dari pengguna. Status di dalam aplikasi \textit{Slack} sendiri terdiri dari 2 bagian yaitu sebuah simbol yang menggambarkan kondisi dari status, serta sebuah \textit{text} yang memperjelas keadaan dari status yang dialami oleh pengguna. Umumnya, \textit{Slack} menyediakan sebuah \textit{field} untuk pengguna bisa mengisi statusnya sesuai dengan keadaan yang dialami oleh pengguna. Ada juga beberapa status yang sudah disediakan oleh aplikasi \textit{Slack}. 
+
+Perangkat lunak ini akan mengubah status pengguna dengan menggunakan simbol \textit{no entry sign}, dan juga \textit{text} yang bertuliskan ``\textit{In a meeting}''. Hal itu dipilih karena beberapa alasan yaitu:
+\begin{itemize}
+    \item Tujuan dari disusunnya perangkat lunak ini adalah untuk meminimalisir pengguna mendapatkan gangguan berupa \textit{chat} dari pengguna lain saat ada \textit{event} yang berlangsung, sehingga cocok untuk memasang status yang menggambarkan bahwa pengguna saat ini sedang tidak bisa diganggu. 
+    \item Jika menggunakan pemeriksaan kata-kata di dalam \textit{subject} dari \textit{event}, maka akan muncul beberapa ambigu seperti contohnya jika di dalam \textit{subject} terdapat kata ``liburan'', maka perangkat lunak akan mengganti status menjadi ``\textit{On vacation}'', dan jika ada kata ``Rapat'', maka status akan menjadi ``\textit{In a meeting}'', lalu jika \textit{subject} dari \textit{event} adalah ``Rapat untuk membahas liburan bersama kerabat kerja'', status akan berganti menjadi ``\textit{On vacation}'' karena di dalam \textit{subject} mengandung kata liburan, tetapi seharusnya status berubah menjadi ``\textit{In a meeting}'' karena mengandung kata-kata utama yaitu ``Rapat''. 
+    \item Jika menggunakan \textit{tag} khusus di dalam \textit{subject event}, maka akan menimbulkan banyak kondisi yang harus di \textit{handle} seperti contohnya bila dalam sebuah \textit{subject event} terdapat \textit{tag} ``[Rapat]'', maka status berganti menjadi ``\textit{In a meeting}'', dan jika ``[Liburan]'', maka status berganti menjadi ``\textit{On vacation}''. Jika ada \textit{subject} yang tidak menggunakan \textit{tag}, maka tidak tahu akan masuk ke dalam kategori status yang mana, atau bisa saja statusnya menjadi kosong padahal pengguna lupa untuk mengisi \textit{subject} pada \textit{event} dengan menggunakan \textit{tag}. Lalu jika ada kasus \textit{tag} yang belum dikenali oleh perangkat lunak, maka status yang dipasang juga menjadi kosong. 
+\end{itemize}
+
+Alasan-alasan diatas yang memperkuat pemilihan status yang akan dipasang oleh perangkat lunak ini secara otomatis yaitu dengan simbol ``\textit{no-entry}'', dan \textit{text} ``\textit{In a meeting}''. 
+
+\subsubsection{Analisis \textit{Slack API}}
 \label{sec:analisis_slack_api}
-Untuk dapat memakai dan mengakses \textit{method-method} yang disediakan oleh \textit{Slack}, dibutuhkan mendaftarkan aplikasi yang akan dibuat untuk bisa memperoleh \textit{Client ID} yang nantinya dibutuhkan untuk bisa mendapatkan \textit{authorization code} serta \textit{access token}. Sama seperti di \textit{Microsoft Graph API}, di dalam \textit{Slack API access token} dibutuhkan sebagai otorisasi untuk bisa mengakses \textit{method-method} yang disediakan oleh \textit{Slack}. Jika tidak memiliki \textit{access token}, maka seluruh \textit{method} yang dicoba di\textit{request} tidak akan mengembalikkan hasil dan dianggap sebagai \textit{request} yang tidak \textit{valid}. 
+Pada bagian ini akan dibahas mengenai cara penggunaan \textit{Slack API}. Untuk dapat memakai dan mengakses \textit{method-method} yang disediakan oleh \textit{Slack}, dibutuhkan mendaftarkan aplikasi yang akan dibuat untuk bisa memperoleh \textit{Client ID} yang nantinya dibutuhkan untuk bisa mendapatkan \textit{authorization code} serta \textit{access token}. Sama seperti di \textit{Microsoft Graph API}, di dalam \textit{Slack API access token} dibutuhkan sebagai otorisasi untuk bisa mengakses \textit{method-method} yang disediakan oleh \textit{Slack}. Jika tidak memiliki \textit{access token}, maka seluruh \textit{method} yang dicoba di\textit{request} tidak akan mengembalikkan hasil dan dianggap sebagai \textit{request} yang tidak \textit{valid}. 
 
-Pada sesi ini akan dibutuhkan \textit{method} dari \textit{Slack API} yang bisa mengubah status yang terdapat pada bagian \textit{user.profile}. Dari informasi yang disediakan oleh Slack secara \textit{online}, bahwa status tergabung dalam \textit{user.profile}, maka untuk memenuhi dari kebutuhan di sisi ini dicoba menggunakan \textit{method-method} yang bisa untuk mengakses kepada objek \textit{user.profile}. Karena di sisi ini akan mengubah nilai dari status, asumsi sementara dari \textit{method} yang bisa dipakai dari sisi ini adalah \textit{method users.profile.set} yang akan berguna untuk mengubah isi dari profil pengguna yang di dalamnya terdapat status. 
+Pada sesi ini akan dibutuhkan \textit{method} dari \textit{Slack API} yang bisa mengubah status yang terdapat pada bagian \textit{user.profile}. Dari informasi yang disediakan oleh \textit{Slack} secara \textit{online}, bahwa status tergabung dalam \textit{user.profile}, maka untuk memenuhi dari kebutuhan di sisi ini dicoba menggunakan \textit{method-method} yang bisa untuk mengakses kepada objek \textit{user.profile}. Karena di sisi ini akan mengubah nilai dari status, asumsi sementara dari \textit{method} yang bisa dipakai dari sisi ini adalah \textit{method users.profile.set} yang akan berguna untuk mengubah isi dari profil pengguna yang di dalamnya terdapat status. 
 
-\section{Analisis Heroku Scheduler}
+Setelah analisis mengenai \textit{Slack}, maka pada bagian \ref{sec:analisis_heroku} akan membahas mengenai \textit{Heroku}. 
+
+\subsection{Analisis \textit{Heroku}}
+\label{sec:analisis_heroku}
+Pada bagian ini akan membahas mengenai \textit{Heroku}. \textit{Heroku} adalah \textit{platform} yang dipakai untuk menyimpan perangkat lunak yang dibangun. Layaknya sebuah \textit{server}, \textit{heroku} akan menyimpan perangkat lunak dan jika berbasis \textit{web}, maka \textit{heroku} akan memberikan \textit{subdomain} agar perangkat lunak yang disimpan bisa diakses dan dijalankan secara langsung dengan mengakses \textit{subdomain} yang diberikan. Untuk \textit{heroku} yang berpaket gratis, maka akan ada keterbatasan seperti, perangkat lunak akan masuk ke dalam keadaan \textit{sleep} setiap 30 menit sekali jika tidak ada akses selama 30 menit kepada perangkat lunak dan perangkat lunak akan kembali aktif setelah ada akses kembali ke perangkat lunak dengan adanya sedikit keterlambatan saat memasuki keadaan aktif kembali. Lalu batasan lainnya adalah adanya batasan \textit{dyno hours} yang didapatkan yaitu sebesar 1000 jam jika akun sudah terverifikasi. Pada \textit{heroku} juga terdapat banyak \textit{add-ons} yang membantu fungsi dari perangkat lunak yang dibangun agar berjalan dengan baik, seperti basis data dan juga \textit{scheduler} yang berfungsi untuk menjalankan bagian dari perangkat lunak secara berkala. Untuk analisis dari \textit{add-ons}, akan dibahas pada bagian \ref{sec:analisis_postgres} dan juga \ref{sec:analisis_cron}. 
+
+\subsubsection{Analisis \textit{Postgres}}
+\label{sec:analisis_postgres}
+\textit{Postgres} adalah basis data yang disediakan sebagai \textit{add-ons} pada \textit{heroku}. Untuk bisa mengaksesnya, bisa menggunakan \textit{Command Line Interface} (\textit{CLI}), atau juga bisa dibantu dengan menggunakan \textit{pgAdmin4}. Dengan menggunakan \textit{pgAdmin4} yang terkoneksi dengan \textit{url} yang diberikan oleh \textit{heroku} untuk mengakses \textit{postgres}, maka basis data yang tersimpan di \textit{heroku} bisa secara langsung terakses melalui \textit{pgAdmin4}. Cara melakukan koneksi dari \textit{pgAdmin4} ke \textit{url} yang sudah disediakan oleh \textit{heroku} adalah dengan membuat koneksi yang diisi dengan kredensial yang diberikan oleh \textit{heroku} pada halaman seperti pada gambar \ref{fig:postgres}. 
+
+\begin{figure}[h]
+  \includegraphics[width=15cm]{./Gambar/postgres.png}
+  \centering
+  \caption{Data kredensial yang diberikan oleh \textit{heroku postgres}.}
+  \label{fig:postgres}
+\end{figure}
+
+Setelah memasukkan data kredensial yang diberikan oleh \textit{heroku postgres} ke \textit{pgAdmin4} dengan benar, maka koneksi akan tersambung ke basis data yang dibuat di \textit{postgres}. Selanjutnya dari \textit{pgAdmin4}, kegiatan \textit{create, update, insert, dan delete} terhadap basis data bisa dilakukan dengan cara penggunaan \textit{SQL syntax} seperti biasanya. Pada \textit{postgres}, akan dibutuhkan sebuah tabel yang akan menampung data-data yaitu:
+\begin{itemize}
+    \item \textbf{\textit{Microsoft Access Token}}\\
+    \textit{Microsoft access token} adalah \textit{access token} dari pengguna yang didapat dari aplikasi \textit{Outlook Calendar}. 
+    \item \textbf{\textit{Slack Access Token}}\\
+    \textit{Slack access token} adalah \textit{access token} dari pengguna yang didapat dari aplikasi \textit{Slack}. 
+    \item \textbf{\textit{Username}}\\
+    \textit{Username} ini adalah penanda dari setiap pengguna yang akan bersifat identik. 
+    \item \textbf{\textit{Microsoft Refresh Token}}\\
+    \textit{Microsoft refresh token} adalah \textit{refresh token} dari \textit{Outlook Calendar} yang berfungsi untuk meminta ulang \textit{access token} jika \textit{access token} sudah kadaluarsa.
+    \item \textbf{\textit{Microsoft Access Token Expiration Time}}\\
+    \textit{Microsoft access token expiration time} ini adalah data yang mencatat masa kadaluarsa dari \textit{access token Outlook Calendar}. 
+\end{itemize}
+
+Setelah menganalisis \textit{postgres} yang digunakan sebagai basis data untuk perangkat lunak ini, maka akan dilanjutkan melakukan analisis \textit{heroku scheduler} yang berperan sebagai pengeksekusi perangkat lunak secara berkala pada bagian \ref{sec:analisis_cron}
+
+\subsubsection{Analisis \textit{Heroku Scheduler}}
 \label{sec:analisis_cron}
-Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari Microsoft Graph yang berhubungan dengan pengambilan data event, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan request kepada Microsoft Graph, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam Microsoft Graph. Heroku Scheduler merupakan add-ons dari Heroku yang dapat menjalankan perintah secara berkala sesuai dengan yang sudah diatur sejak awal. Untuk menambahan job pada Heroku Scheduler, dapat diakses melalui command line dengan perintah seperti:
+Untuk menjalankan aplikasi yang akan dibuat untuk mengambil data dari \textit{Microsoft Graph} yang berhubungan dengan pengambilan data \textit{event}, maka diperlukan aplikasi yang bisa mengambil data dengan mengirimkan \textit{request} kepada \textit{Microsoft Graph}, tetapi pengambilan data dibutuhkan secara berkala untuk memeriksa secara berkala data yang sudah dimasukkan ke dalam \textit{Microsoft Graph}. \textit{Heroku Scheduler} merupakan \textit{add-ons} dari \textit{Heroku} yang dapat menjalankan perintah secara berkala sesuai dengan yang sudah diatur sejak awal. Untuk menambahan \textit{job} pada \textit{Heroku Scheduler}, dapat diakses melalui \textit{command line} dengan perintah seperti:
 
 \begin{lstlisting}
 $ heroku addons:open scheduler
 \end{lstlisting}
 
-Setelah halaman baru pada browser muncul, pilih tombol untuk menambahkan job di scheduler dengan menekan tombol ``Add Job''. Pada Heroku Scheduler tersedia interval untuk menjalankan sebuah job yaitu setiap 10 menit sekali, atau setiap jam pada menit ke, atau setiap hari pada jam ke.
+Setelah halaman baru pada \textit{browser} muncul, pilih tombol untuk menambahkan \textit{job} di \textit{scheduler} dengan menekan tombol ``\textit{Add Job}''. Pada \textit{Heroku Scheduler} tersedia interval untuk menjalankan sebuah \textit{job} yaitu setiap 10 menit sekali, atau setiap jam pada menit ke, atau setiap hari pada jam ke. Interval paling pendek untuk setiap kali iterasi yang disediakan oleh \textit{heroku scheduler} adalah setiap 10 menit sekali. 
 
-Untuk memperkecil perangkat lunak melewatkan event yang tercatat di Outlook Calendar, maka bagian dari perangkat lunak yang melakukan sinkronisasi akan dijalankan setiap 10 menit sekali. 
+Untuk memperkecil perangkat lunak melewatkan \textit{event} yang tercatat di \textit{Outlook Calendar} dan memaksimalkan iterasi dari \textit{heroku scheduler}, maka bagian dari perangkat lunak yang melakukan sinkronisasi akan dijalankan setiap 10 menit sekali. 
 
-\section{Analisis Diagram Alir Sistem}
-\subsection{Bagian perangkat lunak yang berinteraksi dengan pengguna}
+
+\subsection{Analisis \textit{Data Flow Diagram}}
+
+Pada bagian ini akan menjelaskan mengenai aliran data yang terjadi pada proses di dalam perangkat lunak ini.
 
 \begin{figure}[h]
-  \includegraphics[width=3cm]{./Gambar/workflow.png}
+  \includegraphics[width=15cm]{./Gambar/DFDlvl0.png}
   \centering
-  \caption{Diagram alir sistem pada bagian perangkat lunak yang berinteraksi dengan user.}
-  \label{fig:workflow1}
+  \caption{\textit{Data Flow Diagram level} 0.}
+  \label{fig:dfdlvl0}
 \end{figure}
 
-Diagram alir pada gambar \ref{fig:workflow1} menunjukkan aliran proses yang terjadi pada bagian perangkat lunak yang berinteraksi dengan pengguna, berikut penjelasan dari aliran proses tersebut:
-\begin{itemize}
-    \item Proses pengguna melakukan login ke Windows Live adalah proses dimana perangkat lunak akan mendapatkan access token dari Windows Live dan data lainnya yang dibutuhkan untuk mendapatkan data dari event yang tercatat di dalam Outlook Calendar. 
-    \item Proses pengguna melakukan login ke Slack adalah proses dimana perangkat lunak akan mendapatkan access token dari Slack untuk bisa mengganti status jika ada suatu event yang berjalan. 
-    \item Setelah kedua proses dijalankan, maka semua data yang dibutuhkan akan dimasukkan ke dalam database agar bisa dijalankan juga dengan bagian dari perangkat lunak yang lain. 
-\end{itemize}
-\clearpage
-
-\subsection{Bagian perangkat lunak yang dijalankan secara berkala}
+Diagram alir data pada gambar \ref{fig:dfdlvl0} menunjukkan aliran data pada sistem yang menerima input dari pengguna berupa user\_credentials yang berisi data dari pengguna untuk melakukan login seperti username dan password yang dimiliki oleh pengguna. Lalu di dalam sistem, ada berbagai proses yang dijabarkan pada gambar \ref{fig:dfd}. 
 
 \begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/workflow2.png}
+  \includegraphics[width=15cm]{./Gambar/DFDlvl1.png}
   \centering
-  \caption{Diagram alir sistem pada bagian perangkat lunak yang dijalankan secara berkala.}
-  \label{fig:workflow2}
-\end{figure}
-
-Diagram alir pada gambar \ref{fig:workflow2} menunjukkan aliran proses yang dilakukan oleh bagian perangkat lunak yang dijalankan secara berkala, berikur penjelasan dari aliran proses tersebut:
-\begin{itemize}
-    \item Pertama-tama perangkat lunak akan mengambil data dari dalam basis data. 
-    \item Lalu terdapat proses untuk melakukan pengecekan untuk access token dari Microsoft dikarenakan access token ini memiliki waktu kadaluarsa. 
-    \item Jika access token sudah kadaluarsa, maka meminta ulang access token dengan menggunakan refresh token.
-    \item Jika access token belum expired, maka dilanjutkan dengan meminta data mengenai event yang ada di Outlook Calendar. 
-    \item Jika setelah melakukan permintaan ulang access token dan sudah mendapatkan access token yang baru, maka meminta data mengenai event yang ada di Outlook Calendar. 
-    \item Lalu setelah mendapatkan data event, maka melakukan pengecekan data event dengan waktu sekarang. Jika waktu sekarang beririsan dengan event yang sedang berjalan, maka perangkat lunak akan mengganti status yang ada pada Slack. 
-    \item Jika tidak ada yang beririsan, maka tidak akan melakukan apa-apa. 
-    \item Proses ini akan berjalan kembali secara berkala sesuai dengan waktu yang sudah diatur di dalam Heroku Scheduler. 
-\end{itemize}
-
-\section{Analisis Diagram Use Case}
-\subsection{Use Case dengan actor: pengguna}
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/usecase.png}
-  \centering
-  \caption{Diagram Use Case.}
-  \label{fig:usecase}
-\end{figure}
-
-\begin{itemize}
-    \item \textbf{Skenario \textit{Login Windows Live}}\\
-    Nama : Login Windows Live\\
-    Aktor : Pengguna\\
-    Kondisi Awal : Pengguna memiliki akun Windows Live\\
-    Deskripsi : Pengguna melakukan login pada aplikasi Windows Live dengan akun pribadinya.\\
-    Kondisi Akhir : Pengguna berhasil melakukan login ke Windows Live\\
-    Skenario : 
-    \begin{itemize}
-        \item Pengguna melakukan login dengan id dan kata sandi yang dimilikinya. 
-        \item Pengguna mengizinkan akun Windows Live miliknya bekerjasama dengan perangkat lunak ini. 
-        \item Pengguna berhasil melakukan login ke Windows Live dan perangkat lunak mendapatkan akses. 
-    \end{itemize}
-    Eksepsi : 
-    \begin{itemize}
-        \item Pengguna tidak memiliki akun Windows Live. 
-    \end{itemize}
-    
-    \item \textbf{Skenario \textit{Login Slack}}\\
-    Nama : Login Slack\\
-    Aktor : Pengguna\\
-    Kondisi Awal : Pengguna memiliki akun Slack yang tergabung dalam suatu workspace\\
-    Deskripsi : Pengguna melakukan login pada aplikasi Slack di workspace pengguna tergabung.\\
-    Kondisi Akhir : Pengguna berhasil melakukan login ke workspace Slack\\
-    Skenario : 
-    \begin{itemize}
-        \item Pengguna melakukan login dengan id dan kata sandi yang dimilikinya. 
-        \item Pengguna mengizinkan perangkat lunak ini menjadi bagian di dalam workspace Slack sebagai aplikasi pembantu di workspace tersebut. 
-        \item Pengguna berhasil melakukan login ke Slack dan perangkat lunak mendapatkan akses. 
-    \end{itemize}
-    Eksepsi : 
-    \begin{itemize}
-        \item Pengguna tidak memiliki akun Slack dan atau tidak terdaftar di dalam workspace manapun. 
-    \end{itemize}
-    
-    \item \textbf{Skenario Meregistrasikan Akun}
-    Nama : Meregistrasikan Akun\\
-    Aktor : Pengguna\\
-    Kondisi Awal : Pengguna memiliki akun Windows Live dan Slack\\
-    Deskripsi : Pengguna meregistrasikan akunnya untuk bisa melakukan sinkronisasi antara Outlook Calendar dengan Slack.\\
-    Kondisi Akhir : Pengguna berhasil meregistrasikan akunnya\\
-    Skenario : 
-    \begin{itemize}
-        \item Pengguna melakukan login pada Windows Live. 
-        \item Pengguna melakukan login pada Slack. 
-        \item Pengguna berhasil melakukan login ke kedua aplikasi tersebut dan pengguna berhasil meregistrasikan akunnya untuk disinkronkan. 
-    \end{itemize}
-    Eksepsi : 
-    \begin{itemize}
-        \item Pengguna tidak memiliki akun Windows Live dan Slack. 
-    \end{itemize}
-    
-\end{itemize}
-\clearpage
-
-\subsection{Use Case dengan actor: Heroku Scheduler}
-\begin{figure}[h]
-  \includegraphics[width=10cm]{./Gambar/usecase2.png}
-  \centering
-  \caption{Diagram Use Case.}
-  \label{fig:usecase_heroku}
-\end{figure}
-\begin{itemize}
-\item \textbf{Skenario Mengubah Status di Slack}
-    Nama : Merubah Status di Slack\\
-    Aktor : Heroku Scheduler\\
-    Kondisi Awal : Aktor memiliki data access token dari Windows Live maupun dari Slack. \\
-    Deskripsi : Heroku Scheduler akan mengubah status pada Slack dengan mengambil data event terlebih dahulu menggunakan access token Windows Live yang sudah tercatat, dan lalu menggunakan access token Slack yang sudah tercatat untuk mengubah status pada Slack.\\
-    Kondisi Akhir : Akun Slack pengguna berhasil diubah statusnya oleh Heroku Scheduler. \\
-    Skenario : 
-    \begin{itemize}
-        \item Heroku Scheduler mengambil access token Windows Live pengguna dari basis data dan memeriksa masa kadaluarsanya. 
-        \item Heroku Scheduler mengambil data event dari Windows Live. 
-        \item Heroku Scheduler memeriksa event dengan waktu sekarang, lalu mengambil access token Slack dan mengubah status jika ada event yang sedang berjalan.
-    \end{itemize}
-    Eksepsi : 
-    \begin{itemize}
-        \item Tidak ada data access token Windows Live dan Slack di basis data. 
-    \end{itemize}
-    
-\end{itemize}
-
-\section{Analisis Data Flow Diagram}
-
-\begin{figure}[h]
-  \includegraphics[width=15cm]{./Gambar/DFD.png}
-  \centering
-  \caption{Data Flow Diagram.}
+  \caption{\textit{Data Flow Diagram}.}
   \label{fig:dfd}
 \end{figure}
 
-Diagram alir data pada gambar \ref{fig:dfd} menunjukkan aliran data pada sistem, nerikut penjelasan dari setiap proses aliran data tersebut:
+Diagram alir data pada gambar \ref{fig:dfd} menunjukkan aliran data pada sistem, berikut penjelasan dari setiap proses aliran data tersebut:
 \begin{itemize}
     \item \textbf{Proses melakukan \textit{login} ke \textit{Windows Live}}\\
     Input : ID dan Password akun Windows Live.\\
-    Output : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp\\
-    Proses ini merupakan proses meminta access token dan segala data yang diperlukan untuk mendapatkan data event dari Outlook Calendar. Proses ini menghasilkan data microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp. 
+    Output : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, login\_timestamp\\
+    Proses ini merupakan proses meminta access token dan segala data yang diperlukan untuk mendapatkan data event dari Outlook Calendar. Proses ini menghasilkan data microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, dan login\_timestamp yang disimpan ke tabel Credentials sebagai data store. 
     \item \textbf{Proses melakukan \textit{login} ke \textit{Slack}}\\
     Input : \textit{ID} dan \textit{Password} beserta \textit{workspace} di \textit{Slack}.\\
-    Output : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp, slack\_access\_token\\
-    Proses ini merupakan proses meminta access token kepada aplikasi Slack agar perangkat lunak bisa mengubah status di dalam aplikasi Slack. Proses ini menghasilkan data microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, login\_timestamp, slack\_access\_token. 
+    Output : slack\_access\_token\\
+    Proses ini merupakan proses meminta access token kepada aplikasi Slack agar perangkat lunak bisa mengubah status di dalam aplikasi Slack. Proses ini menghasilkan data slack\_access\_token yang disimpan ke tabel Credentials sebagai data store. 
     \item \textbf{Proses melakukan sinkronisasi antara Outlook Calendar dan Slack}\\
-    Input : Data dari basis data seperti token dari Windows Live dan juga dari Slack.\\
-    Output : -
+    Input : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, login\_timestamp, dan slack\_access\_token\\
+    Output : Status di slack yang terubah jika memenuhi kondisi. 
     Proses ini merupakan proses sinkronisasi aplikasi Outlook Calendar dan juga Slack dengan cara mengambil data event yang terdapat di Outlook Calendar menggunakan token yang didapat dari Windows Live dan juga menggunakan token yang didapat dari Slack untuk dapat mengubah status dalam Slack jika waktu event dan waktu sekarang beririsan. 
 \end{itemize}
+
+\section{Analisis Kasus}
+Pada perangkat lunak ini, akan ada kasus diluar pola dari kasus normalnya yaitu adanya kasus dimana akan ada jadwal yang bertabrakan contohnya misalkan ada \textit{event} yang berjalan pada pukul 08.00 - 10.00, lalu ada \textit{event} kedua yang berjalan pada pukul 09.00 - 11.00. Pada bagian ini akan dijelaskan cara penanganan perangkat lunak untuk kasus pada waktu yang bertabrakan. 
+
+Data \textit{event} akan didapatkan secara berurutan mulai dari \textit{event} yang sudah lalu, hingga \textit{event} yang akan datang. Untuk mengatasi \textit{event} yang waktunya bertabrakan, maka pemeriksaan waktu \textit{event} dengan waktu sekarang akan memeriksa seluruh \textit{event} yang didapatkan dari \textit{Outlook Calendar}, dan jika ada \textit{event} yang sedang berjalan, akan mengganti status, lalu tetap melanjutkan pemeriksaan ke \textit{event} selanjutnya agar kasus \textit{event} yang waktunya bertabrakan tetap bisa ditangani dan hasilnya status akan tetap menjadi ``\textit{In a meeting}'' hingga \textit{event} terakhir yang bertabrakan berakhir. 

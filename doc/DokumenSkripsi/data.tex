@@ -77,8 +77,8 @@
 %=============================================================================
 %\mode{bimbingan} 		% untuk keperluan bimbingan
 %\mode{sidang} 			% untuk sidang 1
-\mode{sidangakhir} 	% untuk sidang 2 / sidang pada Skripsi 2(IF)
-%\mode{final} 			% untuk mencetak buku skripsi 
+%\mode{sidangakhir} 	% untuk sidang 2 / sidang pada Skripsi 2(IF)
+\mode{final} 			% untuk mencetak buku skripsi 
 %=============================================================================
 %_____________________________________________________________________________
 %=============================================================================
@@ -197,9 +197,9 @@
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda
 %=============================================================================
 \namanpm{Sandy Giovanni Sutiansen}{2015730041}
-\tanggal{28}{05}{2019}
-\pembimbing{\PAN}{<<pembimbing pendamping/2>>}    
-\penguji{\LCA}{<<Natalia>>} 
+\tanggal{13}{12}{2019}
+\pembimbing{\PAN}{}  
+\penguji{\LCA}{\RCP} 
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -215,8 +215,8 @@
 % - gunakan \texorpdfstring{\\}{} untuk pindah ke baris baru
 % - judul TIDAK ditulis dengan menggunakan huruf besar seluruhnya !!
 %=============================================================================
-\judulINA{Integrasi Outlook Calendar dan Slack}
-\judulENG{Outlook Calendar and Slack Integration}
+\judulINA{Aplikasi Pengintegrasi Outlook Calendar dan Slack}
+\judulENG{Outlook Calendar and Slack Integration App}
 %_____________________________________________________________________________
 %=============================================================================
 % 								BAGIAN X
@@ -231,13 +231,21 @@
 \abstrakINA{
 \textit{Outlook Calendar} adalah sebuah aplikasi yang berfungsi selayaknya kalender yang bisa diisi sebuah event oleh pengguna dari aplikasi tersebut. \textit{Slack} sendiri adalah sebuah aplikasi yang berbasis \textit{cloud} yang diperuntukkan sebagai wadah kolaborasi antar tim. Para pengguna bisa mengatur status yang akan dipasang di dalam akunnya. Namun terkadang pengguna lupa untuk mengubah statusnya agar tidak terganggu dengan pengguna lain yang berusaha mengirimkan pesan disaat pengguna itu sedang dalam keadaan genting atau di dalam suatu pertemuan. 
 
-Dengan permasalahan itu, maka skripsi ini akan membahas mengenai sebuah perangkat lunak yang mengintegrasikan antara \textit{event-event} yang tercatat di dalam \textit{Outlook Calendar} dengan status dalam akun pengguna dalam \textit{Slack}. Perangkat lunak yang akan dibangun di dalam skripsi ini adalah perangkat lunak yang mengambil data event, dan ketika sedang ada \textit{event} yang berjalan pada saat itu, maka status di dalam akun pengguna di \textit{Slack} akan terganti agar meminimalisir pengguna lain berusaha untuk mengirimkan pesan kepada pengguna yang akan mengganggu dengan status yang sudah terpasang.
+Dengan permasalahan itu, maka skripsi ini membahas mengenai sebuah perangkat lunak yang mengintegrasikan antara \textit{event-event} yang tercatat di dalam \textit{Outlook Calendar} dengan status dalam akun pengguna dalam \textit{Slack}. Perangkat lunak yang dibangun di dalam skripsi ini adalah perangkat lunak yang mengambil data event, dan ketika sedang ada \textit{event} yang berjalan pada saat itu, maka status di dalam akun pengguna di \textit{Slack} akan terganti agar meminimalisir pengguna lain berusaha untuk mengirimkan pesan kepada pengguna yang akan mengganggu dengan status yang sudah terpasang.
+
+Perangkat lunak ini akan mengambil data \textit{event} yang tersimpan di dalam \textit{Outlook Calendar}, lalu akan diperiksa dengan waktu sekarang. Jika waktu \textit{event} sedang berjalan sekarang, maka perangkat lunak akan mengubah status yang terdapat pada aplikasi \textit{Slack} menjadi ``\textit{In a meeting}'' dan status akan kembali lagi kosong jika \textit{event} sudah selesai berjalan. 
+
+Pengujian pada skripsi ini dilakukan melalui 2 lingkungan yaitu perangkat lunak diuji coba di \textit{workspace} tempat perangkat lunak ini didaftarkan pada aplikasi \textit{Slack} dan diuji coba di \textit{workspace} lain. Hasil pengujian menunjukkan fitur yang diharapkan telah berjalan dengan sesuai harapan, baik itu di dalam \textit{workspace} tempat perangkat lunak didaftarkan, maupun di \textit{workspace} lain. Perangkat lunak ini dapat mengubah status pada aplikasi \textit{Slack} di \textit{workspace} manapun oleh pengguna siapapun dengan catatan setiap pengguna hanya bisa mendaftarkan 1 akun \textit{Slack} di 1 \textit{workspace}. 
 }
 \abstrakENG{
 
 Outlook Calendar is an application that works like a calendar that can be filled by an event by the user of the application. Slack itself is a cloud-based application that is intended as a forum for collaboration between teams. Users can set the status that will be installed in their account. But sometimes the user forgets to change their status so that they don't interfere with other users who try to send messages when the user is in a critical situation or in a meeting.
 
 With that problem, this thesis will discuss about a software that integrates the events recorded in Outlook Calendar with the status in the user's account in Slack. The software that will be built in this thesis is software that retrieves event data, and when an event is running at that time, the status in the user's account in Slack will be changed to minimize other users trying to send messages to users who will interfere with the status that is already installed.
+
+This software will retrieve event data stored in Outlook Calendar, then it will be checked with the current time. If the time the event is running now, the software will change the status contained in the Slack application to `` In a meeting '' and the status will return to empty if the event has finished.
+
+Testing in this thesis is done through 2 environments namely software tested at workspaces where this software is registered in the Slack application and tested on other workspaces. The test results show that features are expected to run as expected, both in the workspace where the software is registered, and in other workspaces. This software can change the status of the Slack application in any workspace by any user as long as each user can only register 1 slack account in 1 workspace.
 } 
 %=============================================================================
 
@@ -250,8 +258,8 @@ With that problem, this thesis will discuss about a software that integrates the
 % - kunciENG: keywords in english
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda.
 %=============================================================================
-\kunciINA{\textit{Outlook Calendar}, \textit{Slack}, Mengintegrasikan, \textit{Event}, Status}
-\kunciENG{Outlook Calendar, Slack, Integrates, Event, Status}
+\kunciINA{\textit{Outlook Calendar}, \textit{Slack}, \textit{Event}, Status, \textit{Workspace}}
+\kunciENG{Outlook Calendar, Slack, Event, Status, Workspace}
 %=============================================================================
 
 %_____________________________________________________________________________
@@ -272,7 +280,7 @@ With that problem, this thesis will discuss about a software that integrates the
 % kasih kepada yang telah membantu anda bla bla bla ....  
 % Petunjuk: hilangkan tanda << & >>, dan isi sesuai dengan data anda.
 %=============================================================================
-\prakata{Puji Syukur penulis panjatkan kepada Tuhan Yesus karena atas berkat-Nya lah skripsi dengan judul ``Integrasi Outlook Calendar dan Slack'' ini bisa selesai dengan baik dan tepat waktu. Penulis berharap skripsi dan perangkat lunak yang dibangun dapat berguna bagi orang yang membutuhkan dan juga dapat membantu bagi orang yang akan melanjutkan penelitian ini untuk selanjutnya. Tidak lupa juga penulis mengucapkan terima kasih kepada: 
+\prakata{Puji Syukur penulis panjatkan kepada Tuhan Yesus karena atas berkat-Nya lah skripsi dengan judul ``Aplikasi Pengintegrasi Outlook Calendar dan Slack'' ini bisa selesai dengan baik dan tepat waktu. Penulis berharap skripsi dan perangkat lunak yang dibangun dapat berguna bagi orang yang membutuhkan dan juga dapat membantu bagi orang yang akan melanjutkan penelitian ini untuk selanjutnya. Tidak lupa juga penulis mengucapkan terima kasih kepada: 
 \begin{itemize}
     \item Keluarga, khususnya orang tua dan juga kepada adik yang telah menyemangati penulis secara langsung maupun tidak langsung, serta membuat suasana senyaman mungkin. 
     \item Pak Pascal Alfadian yang telah membantu membimbing penulis dalam proses pembuatan skripsi beserta perangkat lunaknya.

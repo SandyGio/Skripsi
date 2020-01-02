@@ -10,8 +10,8 @@ Pada bab ini akan dibahas mengenai implementasi dari antarmuka perangkat lunak, 
  Pada subbab ini akan disebutkan spesifikasi perangkat keras maupun perangkat lunak yang dipakai untuk menyusun skripsi ini:
 \subsubsection{Spesifikasi Perangkat Keras}
 \begin{itemize}
-    \item Processor Intel Core i5-8250U CPU @ 1.60GHz × 8 
-    \item Graphics Intel UHD Graphics 620 \(Kabylake GT2\)
+    \item Processor Intel Core i5-8250U CPU @ 1.60GHz x 8 
+    \item Graphics Intel UHD Graphics 620 (Kabylake GT2)
     \item RAM 12 GB
     \item Harddisk 1000GB HDD
 \end{itemize}
@@ -90,8 +90,12 @@ Setelah pengguna berhasil \textit{login} dan memberikan akses kepada perangkat l
 Pada bagian pengujian, akan dibagi kepada 2 tipe pengujian yaitu pengujian fungsional dan juga pengujian eksperimental. Pada pengujian fungsional, akan dicoba tombol-tombol sesuai dengan fungsinya dan juga memastikan bahwa perangkat lunak bisa berjalan dengan baik pada \textit{workspace} tempat perangkat lunak ini didaftarkan, sedangkan pada pengujian eksperimental akan dilakukan pengujian untuk \textit{workspace} lain selain \textit{workspace} tempat perangkat lunak ini didaftarkan. 
 
 \subsection{Pengujian Fungsional}
-\subsubsection{Hasil Pengujian Fungsionalitas Penggunaan Perangkat Lunak Integrasi \textit{Outlook Calendar} dan \textit{Slack}}
-Tujuan dari diadakannya pengujian bagian ini adalah untuk membuktikan bahwa perangkat lunak ini sudah bisa mencapai tujuan yang ingin dituju yaitu perangkat lunak akan menggantikan status dari pengguna di dalam \textit{workspace} tempat perangkat lunak ini didaftarkan saat ada \textit{event} yang terdaftar di dalam \textit{Outlook Calendar}. Untuk melakukan pengujian ini, akan diambil beberapa pengguna yang memiliki \textit{Outlook Calendar} dan juga pengguna tersebut diundang masuk dalam \textit{workspace} tempat perangkat lunak ini didaftarkan.
+\subsubsection{Skenario Pengujian}
+Pengujian fungsional ini dilakukan dengan pengguna-pengguna yang tergabung dalam \textit{workspace} tempat perangkat ini didaftarkan. Pengguna harus memiliki \textit{Outlook Calendar} dan juga pengguna membuat sebuah \textit{event} yang didaftarkan di dalam \textit{Outlook Calendar}. Selain itu, para pengguna diundang ke dalam \textit{workspace} tempat perangkat lunak ini didaftarkan. 
+\subsubsection{Tujuan Pengujian}
+Tujuan dari diadakannya pengujian bagian ini adalah untuk membuktikan bahwa perangkat lunak ini sudah bisa mencapai tujuan yang ingin dituju yaitu perangkat lunak akan menggantikan status dari pengguna di dalam \textit{workspace} tempat perangkat lunak ini didaftarkan saat ada \textit{event} yang terdaftar di dalam \textit{Outlook Calendar}.
+\subsubsection{Hasil Pengujian}
+Untuk melakukan pengujian ini, akan diambil beberapa pengguna yang memiliki \textit{Outlook Calendar} dan juga pengguna tersebut diundang masuk dalam \textit{workspace} tempat perangkat lunak ini didaftarkan.
 
 Gambar \ref{fig:outlook_raymond} sampai dengan gambar \ref{fig:slack_after_yonathan} menunjukkan bukti hasil dari pengguna yang dimintai ketersediaannya untuk melakukan pengujian terhadap perangkat lunak ini. 
 
@@ -379,6 +383,34 @@ Dari gambar \ref{fig:outlook_tedi} sampai dengan gambar \ref{fig:slack_after_ted
 \end{figure}
 
 Pada gambar \ref{fig:outlook_yosua} sampai gambar \ref{fig:slack_after_yosua} merupakan hasil yang didapatkan dari pengujian oleh pengguna yang bernama Yosua. Pengguna ini mencoba perangkat lunak ini di \textit{workspace} Dummy Workspace. Pada gambar \ref{fig:outlook_yosua} terdapat \textit{event} yang dimulai pada pukul 15.00 dan pada gambar \ref{fig:slack_before_yosua} status pengguna masih kosong. Pada gambar \ref{fig:slack_after_yosua} sudah terlihat ada status dan status itu berakhir pada pukul 15.30. 
+\clearpage
 
 \subsubsection{Kesimpulan dari Pengujian}
+
+\begin{center}
+\begin{tabular}{ |c|c| }
+\toprule
+ \multicolumn{2}{|c|}{\textbf{Pengujian Fungsional}} \\ 
+ \hline
+ Nama & Status hasil pengujian  \\
+ \hline
+ Raymond & Berhasil \\  
+ Reyner & Berhasil \\  
+ Sandy & Berhasil \\  
+ Vincent & Berhasil \\  
+ Yonathan & Berhasil \\
+ \multicolumn{2}{|c|}{\textbf{Pengujian Eksperimental}} \\
+ \hline
+ Nama & Status hasil pengujian  \\  
+ \hline
+ Chris & Berhasil \\  
+ Ferdian & Berhasil \\  
+ Yehezkiel & Berhasil \\  
+ Pascal & Berhasil \\  
+ Tedi & Berhasil \\  
+ Yosua & Berhasil \\
+ \bottomrule
+\end{tabular}
+\end{center}
+
 Pada pengujian yang sudah dilakukan oleh beberapa pengguna yang terlibat menyatakan bahwa perangkat lunak menjalankan fungsinya untuk mengganti status pada saat ada \textit{event} dan menggantinya kembali jika \textit{event} sudah berhasil dengan baik. Hanya saja terdapat perbedaan jeda saat mengubah status sehingga tidak tepat pada saat \textit{event} dimulai maka status langsung berubah. Hal ini dikarenakan adanya proses yang dilakukan setiap kali memanggil fungsi yang dijalankan kurang lebih 2 menit sehingga mempengaruhi jadwal iterasi dari \textit{Heroku Scheduler} yang selanjutnya. 

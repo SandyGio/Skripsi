@@ -6,12 +6,15 @@ Pada bab ini dibahas tentang kesimpulan dari hasil skripsi dan saran untuk penel
 \section{Kesimpulan}
 Ada beberapa kesimpulan yang dapat disimpulkan setelah melakukan penelitian ini, yaitu:
 \begin{itemize}
-    \item Telah berhasil dibangun perangkat lunak yang berfungsi untuk mengubah status pada aplikasi \textit{Slack} saat ada sebuah \textit{event} yang terdaftar dan berjalan di aplikasi \textit{Outlook Calendar} serta saat \textit{event} itu selesai, maka status kembali hilang. 
-    \item \textit{Workspace} apapun tetap bisa memakai perangkat lunak yang sudah dibangun asalkan pada saat mendaftarkan perangkat lunak ke aplikasi \textit{Slack} mengaktifkan bagian ``\textit{Share Your Apps with Other Teams}'' di bagian ``\textit{Manage Distribution}'' agar perangkat lunak yang didaftarkan bisa digunakan untuk semua \textit{workspace}. 
+    \item Cara untuk mendapatkan data event pada aplikasi Outlook Calendar adalah dengan menggunakan Microsoft Graph API dan mengakses method list events yang merupakan method yang dimiliki oleh user resource type dengan endpoint dari method tersebut ada pada /me/events. 
+    \item Cara untuk mengubah status yang terdapat pada aplikasi Slack adalah dengan cara menggunakan Slack API dan menggunakan scope users.profile.set untuk mengatur profil dari pengguna. Di dalam profil dari pengguna terdapat status yang akan bisa diatur menggunakan scope user.profile.set jika melalui akses API. 
+    \item Cara untuk membuat perangkat lunak yang akan mengubah status jika ada sebuah event yang tercatat di Outlook Calendar berjalan adalah dengan menggabungkan pemakaian dari kedua API yaitu API dari Microsoft Graph dan juga API dari Slack. Bagian perangkat lunak yang berinteraksi dengan Microsoft Graph akan mendapatkan data tentang event dan akan melakukan pemeriksaan terhadap waktunya sekarang. Jika ada event yang sedang berjalan sekarang, maka perangkat lunak akan memanggil bagian yang berinteraksi dengan Slack untuk mengubah status yang terdapat pada profil pengguna. Iterasi dari penjalanan perangkat lunak ini akan dijalankan selama 10 menit sekali untuk menghindari terlewatnya jadwal yang terperiksa. 
+    \item \textit{Workspace} apapun tetap bisa memakai perangkat lunak yang sudah dibangun asalkan pada saat mendaftarkan perangkat lunak ke aplikasi \textit{Slack} mengaktifkan bagian ``\textit{Share Your Apps with Other Teams}'' di bagian ``\textit{Manage Distribution}'' agar perangkat lunak yang didaftarkan bisa digunakan untuk semua \textit{workspace}. Hal ini dapat dilihat dari hasil pengujian yang menunjukkan bahwa semua partisipan yang ikut menguji berhasil mengganti status jika ada event miliknnya sedang berjalan. 
 \end{itemize}
 \section{Saran}
 Ada beberapa saran terkait dengan penelitian ini untuk dikembangkan lebih lanjut, yaitu:
 \begin{itemize}
     \item Perangkat lunak bisa mensinkronisasikan status dengan \textit{event} yang tercatat secara \textit{real-time}. 
     \item Perangkat lunak bisa mensinkronisasikan satu akun \textit{Windows Live} ke lebih dari 1 \textit{workspace} di \textit{Slack}. 
+    \item Perangkat lunak bisa ditambahkan beragam status agar lebih banyak variasi pergantian statusnya. 
 \end{itemize}
