@@ -521,7 +521,7 @@ Pada bagian ini akan menjelaskan mengenai aliran data yang terjadi pada proses d
   \label{fig:dfdlvl0}
 \end{figure}
 
-Diagram alir data pada gambar \ref{fig:dfdlvl0} menunjukkan aliran data pada sistem yang menerima input dari pengguna berupa user\_credentials yang berisi data dari pengguna untuk melakukan login seperti username dan password yang dimiliki oleh pengguna. Lalu di dalam sistem, ada berbagai proses yang dijabarkan pada gambar \ref{fig:dfd}. 
+Diagram alir data pada gambar \ref{fig:dfdlvl0} menunjukkan aliran data pada sistem yang menerima \textit{input} dari pengguna berupa \textit{data\_login} yang berisi data dari pengguna untuk melakukan \textit{login} seperti \textit{username} dan \textit{password} yang dimiliki oleh pengguna. Lalu di dalam sistem, ada berbagai proses yang dijabarkan pada gambar \ref{fig:dfd}. 
 
 \begin{figure}[h]
   \includegraphics[width=15cm]{./Gambar/DFDlvl1.png}
@@ -533,17 +533,17 @@ Diagram alir data pada gambar \ref{fig:dfdlvl0} menunjukkan aliran data pada sis
 Diagram alir data pada gambar \ref{fig:dfd} menunjukkan aliran data pada sistem, berikut penjelasan dari setiap proses aliran data tersebut:
 \begin{itemize}
     \item \textbf{Proses melakukan \textit{login} ke \textit{Windows Live}}\\
-    Input : ID dan Password akun Windows Live.\\
-    Output : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, login\_timestamp\\
-    Proses ini merupakan proses meminta access token dan segala data yang diperlukan untuk mendapatkan data event dari Outlook Calendar. Proses ini menghasilkan data microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, dan login\_timestamp yang disimpan ke tabel Credentials sebagai data store. 
+    Input : \textit{ID} dan \textit{Password} akun \textit{Windows Live}.\\
+    Output : \textit{microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, login\_timestamp}\\
+    Proses ini merupakan proses meminta \textit{access token} dan segala data yang diperlukan untuk mendapatkan data \textit{event} dari \textit{Outlook Calendar}. Proses ini menghasilkan data \textit{microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username}, dan \textit{login\_timestamp} yang disimpan ke tabel \textit{Credentials} sebagai \textit{data store}. 
     \item \textbf{Proses melakukan \textit{login} ke \textit{Slack}}\\
     Input : \textit{ID} dan \textit{Password} beserta \textit{workspace} di \textit{Slack}.\\
-    Output : slack\_access\_token\\
-    Proses ini merupakan proses meminta access token kepada aplikasi Slack agar perangkat lunak bisa mengubah status di dalam aplikasi Slack. Proses ini menghasilkan data slack\_access\_token yang disimpan ke tabel Credentials sebagai data store. 
-    \item \textbf{Proses melakukan sinkronisasi antara Outlook Calendar dan Slack}\\
-    Input : microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, login\_timestamp, dan slack\_access\_token\\
-    Output : Status di slack yang terubah jika memenuhi kondisi. 
-    Proses ini merupakan proses sinkronisasi aplikasi Outlook Calendar dan juga Slack dengan cara mengambil data event yang terdapat di Outlook Calendar menggunakan token yang didapat dari Windows Live dan juga menggunakan token yang didapat dari Slack untuk dapat mengubah status dalam Slack jika waktu event dan waktu sekarang beririsan. 
+    Output : \textit{slack\_access\_token}\\
+    Proses ini merupakan proses meminta \textit{access token} kepada aplikasi \textit{Slack} agar perangkat lunak bisa mengubah status di dalam aplikasi \textit{Slack}. Proses ini menghasilkan data \textit{slack\_access\_token} yang disimpan ke tabel \textit{Credentials} sebagai \textit{data store}. 
+    \item \textbf{Proses melakukan sinkronisasi antara \textit{Outlook Calendar} dan \textit{Slack}}\\
+    Input : \textit{microsoft\_access\_token, microsoft\_access\_token\_expires, microsoft\_refresh\_token, microsoft\_username, login\_timestamp, dan slack\_access\_token}\\
+    Output : Status di \textit{Slack} yang terubah jika memenuhi kondisi. 
+    Proses ini merupakan proses sinkronisasi aplikasi \textit{Outlook Calendar} dan juga \textit{Slack} dengan cara mengambil data \textit{event} yang terdapat di \textit{Outlook Calendar} menggunakan \textit{token} yang didapat dari \textit{Windows Live} dan juga menggunakan \textit{token} yang didapat dari \textit{Slack} untuk dapat mengubah status dalam \textit{Slack} jika waktu \textit{event} dan waktu sekarang beririsan. 
 \end{itemize}
 
 \section{Analisis Kasus}
